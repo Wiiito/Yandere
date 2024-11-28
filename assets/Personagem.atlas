@@ -1,0 +1,7 @@
+Personagem.png
+size:768,32
+repeat:none
+Cabeca
+bounds:384,0,384,32
+Corpo
+bounds:0,0,384,32
