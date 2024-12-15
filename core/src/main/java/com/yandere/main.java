@@ -2,36 +2,29 @@ package com.yandere;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.yandere.Person.Person;
+import com.yandere.gameInterfaces.SceneInterface;
 
 public class main extends ApplicationAdapter {
     private SpriteBatch batch;
-    private OrthographicCamera camera;
-    Person person;
+    private SceneInterface scene;
 
     @Override
     public void create() {
         TextureHandler.instantiate();
 
+        scene = new SceneInterface();
         batch = new SpriteBatch();
-
-        camera = new OrthographicCamera(64, 64);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
-
-        person = new Person();
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(Color.BLACK);
-        batch.setProjectionMatrix(camera.combined);
-        person.update();
+        scene.update();
 
         batch.begin();
-        person.render(batch);
+        scene.render(batch);
         batch.end();
     }
 

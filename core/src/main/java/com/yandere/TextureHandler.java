@@ -54,4 +54,16 @@ public class TextureHandler {
 
         return sprites;
     }
+
+    public static Array<TextureRegion> textureRegionFromTexture(Texture texture, int frameWidth, int frameHeight) {
+        Array<TextureRegion> textures = new Array<>();
+
+        for (int y = 0; y < texture.getHeight(); y = y + frameHeight) {
+            for (int x = 0; x < texture.getWidth(); x = x + frameWidth) {
+                textures.add(new TextureRegion(texture, x, y, frameWidth, frameHeight));
+            }
+        }
+
+        return textures;
+    }
 }
