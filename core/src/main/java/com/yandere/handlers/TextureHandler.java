@@ -1,4 +1,4 @@
-package com.yandere;
+package com.yandere.handlers;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;

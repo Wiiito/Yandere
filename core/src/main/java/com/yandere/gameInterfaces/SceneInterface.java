@@ -7,10 +7,12 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.yandere.Person.PersonHandler;
 import com.yandere.handlers.Player;
 
 public class SceneInterface {
     private ArrayList<GameObject> gameObjects;
+    private PersonHandler personHandler;
     private MapInterface mapInterface;
     private OrthographicCamera camera;
     private InputMultiplexer inputs;
@@ -19,18 +21,20 @@ public class SceneInterface {
     public SceneInterface() {
         gameObjects = new ArrayList<>();
 
-        player = new Player();
-        player.setPosition(new Vector2(160, 160));
-        addObject(player);
+        // player = new Player();
+        // player.setPosition(new Vector2(160, 160));
+        // addObject(player);
 
         mapInterface = new MapInterface();
+
+        personHandler = new PersonHandler();
 
         // Camera
         camera = new OrthographicCamera(256, 256);
 
         // Input handler
         inputs = new InputMultiplexer();
-        inputs.addProcessor(player.getInputAdapter());
+        // inputs.addProcessor(player.getInputAdapter());
         Gdx.input.setInputProcessor(inputs);
     }
 
@@ -53,12 +57,13 @@ public class SceneInterface {
         for (GameObject gameObject : gameObjects) {
             gameObject.update();
         }
-        camera.position.set(
-                new Vector2(player.getPosition().x + player.getSize().x / 2,
-                        player.getPosition().y + player.getSize().y / 4),
-                0);
+        // camera.position.set(
+        // new Vector2(player.getPosition().x + player.getSize().x / 2,
+        // player.getPosition().y + player.getSize().y / 4),
+        // 0);
         camera.update();
         mapInterface.render(camera);
+        personHandler.update();
     }
 
     public void render(SpriteBatch batch) {
@@ -67,6 +72,8 @@ public class SceneInterface {
         for (GameObject gameObject : gameObjects) {
             gameObject.render(batch);
         }
+
+        personHandler.render(batch);
     }
 
     public void dispose() {
