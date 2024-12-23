@@ -60,7 +60,7 @@ public class PersonHandler {
                 // na exception
                 try {
                     Float timingFloat = textureValue.getFloat("timing");
-                    for (Direction direction : directions) {
+                    for (int i = 0; i < directions.size(); i++) {
                         timings.add(timingFloat);
                     }
                 } catch (Exception e) {
@@ -103,29 +103,4 @@ public class PersonHandler {
             person.render(batch);
         }
     }
-
-    // for (GameObject.Direction textureDirection : GameObject.Direction.values()) {
-    // Pixmap combinedPixmap;
-
-    // TextureRegion corpoTexture = TextureHandler.getAtlas().findRegion("IdleCorpo"
-    // + textureDirection);
-    // TextureRegion cabecaTexture =
-    // TextureHandler.getAtlas().findRegion("IdleCabeca" + textureDirection);
-
-    // combinedPixmap = new Pixmap(cabecaTexture.getRegionWidth(),
-    // cabecaTexture.getRegionHeight(),
-    // Pixmap.Format.RGBA8888);
-
-    // combinedPixmap.drawPixmap(TextureHandler.pixmapFromTextureRegion(corpoTexture),
-    // 0, 0);
-    // combinedPixmap.drawPixmap(TextureHandler.pixmapFromTextureRegion(cabecaTexture),
-    // 0, 0);
-
-    // animations.put("Idle" + textureDirection,
-    // new Animation<>(animationsTiming.get("Idle" + textureDirection),
-    // TextureHandler.textureRegionFromTexture(new Texture(combinedPixmap), 16,
-    // 24)));
-
-    // combinedPixmap.dispose();
-    // }
 }

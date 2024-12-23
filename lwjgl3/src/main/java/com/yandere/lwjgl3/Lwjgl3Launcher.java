@@ -18,10 +18,15 @@ public class Lwjgl3Launcher {
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
-        configuration.setTitle("PorjectYandere");
-        configuration.useVsync(true);
+        configuration.setTitle("ProjectYandere");
+
+        // TODO - TIRAR QUANDO FOR MANDAR PRO ALISSON, APENAS TESTANDO PERFORMANCE
+        configuration.useVsync(false);
+        configuration.setIdleFPS(0);
+
+        // configuration.useVsync(true);
         //// Limits FPS to the refresh rate of the currently active monitor.
-        configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
+        // configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
         //// If you remove the above line and set Vsync to false, you can get unlimited
         //// FPS, which can be
         //// useful for testing performance, but can also be very stressful to some

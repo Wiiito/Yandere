@@ -1,14 +1,21 @@
 package com.yandere.gameInterfaces;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.PersonHandler;
 import com.yandere.handlers.Player;
+import com.yandere.handlers.TextureHandler;
 
 public class SceneInterface {
     private ArrayList<GameObject> gameObjects;
@@ -18,12 +25,25 @@ public class SceneInterface {
     private InputMultiplexer inputs;
     private Player player;
 
+    // TODO - REMOVE
+    private BitmapFont removeFpsCounter = new BitmapFont();
+
     public SceneInterface() {
         gameObjects = new ArrayList<>();
 
-        // player = new Player();
-        // player.setPosition(new Vector2(160, 160));
-        // addObject(player);
+        Animation<TextureRegion> animations = new Animation<>(.12f, TextureHandler
+                .textureRegionFromTexture(
+                        new Texture(TextureHandler
+                                .pixmapFromTextureRegion(TextureHandler.getAtlas().findRegion("WalkCorpoBottom"))),
+                        16, 24));
+
+        Map<String, Animation<TextureRegion>> animationsMap = new HashMap<>();
+        animationsMap.put("WalkBottom", animations);
+
+        player = new Player(animationsMap);
+        player.setPosition(new Vector2(160, 160));
+        player.setGridPosition(new Vector2(10, 10));
+        addObject(player);
 
         mapInterface = new MapInterface();
 
@@ -34,7 +54,7 @@ public class SceneInterface {
 
         // Input handler
         inputs = new InputMultiplexer();
-        // inputs.addProcessor(player.getInputAdapter());
+        inputs.addProcessor(player.getInputAdapter());
         Gdx.input.setInputProcessor(inputs);
     }
 
@@ -51,16 +71,16 @@ public class SceneInterface {
             gameObjects.add(i, object);
             break;
         }
+
     }
 
     public void update() {
         for (GameObject gameObject : gameObjects) {
             gameObject.update();
         }
-        // camera.position.set(
-        // new Vector2(player.getPosition().x + player.getSize().x / 2,
-        // player.getPosition().y + player.getSize().y / 4),
-        // 0);
+
+        camera.position.set(player.getPosition(), 0);
+
         camera.update();
         mapInterface.render(camera);
         personHandler.update();
@@ -74,6 +94,11 @@ public class SceneInterface {
         }
 
         personHandler.render(batch);
+
+        // TODO - REMOVE
+        removeFpsCounter.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(),
+                camera.position.x - camera.viewportWidth / 2,
+                camera.position.y + camera.viewportHeight / 2);
     }
 
     public void dispose() {
