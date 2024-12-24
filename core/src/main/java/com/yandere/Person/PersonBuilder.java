@@ -5,10 +5,12 @@ import java.util.Map;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.yandere.handlers.MapHandler;
 
 public class PersonBuilder {
     private String name;
     private Map<String, Animation<TextureRegion>> animations;
+    private MapHandler map;
 
     public PersonBuilder() {
         this.animations = new HashMap<>();
@@ -24,8 +26,13 @@ public class PersonBuilder {
         return this;
     }
 
+    public PersonBuilder setMap(MapHandler map) {
+        this.map = map;
+        return this;
+    }
+
     public Person build() {
-        return new Person(this.name, animations);
+        return new Person(this.name, this.animations, this.map);
     }
 
     public void dispose() {

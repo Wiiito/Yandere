@@ -6,33 +6,36 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.yandere.gameInterfaces.GameObject.Direction;
 import com.yandere.handlers.AnimationBuilder;
+import com.yandere.handlers.MapHandler;
 import com.yandere.handlers.TextureHandler;
 
 public class PersonHandler {
-    private AnimationBuilder animationBuilder;
-    private PersonBuilder personBuilder;
-
-    private JsonReader jsonReader;
-    private JsonValue base;
 
     private ArrayList<Person> persons;
 
-    public PersonHandler() {
+    public PersonHandler(MapHandler map) {
+        AnimationBuilder animationBuilder;
+        PersonBuilder personBuilder;
+
+        // TODO - Analisar se colocar tudo na memoria direto fica mais pesado, se ficar,
+        // remove essa brincadeira daqui de dentro e começa a ler quando precisar
+        JsonReader jsonReader;
+        JsonValue base;
+
         jsonReader = new JsonReader();
-        base = jsonReader.parse(Gdx.files.internal("npcs.json")).child;
+        base = jsonReader.parse(Gdx.files.internal("npcs.json")).get("npcs");
 
         personBuilder = new PersonBuilder();
         animationBuilder = new AnimationBuilder();
 
         persons = new ArrayList<>();
 
-        for (JsonValue npc = base.child; npc != null; npc = base.next) {
+        for (JsonValue npc = base.child; npc != null; npc = npc.next) {
             personBuilder.setName(npc.getString("name"));
 
             // Carrega todas as animações
@@ -87,20 +90,25 @@ public class PersonHandler {
                     animationBuilder.reset();
                 }
             }
+            personBuilder.setMap(map);
             persons.add(personBuilder.build());
         }
         personBuilder.dispose();
     }
 
-    public void update() {
-        for (Person person : persons) {
-            person.update();
-        }
+    public ArrayList<Person> getPersons() {
+        return this.persons;
     }
 
-    public void render(SpriteBatch batch) {
-        for (Person person : persons) {
-            person.render(batch);
-        }
-    }
+    // public void update() {
+    // for (Person person : persons) {
+    // person.update();
+    // }
+    // }
+
+    // public void render(SpriteBatch batch) {
+    // for (Person person : persons) {
+    // person.render(batch);
+    // }
+    // }
 }

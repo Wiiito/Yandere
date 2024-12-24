@@ -13,8 +13,8 @@ public class Player extends Person {
     private boolean canMove = true;
     private float timeSinceLastDirection = 0.f; // Efeito pokemon, virar ao tocar, andar ao pressionar
 
-    public Player(Map<String, Animation<TextureRegion>> animations) {
-        super("player", animations);
+    public Player(Map<String, Animation<TextureRegion>> animations, MapHandler map) {
+        super("player", animations, map);
     }
 
     /*

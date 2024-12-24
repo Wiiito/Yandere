@@ -2,13 +2,13 @@ package com.yandere.Person;
 
 import java.util.Map;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.gameInterfaces.GameObject;
+import com.yandere.handlers.MapHandler;
 
 public class Person extends GameObject {
     private String name;
@@ -21,11 +21,12 @@ public class Person extends GameObject {
     private Vector2 desiredGridPosition;
     private float speed = 60;
 
-    Texture texture = new Texture(Gdx.files.internal("Testes.png"));
+    private MapHandler map;
 
-    public Person(String name, Map<String, Animation<TextureRegion>> animations) {
+    public Person(String name, Map<String, Animation<TextureRegion>> animations, MapHandler map) {
         this.name = name;
         this.animations = animations;
+        this.map = map;
 
         this.currentAnimation = this.animations.entrySet().iterator().next().getValue();
 
@@ -88,8 +89,12 @@ public class Person extends GameObject {
     }
 
     private void handleMovement() {
-        if (!(gridPosition.x == desiredGridPosition.x && gridPosition.y == desiredGridPosition.y)) {
-            Vector2 movement = desiredGridPosition.cpy().sub(gridPosition).scl(speed).scl(Gdx.graphics.getDeltaTime());
+        if (map.collides(gridPosition, desiredGridPosition))
+            this.desiredGridPosition = gridPosition.cpy();
+
+        if (!gridPosition.idt(desiredGridPosition)) {
+            Vector2 movement = desiredGridPosition.cpy().sub(gridPosition).scl(speed)
+                    .scl(Gdx.graphics.getDeltaTime());
             Vector2 thisFrameMovement = getPosition().cpy().add(movement);
 
             int thisFrameGridX;
@@ -125,6 +130,5 @@ public class Person extends GameObject {
 
     public void render(SpriteBatch batch) {
         batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
-        // batch.draw(texture, gridPosition.x * 16, gridPosition.y * 16);
     }
 }
