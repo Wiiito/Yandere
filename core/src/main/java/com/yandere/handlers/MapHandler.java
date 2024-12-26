@@ -1,6 +1,7 @@
 package com.yandere.handlers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -134,6 +135,23 @@ public class MapHandler {
             return true;
         }
         return false;
+    }
+
+    public Cell getCell(Vector2 position) {
+        TiledMapTileLayer tileLayer = (TiledMapTileLayer) tiledMap.getLayers().get(currentLayer);
+        Cell cell = tileLayer.getCell((int) position.x, (int) position.y);
+
+        return cell;
+    }
+
+    public int getHeight() {
+        MapProperties props = tiledMap.getProperties();
+        return props.get("height", Integer.class);
+    }
+
+    public int getWidth() {
+        MapProperties props = tiledMap.getProperties();
+        return props.get("width", Integer.class);
     }
 
     public void render(OrthographicCamera camera) {
