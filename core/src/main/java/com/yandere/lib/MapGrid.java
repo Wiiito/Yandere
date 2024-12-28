@@ -2,17 +2,17 @@ package com.yandere.lib;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
-import com.yandere.handlers.MapHandler;
 
 public class MapGrid {
+    TiledMapTileLayer map;
     Vector2 worldSize;
-    MapHandler map;
     ArrayList<ArrayList<Chamber>> collisions;
-    ArrayList<Vector2> path;
+    AStar pathFiding;
 
-    public MapGrid(MapHandler map) {
+    public MapGrid(TiledMapTileLayer map) {
         this.map = map;
         worldSize = new Vector2(map.getWidth(), map.getHeight());
 
@@ -21,7 +21,7 @@ public class MapGrid {
         for (int x = 0; x < worldSize.x; x++) {
             collisions.add(new ArrayList<>());
             for (int y = 0; y < worldSize.y; y++) {
-                Cell cell = map.getCell(new Vector2(x, y));
+                Cell cell = map.getCell(x, y);
                 if (cell.getTile().getProperties().containsKey("blockDirections")
                         || !cell.getTile().getProperties().get("walkable", Boolean.class)) {
                     collisions.get(x).add(new Chamber(new Vector2(x, y), false));
@@ -30,10 +30,8 @@ public class MapGrid {
                 }
             }
         }
-    }
 
-    public MapHandler getMapHandler() {
-        return this.map;
+        this.pathFiding = new AStar(this);
     }
 
     public Chamber getChamber(Vector2 position) {
@@ -44,8 +42,13 @@ public class MapGrid {
         return this.collisions.get(x).get(y);
     }
 
-    public void setPath(ArrayList<Vector2> path) {
-        this.path = path;
+    public ArrayList<Vector2> getPath(Vector2 startPosition, Vector2 endPosition) {
+        return this.pathFiding.findPath(startPosition, endPosition);
+    }
+
+    public ArrayList<Vector2> getSimplfiedPath(Vector2 startPosition, Vector2 endPosition) {
+        ArrayList<Vector2> compltePath = this.pathFiding.findPath(startPosition, endPosition);
+        return this.pathFiding.simplifyPath(compltePath);
     }
 
     public ArrayList<Chamber> getNeighbours(Chamber chamber) {

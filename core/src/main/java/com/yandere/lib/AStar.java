@@ -5,14 +5,12 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 
 import com.badlogic.gdx.math.Vector2;
-import com.yandere.handlers.MapHandler;
 
 public class AStar {
     MapGrid mapGrid;
-    ArrayList<Vector2> path;
 
-    public AStar(MapHandler mapHandler) {
-        this.mapGrid = new MapGrid(mapHandler);
+    public AStar(MapGrid mapGrid) {
+        this.mapGrid = mapGrid;
     }
 
     public ArrayList<Vector2> findPath(Vector2 startPos, Vector2 endPos) {

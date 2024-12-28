@@ -144,6 +144,10 @@ public class MapHandler {
         return cell;
     }
 
+    public TiledMapTileLayer getMapTileLayer(int layer) {
+        return (TiledMapTileLayer) tiledMap.getLayers().get(layer);
+    }
+
     public int getHeight() {
         MapProperties props = tiledMap.getProperties();
         return props.get("height", Integer.class);
