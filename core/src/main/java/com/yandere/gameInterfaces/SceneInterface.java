@@ -8,13 +8,14 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 public class SceneInterface {
     private ArrayList<GameObject> gameObjects;
     protected OrthographicCamera camera;
     protected InputMultiplexer inputs;
 
-    private PriorityQueue<GameObject> onScreenObjects;
+    protected PriorityQueue<GameObject> onScreenObjects;
 
     // TODO - REMOVE
     private BitmapFont removeFpsCounter = new BitmapFont();
@@ -48,7 +49,8 @@ public class SceneInterface {
         for (GameObject gameObject : gameObjects) {
             gameObject.update(deltaTime);
 
-            if (camera.frustum.pointInFrustum(gameObject.getPosition().x, gameObject.getPosition().y, 0)) {
+            if (camera.frustum.boundsInFrustum(new Vector3(gameObject.getPosition().x, gameObject.getPosition().y, 0),
+                    new Vector3(gameObject.getSize().x, gameObject.getSize().y, 1))) {
                 onScreenObjects.add(gameObject);
             }
         }

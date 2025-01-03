@@ -56,6 +56,10 @@ public class Npc extends Person implements TimeListener {
                     this.setDirection(Direction.Bottom);
 
                 move();
+            } else {
+                if (currentSchedule.activityDirection != null) {
+                    this.setDirection(currentSchedule.activityDirection);
+                }
             }
         }
     }

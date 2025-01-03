@@ -17,12 +17,15 @@ public class MapHandler {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private int currentLayer = 0;
+    private int[] underPLayer = { 1, 2, 3, 4, 5 };
+    private int[] walls = { 6, 7 };
+    private int wallViewRender = 0;
 
     // TODO - BETTER MAP GRID
     private MapGrid mapGrid;
 
     public MapHandler() {
-        tiledMap = new TmxMapLoader().load("map0.tmx");
+        tiledMap = new TmxMapLoader().load("map/map.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         mapGrid = new MapGrid(getMapTileLayer(currentLayer));
     }
@@ -151,11 +154,18 @@ public class MapHandler {
         return cell;
     }
 
+    public boolean isInsideWall(Vector2 gridPosition) {
+        for (int wallLayer : walls)
+            if (getMapTileLayer(wallLayer).getCell((int) gridPosition.x, (int) gridPosition.y) != null)
+                return true;
+        return false;
+    }
+
     public TiledMapTileLayer getMapTileLayer(int layer) {
         return (TiledMapTileLayer) tiledMap.getLayers().get(layer);
     }
 
-    // TODO - Tira isso daqui
+    // TODO - Tira isso DAQUI
     public ArrayList<Vector2> getSiplifiedPath(Vector2 startPos, Vector2 finalPos) {
         return mapGrid.getSimplfiedPath(startPos, finalPos);
     }
@@ -170,8 +180,28 @@ public class MapHandler {
         return props.get("width", Integer.class);
     }
 
-    public void render(OrthographicCamera camera) {
+    public void renderUnderPLayer(OrthographicCamera camera) {
         mapRenderer.setView(camera);
-        mapRenderer.render();
+        mapRenderer.render(underPLayer);
+    }
+
+    public void renderAbovePlayer(OrthographicCamera camera, Vector2 playerGridPosition) {
+        float width = camera.viewportWidth * camera.zoom;
+        float height = camera.viewportHeight * camera.zoom;
+        float w = width * Math.abs(camera.up.y) + height * Math.abs(camera.up.x);
+        float h = height * Math.abs(camera.up.y) + width * Math.abs(camera.up.x);
+        mapRenderer.setView(camera.combined, camera.position.x - w / 2,
+                camera.position.y + wallViewRender + 16, w, h / 2 - wallViewRender);
+
+        for (int wallLayer : walls) {
+            if (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x, (int) playerGridPosition.y) != null) {
+                wallViewRender = 64;
+                break;
+            } else {
+                wallViewRender = 0;
+            }
+        }
+
+        mapRenderer.render(walls);
     }
 }

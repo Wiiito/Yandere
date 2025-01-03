@@ -83,12 +83,14 @@ public class PersonHandler {
                     .get((int) currentNpcChairLocation.x).get((int) currentNpcChairLocation.y);
 
             Vector2 position = new Vector2(scheduleLocation.getInt("x"), scheduleLocation.getInt("y"));
+            Direction activityDirection = Direction.valueOf(locationsJson.get(locationClass).getString("direction"));
 
             // TODO - Load animation
 
             Schedule currentSchedule = new Schedule();
             currentSchedule.startingTime = startingTime;
             currentSchedule.position = position;
+            currentSchedule.activityDirection = activityDirection;
             schedules.add(currentSchedule);
         }
 
