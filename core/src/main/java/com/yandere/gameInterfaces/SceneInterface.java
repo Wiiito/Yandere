@@ -41,12 +41,12 @@ public class SceneInterface {
         gameObjects.add(object);
     }
 
-    public void update() {
+    public void update(float deltaTime) {
         onScreenObjects.clear();
         camera.update();
 
         for (GameObject gameObject : gameObjects) {
-            gameObject.update();
+            gameObject.update(deltaTime);
 
             if (camera.frustum.pointInFrustum(gameObject.getPosition().x, gameObject.getPosition().y, 0)) {
                 onScreenObjects.add(gameObject);

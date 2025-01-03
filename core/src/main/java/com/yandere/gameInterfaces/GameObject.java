@@ -19,7 +19,7 @@ public abstract class GameObject implements Comparable<GameObject> {
         return new Vector2(sprite.getWidth(), sprite.getHeight());
     }
 
-    public void update() {
+    public void update(float deltaTime) {
     }
 
     public void render(SpriteBatch batch) {

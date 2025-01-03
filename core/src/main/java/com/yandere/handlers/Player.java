@@ -66,8 +66,8 @@ public class Player extends Person {
         };
     }
 
-    public void update() {
-        super.update();
+    public void update(float deltaTime) {
+        super.update(deltaTime);
         timeSinceLastDirection += Gdx.graphics.getDeltaTime();
 
         if (canMove) {
@@ -92,6 +92,12 @@ public class Player extends Person {
                 move();
             }
         }
+    }
 
+    @Override
+    public void handleMovement(float deltaTime) {
+        if (map.collides(gridPosition, desiredGridPosition))
+            this.desiredGridPosition = gridPosition.cpy();
+        super.handleMovement(deltaTime);
     }
 }

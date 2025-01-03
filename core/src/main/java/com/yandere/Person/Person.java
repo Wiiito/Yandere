@@ -1,7 +1,6 @@
 package com.yandere.Person;
 
 import java.util.Map;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,11 +16,11 @@ public class Person extends GameObject {
     private float elapsedTime = 0;
     private Direction direction = Direction.Bottom;
 
-    private Vector2 gridPosition;
-    private Vector2 desiredGridPosition;
-    private float speed = 60;
+    protected Vector2 gridPosition;
+    protected Vector2 desiredGridPosition;
+    private float speed = 40;
 
-    private MapHandler map;
+    protected MapHandler map;
 
     public Person(String name, Map<String, Animation<TextureRegion>> animations, MapHandler map) {
         this.name = name;
@@ -61,13 +60,17 @@ public class Person extends GameObject {
         return this.gridPosition;
     }
 
-    private void snapToGrid() {
+    public void snapToGrid() {
         this.setPosition(gridPosition.cpy().scl(16));
+    }
+
+    public Direction getDirection() {
+        return this.direction;
     }
 
     public void move() {
         if (gridPosition.x == desiredGridPosition.x && gridPosition.y == desiredGridPosition.y) {
-            switch (direction) {
+            switch (this.direction) {
                 case Top:
                     desiredGridPosition = gridPosition.cpy().add(0, 1);
                     break;
@@ -84,17 +87,10 @@ public class Person extends GameObject {
         }
     }
 
-    public Direction getDirection() {
-        return this.direction;
-    }
-
-    private void handleMovement() {
-        if (map.collides(gridPosition, desiredGridPosition))
-            this.desiredGridPosition = gridPosition.cpy();
-
+    protected void handleMovement(float deltaTime) {
         if (!gridPosition.idt(desiredGridPosition)) {
             Vector2 movement = desiredGridPosition.cpy().sub(gridPosition).scl(speed)
-                    .scl(Gdx.graphics.getDeltaTime());
+                    .scl(deltaTime);
             Vector2 thisFrameMovement = getPosition().cpy().add(movement);
 
             int thisFrameGridX;
@@ -121,11 +117,12 @@ public class Person extends GameObject {
         }
     }
 
-    public void update() {
+    @Override
+    public void update(float deltaTime) {
         // this.currentAnimation = animations.get("Idle" + direction);
-        elapsedTime += Gdx.graphics.getDeltaTime();
+        elapsedTime += deltaTime;
 
-        handleMovement();
+        handleMovement(deltaTime);
     }
 
     public void render(SpriteBatch batch) {

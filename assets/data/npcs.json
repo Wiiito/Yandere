@@ -9,5 +9,16 @@
         "name": "Walk",
         "textureAtlas": ["WalkCorpo", "WalkCabeca"],
         "timing": 0.15
-    }]
+    }],
+    "startPos": {
+        "x": 7,
+        "y": 20
+    },
+    "schedule": "class01",
+    "defaultChair": {
+        "x": 1,
+        "y": 1
+    },
+    "extraschedule": [],
+    "freeTime": "basket"
 }]}

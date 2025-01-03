@@ -1,5 +1,7 @@
 package com.yandere.handlers;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -9,15 +11,20 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.yandere.lib.MapGrid;
 
 public class MapHandler {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private int currentLayer = 0;
 
+    // TODO - BETTER MAP GRID
+    private MapGrid mapGrid;
+
     public MapHandler() {
         tiledMap = new TmxMapLoader().load("map0.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        mapGrid = new MapGrid(getMapTileLayer(currentLayer));
     }
 
     // Needs to be passed as gridPosition
@@ -146,6 +153,11 @@ public class MapHandler {
 
     public TiledMapTileLayer getMapTileLayer(int layer) {
         return (TiledMapTileLayer) tiledMap.getLayers().get(layer);
+    }
+
+    // TODO - Tira isso daqui
+    public ArrayList<Vector2> getSiplifiedPath(Vector2 startPos, Vector2 finalPos) {
+        return mapGrid.getSimplfiedPath(startPos, finalPos);
     }
 
     public int getHeight() {
