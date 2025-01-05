@@ -1,4 +1,21 @@
-{"npcs": [{
+{
+    "player": {
+    "textures": [{
+        "name": "Idle",
+        "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+        "directions": ["Top", "Right", "Bottom", "Left"],
+        "timing": [0.3,0.12,0.12,0.12]
+    },{
+        "name": "Walk",
+        "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+        "timing": 0.15
+    }],
+    "startPos": {
+        "x": 7,
+        "y": 20
+    }},
+
+    "npcs": [{
     "name": "Maria",
     "textures": [{
         "name": "Idle",
@@ -21,4 +38,5 @@
     },
     "extraschedule": [],
     "freeTime": "basket"
-}]}
+}]
+}

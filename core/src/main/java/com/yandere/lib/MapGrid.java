@@ -1,3 +1,4 @@
+// Bridge
 package com.yandere.lib;
 
 import java.util.ArrayList;

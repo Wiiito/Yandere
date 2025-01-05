@@ -1,3 +1,4 @@
+// Singleton & Observer
 package com.yandere.lib;
 
 import java.util.ArrayList;

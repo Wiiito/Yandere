@@ -1,3 +1,4 @@
+// Decorator
 package com.yandere.handlers;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class MapHandler {
     private int currentLayer = 0;
     private int[] underPLayer = { 1, 2, 3, 4, 5 };
     private int[] walls = { 6, 7 };
+    private int[] abovePlayer = { 8 };
     private int wallViewRender = 0;
 
     // TODO - BETTER MAP GRID
@@ -185,7 +187,7 @@ public class MapHandler {
         mapRenderer.render(underPLayer);
     }
 
-    public void renderAbovePlayer(OrthographicCamera camera, Vector2 playerGridPosition) {
+    public void renderWallsUnderPlayer(OrthographicCamera camera, Vector2 playerGridPosition) {
         float width = camera.viewportWidth * camera.zoom;
         float height = camera.viewportHeight * camera.zoom;
         float w = width * Math.abs(camera.up.y) + height * Math.abs(camera.up.x);
@@ -195,7 +197,12 @@ public class MapHandler {
 
         for (int wallLayer : walls) {
             if (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x, (int) playerGridPosition.y) != null) {
-                wallViewRender = 64;
+                int counter = 1;
+                while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
+                        (int) playerGridPosition.y + counter) != null) {
+                    counter++;
+                }
+                wallViewRender = 16 * counter;
                 break;
             } else {
                 wallViewRender = 0;
@@ -203,5 +210,10 @@ public class MapHandler {
         }
 
         mapRenderer.render(walls);
+    }
+
+    public void renderAbovePlayer(OrthographicCamera camera) {
+        mapRenderer.setView(camera);
+        mapRenderer.render(abovePlayer);
     }
 }

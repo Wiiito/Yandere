@@ -28,7 +28,7 @@ public class Npc extends Person implements TimeListener {
 
     @Override
     public void timeChange(Time currentTime) {
-        if (schedule.peek().startingTime.compareTo(currentTime) == 0) {
+        if (!schedule.isEmpty() && schedule.peek().startingTime.compareTo(currentTime) == 0) {
             currentSchedule = schedule.poll();
         }
         if (currentSchedule != null)

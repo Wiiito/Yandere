@@ -1,5 +1,7 @@
+// State
 package com.yandere.Person;
 
+import java.util.HashMap;
 import java.util.Map;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -13,8 +15,9 @@ public class Person extends GameObject {
     private String name;
     private Map<String, Animation<TextureRegion>> animations;
     private Animation<TextureRegion> currentAnimation;
-    private float elapsedTime = 0;
+    private float elapsedTime = (float) Math.random();
     private Direction direction = Direction.Bottom;
+    private State currentState;
 
     protected Vector2 gridPosition;
     protected Vector2 desiredGridPosition;
@@ -22,9 +25,13 @@ public class Person extends GameObject {
 
     protected MapHandler map;
 
+    enum State {
+        Idle, Walk, Running, Sitting
+    }
+
     public Person(String name, Map<String, Animation<TextureRegion>> animations, MapHandler map) {
         this.name = name;
-        this.animations = animations;
+        this.animations = new HashMap<>(animations);
         this.map = map;
 
         this.currentAnimation = this.animations.entrySet().iterator().next().getValue();
@@ -33,6 +40,8 @@ public class Person extends GameObject {
         sprite.setSize(currentAnimation.getKeyFrame(0).getRegionWidth(),
                 currentAnimation.getKeyFrame(0).getRegionHeight());
         sprite.setPosition(0, 0);
+
+        currentState = State.Idle;
 
         gridPosition = Vector2.Zero;
         desiredGridPosition = Vector2.Zero;
@@ -114,12 +123,15 @@ public class Person extends GameObject {
             } else {
                 this.setPosition(thisFrameMovement);
             }
+            currentState = State.Walk;
+        } else {
+            currentState = State.Idle;
         }
     }
 
     @Override
     public void update(float deltaTime) {
-        // this.currentAnimation = animations.get("Idle" + direction);
+        this.currentAnimation = animations.get(currentState.toString() + direction);
         elapsedTime += deltaTime;
 
         handleMovement(deltaTime);
