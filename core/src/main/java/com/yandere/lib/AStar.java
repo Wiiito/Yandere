@@ -69,7 +69,7 @@ public class AStar {
         Vector2 oldDirection = Vector2.Zero;
 
         for (int i = 1; i < completeList.size(); i++) {
-            if (completeList.get(i) == completeList.getLast()) {
+            if (completeList.get(i) == completeList.get(completeList.size() - 1)) {
                 simpleList.add(completeList.get(i));
                 continue;
             }

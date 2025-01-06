@@ -192,8 +192,6 @@ public class MapHandler {
         float height = camera.viewportHeight * camera.zoom;
         float w = width * Math.abs(camera.up.y) + height * Math.abs(camera.up.x);
         float h = height * Math.abs(camera.up.y) + width * Math.abs(camera.up.x);
-        mapRenderer.setView(camera.combined, camera.position.x - w / 2,
-                camera.position.y + wallViewRender + 16, w, h / 2 - wallViewRender);
 
         for (int wallLayer : walls) {
             if (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x, (int) playerGridPosition.y) != null) {
@@ -208,6 +206,9 @@ public class MapHandler {
                 wallViewRender = 0;
             }
         }
+
+        mapRenderer.setView(camera.combined, camera.position.x - w / 2,
+                camera.position.y + wallViewRender + 16, w, h / 2 - wallViewRender);
 
         mapRenderer.render(walls);
     }

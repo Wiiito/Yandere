@@ -116,6 +116,10 @@ public class GameInterface extends SceneInterface {
             addObject(person);
         }
 
+        for (GameObject a : gameObjects) {
+            Person b = (Person) a;
+        }
+
         inputs.addProcessor(player.getInputAdapter());
 
         beforeWall = new PriorityQueue<>();
@@ -134,8 +138,8 @@ public class GameInterface extends SceneInterface {
         while (onScreenIterator.hasNext()) {
             GameObject o = onScreenIterator.next();
 
-            int xPosition = Math.ceilDiv((int) o.getPosition().x, 16);
-            int yPosition = Math.ceilDiv((int) o.getPosition().y, 16);
+            int xPosition = -Math.floorDiv((int) -o.getPosition().x, 16);
+            int yPosition = -Math.floorDiv((int) -o.getPosition().y, 16);
 
             if (o instanceof Npc) {
                 Person person = (Person) o;
