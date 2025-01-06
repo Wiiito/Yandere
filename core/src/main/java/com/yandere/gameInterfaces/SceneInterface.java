@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 public class SceneInterface {
-    private ArrayList<GameObject> gameObjects;
+    protected ArrayList<GameObject> gameObjects;
     protected OrthographicCamera camera;
     protected InputMultiplexer inputs;
 

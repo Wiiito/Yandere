@@ -128,8 +128,8 @@ public class Person extends GameObject {
             // Esse if é NECESSARIO, unico jeito dessa brindadeira ai funcionar sem ficar
             // todo bugado...
             if (direction == Direction.Bottom || direction == Direction.Left) {
-                thisFrameGridX = Math.ceilDiv((int) thisFrameMovement.x, 16);
-                thisFrameGridY = Math.ceilDiv((int) thisFrameMovement.y, 16);
+                thisFrameGridX = -Math.floorDiv((int) -thisFrameMovement.x, 16);
+                thisFrameGridY = -Math.floorDiv((int) -thisFrameMovement.y, 16);
             } else {
                 thisFrameGridX = (int) thisFrameMovement.x / 16;
                 thisFrameGridY = (int) thisFrameMovement.y / 16;
