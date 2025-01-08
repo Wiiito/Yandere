@@ -116,10 +116,6 @@ public class GameInterface extends SceneInterface {
             addObject(person);
         }
 
-        for (GameObject a : gameObjects) {
-            Person b = (Person) a;
-        }
-
         inputs.addProcessor(player.getInputAdapter());
 
         beforeWall = new PriorityQueue<>();
