@@ -18,18 +18,24 @@ public class MapHandler {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
     private int currentLayer = 0;
+    private int layersCount = 9;
     private int[] underPLayer = { 1, 2, 3, 4, 5 };
     private int[] walls = { 6, 7 };
     private int[] abovePlayer = { 8 };
-    private int wallViewRender = 0;
+
+    private int[] actualUnderPlayer = underPLayer.clone();
+    private int[] actualWalls = walls.clone();
+    private int[] actualAbovePlayer = abovePlayer.clone();
 
     // TODO - BETTER MAP GRID
-    private MapGrid mapGrid;
+    private ArrayList<MapGrid> mapGrid;
 
     public MapHandler() {
         tiledMap = new TmxMapLoader().load("map/map.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        mapGrid = new MapGrid(getMapTileLayer(currentLayer));
+        mapGrid = new ArrayList<>();
+        mapGrid.add(new MapGrid(getMapTileLayer(0)));
+        mapGrid.add(new MapGrid(getMapTileLayer(9)));
     }
 
     // Needs to be passed as gridPosition
@@ -168,13 +174,26 @@ public class MapHandler {
     }
 
     // TODO - Tira isso DAQUI
-    public ArrayList<Vector2> getSiplifiedPath(Vector2 startPos, Vector2 finalPos) {
-        return mapGrid.getSimplfiedPath(startPos, finalPos);
+    public ArrayList<Vector2> getSiplifiedPath(Vector2 startPos, Vector2 finalPos, int layer) {
+        return mapGrid.get(layer).getSimplfiedPath(startPos, finalPos);
     }
 
     public int getHeight() {
         MapProperties props = tiledMap.getProperties();
         return props.get("height", Integer.class);
+    }
+
+    public void changePlayerFloor(int layer) {
+        this.currentLayer = layer;
+        for (int i = 0; i < underPLayer.length; i++) {
+            this.actualUnderPlayer[i] = underPLayer[i] + layer;
+        }
+        for (int i = 0; i < walls.length; i++) {
+            this.actualWalls[i] = walls[i] + layer;
+        }
+        for (int i = 0; i < abovePlayer.length; i++) {
+            this.actualAbovePlayer[i] = abovePlayer[i] + layer;
+        }
     }
 
     public int getWidth() {
@@ -184,36 +203,122 @@ public class MapHandler {
 
     public void renderUnderPLayer(OrthographicCamera camera) {
         mapRenderer.setView(camera);
-        mapRenderer.render(underPLayer);
+        mapRenderer.render(actualUnderPlayer);
     }
 
-    public void renderWallsUnderPlayer(OrthographicCamera camera, Vector2 playerGridPosition) {
+    public int getLayerCount() {
+        return this.layersCount;
+    }
+
+    public void renderWalls(OrthographicCamera camera, Vector2 playerGridPosition) {
         float width = camera.viewportWidth * camera.zoom;
         float height = camera.viewportHeight * camera.zoom;
         float w = width * Math.abs(camera.up.y) + height * Math.abs(camera.up.x);
         float h = height * Math.abs(camera.up.y) + width * Math.abs(camera.up.x);
-        mapRenderer.setView(camera.combined, camera.position.x - w / 2,
-                camera.position.y + wallViewRender + 16, w, h / 2 - wallViewRender);
+
+        boolean insideWall = false;
+        int wallViewRender = 0;
+
+        // Margens
+        int leftInsideWalls = 0;
+        int rightInsideWalls = 0;
 
         for (int wallLayer : walls) {
             if (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x, (int) playerGridPosition.y) != null) {
-                int counter = 1;
-                while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
-                        (int) playerGridPosition.y + counter) != null) {
-                    counter++;
-                }
-                wallViewRender = 16 * counter;
-                break;
-            } else {
-                wallViewRender = 0;
+                insideWall = true;
             }
         }
 
-        mapRenderer.render(walls);
+        if (insideWall) {
+            int counter = 1;
+            int insideLeftWalls = 0;
+            int insideRightWalls = 0;
+
+            // Calculando quantas paredes existem na esquerda
+            for (int i = 0; i > -9; i--) {
+                int emptyWallsCounter = 0;
+                for (int wallLayer : walls) {
+                    if (getMapTileLayer(wallLayer).getCell(Math.max((int) playerGridPosition.x +
+                            i, 0),
+                            (int) playerGridPosition.y) != null) {
+                        insideLeftWalls++;
+                        break;
+                    } else {
+                        emptyWallsCounter++;
+                    }
+                }
+                if (emptyWallsCounter >= walls.length) {
+                    break;
+                }
+            }
+
+            // Calculando quantas paredes existem na direita
+            for (int i = 0; i < 8; i++) {
+                int emptyWallsCounter = 0;
+                for (int wallLayer : walls) {
+                    if (getMapTileLayer(wallLayer).getCell(Math.min((int) playerGridPosition.x +
+                            i, this.getWidth()),
+                            (int) playerGridPosition.y) != null) {
+                        insideRightWalls++;
+                        break;
+                    } else {
+                        emptyWallsCounter++;
+                    }
+                }
+                if (emptyWallsCounter >= walls.length) {
+                    break;
+                }
+            }
+
+            // Logica de desenho
+            if (insideRightWalls >= 8 && insideLeftWalls >= 8) { // Dentro de uma parede que completa a tela
+                for (int wallLayer : walls) {
+                    while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
+                            (int) playerGridPosition.y + counter) != null) {
+                        counter++;
+                    }
+                    wallViewRender = 16 * counter;
+                }
+            } else { // Dentro de parede incompleta
+                leftInsideWalls = insideLeftWalls * 16;
+                rightInsideWalls = insideRightWalls * 16 + 16;
+                int lower = 0;
+                for (int wallLayer : walls) {
+                    int insideCounter = 1;
+                    while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
+                            (int) playerGridPosition.y - insideCounter) != null) {
+                        insideCounter++;
+                    }
+                    lower = Math.max(insideCounter, lower);
+                }
+                wallViewRender = -16 * lower;
+            }
+        } else { // Fora de parede
+            int higher = 10;
+            for (int wallLayer : walls) {
+                int counter = 1;
+                while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
+                        (int) playerGridPosition.y - counter) == null && counter < 10) {
+                    counter++;
+                }
+                higher = Math.min(counter, higher);
+            }
+            wallViewRender = -16 * higher + 16;
+        }
+
+        // left side render
+        mapRenderer.setView(camera.combined, camera.position.x - w / 2,
+                camera.position.y + wallViewRender + 16, w / 2 - leftInsideWalls, h / 2 - wallViewRender);
+        mapRenderer.render(actualWalls);
+
+        // Right side render
+        mapRenderer.setView(camera.combined, camera.position.x + rightInsideWalls,
+                camera.position.y + wallViewRender + 16, w / 2 - rightInsideWalls, h / 2 - wallViewRender);
+        mapRenderer.render(actualWalls);
     }
 
     public void renderAbovePlayer(OrthographicCamera camera) {
         mapRenderer.setView(camera);
-        mapRenderer.render(abovePlayer);
+        mapRenderer.render(actualAbovePlayer);
     }
 }

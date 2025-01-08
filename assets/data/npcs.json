@@ -9,6 +9,10 @@
         "name": "Walk",
         "textureAtlas": ["WalkCorpo", "WalkCabeca"],
         "timing": 0.15
+    },{
+        "name": "Run",
+        "textureAtlas": ["RunCorpo", "RunCabeca"],
+        "timing": 0.09
     }],
     "startPos": {
         "x": 7,
@@ -28,8 +32,8 @@
         "timing": 0.15
     }],
     "startPos": {
-        "x": 7,
-        "y": 20
+        "x": 129,
+        "y": 23
     },
     "schedule": "class01",
     "defaultChair": {

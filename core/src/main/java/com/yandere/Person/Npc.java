@@ -32,7 +32,7 @@ public class Npc extends Person implements TimeListener {
             currentSchedule = schedule.poll();
         }
         if (currentSchedule != null)
-            currentPath = map.getSiplifiedPath(getGridPosition(), currentSchedule.position);
+            currentPath = map.getSiplifiedPath(getGridPosition(), currentSchedule.position, 0);
     }
 
     @Override

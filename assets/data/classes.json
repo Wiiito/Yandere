@@ -9,7 +9,7 @@
                 "hour": 8,
                 "minutes": 0
             },
-            "location": 201
+            "location": 101
         },
         {
             "startingTime": {
@@ -20,7 +20,7 @@
                 "hour": 9,
                 "minutes": 0
             },
-            "location": 201
+            "location": 101
         }
     ]
 }

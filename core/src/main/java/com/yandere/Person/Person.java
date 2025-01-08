@@ -22,11 +22,12 @@ public class Person extends GameObject {
     protected Vector2 gridPosition;
     protected Vector2 desiredGridPosition;
     private float speed = 40;
+    private int currentLayer = 0;
 
     protected MapHandler map;
 
     enum State {
-        Idle, Walk, Running, Sitting
+        Idle, Walk, Run, Sitting
     }
 
     public Person(String name, Map<String, Animation<TextureRegion>> animations, MapHandler map) {
@@ -96,6 +97,23 @@ public class Person extends GameObject {
         }
     }
 
+    public int getCurrentLayer() {
+        return this.currentLayer;
+    }
+
+    protected void handleFloorChange(Vector2 positionOnGrid) {
+        if (this.map.getMapTileLayer(this.currentLayer).getCell((int) positionOnGrid.x, (int) positionOnGrid.y)
+                .getTile()
+                .getProperties()
+                .get("changeFloor") != null) {
+            this.currentLayer = this.map.getMapTileLayer(this.currentLayer)
+                    .getCell((int) positionOnGrid.x, (int) positionOnGrid.y).getTile().getProperties()
+                    .get("changeFloor",
+                            Integer.class)
+                    * map.getLayerCount();
+        }
+    }
+
     protected void handleMovement(float deltaTime) {
         if (!gridPosition.idt(desiredGridPosition)) {
             Vector2 movement = desiredGridPosition.cpy().sub(gridPosition).scl(speed)
@@ -120,13 +138,22 @@ public class Person extends GameObject {
             if (desiredGridPosition.x == thisFrameGridX && desiredGridPosition.y == thisFrameGridY) {
                 this.setGridPosition(new Vector2(thisFrameGridX, thisFrameGridY));
                 snapToGrid();
+                handleFloorChange(this.getGridPosition());
             } else {
                 this.setPosition(thisFrameMovement);
             }
-            currentState = State.Walk;
+            if (speed <= 40) {
+                currentState = State.Walk;
+            } else {
+                currentState = State.Run;
+            }
         } else {
             currentState = State.Idle;
         }
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
     }
 
     @Override

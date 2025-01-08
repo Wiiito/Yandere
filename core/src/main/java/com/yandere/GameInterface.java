@@ -107,7 +107,7 @@ public class GameInterface extends SceneInterface {
         mapHanlder = new MapHandler();
 
         player = new Player(animationsMap, mapHanlder);
-        player.setGridPosition(new Vector2(124, 20));
+        player.setGridPosition(new Vector2(77, 33));
         player.snapToGrid();
         addObject(player);
 
@@ -134,8 +134,8 @@ public class GameInterface extends SceneInterface {
         while (onScreenIterator.hasNext()) {
             GameObject o = onScreenIterator.next();
 
-            int xPosition = Math.ceilDiv((int) o.getPosition().x, 16);
-            int yPosition = Math.ceilDiv((int) o.getPosition().y, 16);
+            int xPosition = Math.floorDiv((int) o.getPosition().x, 16);
+            int yPosition = Math.floorDiv((int) o.getPosition().y, 16);
 
             if (o instanceof Npc) {
                 Person person = (Person) o;
@@ -162,7 +162,7 @@ public class GameInterface extends SceneInterface {
         }
 
         batch.end();
-        mapHanlder.renderWallsUnderPlayer(camera, player.getGridPosition());
+        mapHanlder.renderWalls(camera, player.getGridPosition());
         batch.begin();
 
         super.render(batch);

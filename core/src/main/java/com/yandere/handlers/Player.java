@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Person;
 
 public class Player extends Person {
@@ -28,6 +29,9 @@ public class Player extends Person {
         return new InputAdapter() {
             public boolean keyDown(int keyCode) {
                 switch (keyCode) {
+                    case Input.Keys.SHIFT_LEFT:
+                        setSpeed(60);
+                        return true;
                     case Input.Keys.W:
                         if (getDirection() == Direction.Top) {
                             move();
@@ -63,7 +67,17 @@ public class Player extends Person {
                 }
                 return false;
             }
+
+            public boolean keyUp(int keyCode) {
+                switch (keyCode) {
+                    case Input.Keys.SHIFT_LEFT:
+                        setSpeed(40);
+                        return true;
+                }
+                return false;
+            }
         };
+
     }
 
     public void update(float deltaTime) {
@@ -92,6 +106,12 @@ public class Player extends Person {
                 move();
             }
         }
+    }
+
+    @Override
+    protected void handleFloorChange(Vector2 positionOnGrid) {
+        super.handleFloorChange(positionOnGrid);
+        map.changePlayerFloor(super.getCurrentLayer());
     }
 
     @Override
