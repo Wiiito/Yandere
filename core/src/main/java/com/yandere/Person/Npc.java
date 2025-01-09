@@ -18,9 +18,10 @@ public class Npc extends Person implements TimeListener {
     private ArrayList<Vector2> currentPath;
     private Schedule currentSchedule;
 
-    public Npc(String name, Map<String, Animation<TextureRegion>> animations, MapHandler map,
+    public Npc(String name, Map<String, Animation<TextureRegion>> animations, Map<String, Float> animatiosDelay,
+            MapHandler map,
             PriorityQueue<Schedule> schedule) {
-        super(name, animations, map);
+        super(name, animations, animatiosDelay, map);
         this.schedule = new PriorityQueue<Schedule>(schedule);
 
         TimeObserver.addListener(this);
@@ -56,9 +57,10 @@ public class Npc extends Person implements TimeListener {
                     this.setDirection(Direction.Bottom);
 
                 move();
-            } else {
+            } else { // Acabou o caminho
                 if (currentSchedule.activityDirection != null) {
                     this.setDirection(currentSchedule.activityDirection);
+                    this.setState(State.valueOf(currentSchedule.animation));
                 }
             }
         }

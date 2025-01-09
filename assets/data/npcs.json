@@ -4,7 +4,8 @@
         "name": "Idle",
         "textureAtlas": ["IdleCorpo", "IdleCabeca"],
         "directions": ["Top", "Right", "Bottom", "Left"],
-        "timing": [0.3,0.12,0.12,0.12]
+        "timing": [0.3,0.12,0.12,0.12],
+        "delay": 2
     },{
         "name": "Walk",
         "textureAtlas": ["WalkCorpo", "WalkCabeca"],
@@ -25,11 +26,18 @@
         "name": "Idle",
         "textureAtlas": ["IdleCorpo", "IdleCabeca"],
         "directions": ["Top", "Right", "Bottom", "Left"],
-        "timing": [0.12,0.12,0.12,0.3]
+        "timing": [0.12,0.12,0.12,0.3],
+        "delay": 5
     },{
         "name": "Walk",
         "textureAtlas": ["WalkCorpo", "WalkCabeca"],
         "timing": 0.15
+    },{
+        "name": "Sit",
+        "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+        "directions": ["Right", "Left", "Bottom"],
+        "timing": 0.12,
+        "delay": 7
     }],
     "startPos": {
         "x": 129,
@@ -40,7 +48,16 @@
         "x": 1,
         "y": 1
     },
-    "extraschedule": [],
-    "freeTime": "basket"
+    "extraschedule": [{
+        "startingTime": {
+            "hour": 7,
+            "minutes": 0
+        },
+        "location": {
+            "x": 129,
+            "y": 23
+        },
+        "animation": "Sit"
+    }]
 }]
 }

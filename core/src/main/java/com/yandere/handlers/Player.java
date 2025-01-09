@@ -1,12 +1,8 @@
 package com.yandere.handlers;
 
-import java.util.Map;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Person;
 
@@ -14,8 +10,9 @@ public class Player extends Person {
     private boolean canMove = true;
     private float timeSinceLastDirection = 0.f; // Efeito pokemon, virar ao tocar, andar ao pressionar
 
-    public Player(Map<String, Animation<TextureRegion>> animations, MapHandler map) {
-        super("player", animations, map);
+    public Player(PlayerBuilder playerBuilder,
+            MapHandler map) {
+        super("player", playerBuilder.getPLayerAnimations(), playerBuilder.getPlayerAnimationsDelay(), map);
     }
 
     /*

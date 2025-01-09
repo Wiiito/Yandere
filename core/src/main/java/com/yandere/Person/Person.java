@@ -14,8 +14,10 @@ import com.yandere.handlers.MapHandler;
 public class Person extends GameObject {
     private String name;
     private Map<String, Animation<TextureRegion>> animations;
+    private Map<String, Float> animationsDelay;
     private Animation<TextureRegion> currentAnimation;
     private float elapsedTime = (float) Math.random();
+    private float animationDelayTimer = 0;
     private Direction direction = Direction.Bottom;
     private State currentState;
 
@@ -27,13 +29,15 @@ public class Person extends GameObject {
     protected MapHandler map;
 
     enum State {
-        Idle, Walk, Run, Sitting
+        Idle, Walk, Run, Sit
     }
 
-    public Person(String name, Map<String, Animation<TextureRegion>> animations, MapHandler map) {
+    public Person(String name, Map<String, Animation<TextureRegion>> animations, Map<String, Float> animatiosDelay,
+            MapHandler map) {
         this.name = name;
         this.animations = new HashMap<>(animations);
         this.map = map;
+        this.animationsDelay = new HashMap<>(animatiosDelay);
 
         this.currentAnimation = this.animations.entrySet().iterator().next().getValue();
 
@@ -135,21 +139,25 @@ public class Person extends GameObject {
                 thisFrameGridY = (int) thisFrameMovement.y / 16;
             }
 
-            if (desiredGridPosition.x == thisFrameGridX && desiredGridPosition.y == thisFrameGridY) {
-                this.setGridPosition(new Vector2(thisFrameGridX, thisFrameGridY));
-                snapToGrid();
-                handleFloorChange(this.getGridPosition());
-            } else {
-                this.setPosition(thisFrameMovement);
-            }
             if (speed <= 40) {
                 currentState = State.Walk;
             } else {
                 currentState = State.Run;
             }
-        } else {
-            currentState = State.Idle;
+
+            if (desiredGridPosition.x == thisFrameGridX && desiredGridPosition.y == thisFrameGridY) { // Ultimo quadrado
+                this.setGridPosition(new Vector2(thisFrameGridX, thisFrameGridY));
+                snapToGrid();
+                handleFloorChange(this.getGridPosition());
+                setState(State.Idle);
+            } else {
+                this.setPosition(thisFrameMovement);
+            }
         }
+    }
+
+    public void setState(State state) {
+        this.currentState = state;
     }
 
     public void setSpeed(float speed) {
@@ -160,6 +168,23 @@ public class Person extends GameObject {
     public void update(float deltaTime) {
         this.currentAnimation = animations.get(currentState.toString() + direction);
         elapsedTime += deltaTime;
+
+        float animationDuration = currentAnimation.getAnimationDuration();
+        TextureRegion lastFrameTextureRegion = currentAnimation.getKeyFrame(animationDuration);
+
+        // Se existe delay nessa animação
+        if (animationsDelay.get(currentState.toString()) != null) {
+            // Vendo se o frame atual é o ultimo frame da animação
+            if (lastFrameTextureRegion
+                    .equals(currentAnimation.getKeyFrame(elapsedTime - currentAnimation.getFrameDuration(), true))
+                    || animationDelayTimer > 0) {
+                elapsedTime = 0;
+                this.animationDelayTimer += deltaTime;
+            }
+            if (this.animationDelayTimer >= animationsDelay.get(currentState.toString())) {
+                this.animationDelayTimer = 0;
+            }
+        }
 
         handleMovement(deltaTime);
     }

@@ -14,12 +14,14 @@ import com.yandere.handlers.MapHandler;
 public class PersonBuilder {
     private String name;
     private Map<String, Animation<TextureRegion>> animations;
+    private Map<String, Float> animationsDelay;
     private MapHandler map;
     private Vector2 startingPos;
     private PriorityQueue<Schedule> npcSchedule;
 
     public PersonBuilder() {
         this.animations = new HashMap<>();
+        this.animationsDelay = new HashMap<>();
         this.npcSchedule = new PriorityQueue<>();
     }
 
@@ -30,6 +32,11 @@ public class PersonBuilder {
 
     public PersonBuilder addAnimation(String animationName, Animation<TextureRegion> animation) {
         this.animations.put(animationName, animation);
+        return this;
+    }
+
+    public PersonBuilder addAnimationDelay(String animationName, float delay) {
+        this.animationsDelay.put(animationName, delay);
         return this;
     }
 
@@ -49,14 +56,14 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        Person person = new Person(this.name, this.animations, this.map);
+        Person person = new Person(this.name, this.animations, this.animationsDelay, this.map);
         person.setGridPosition(startingPos);
         person.snapToGrid();
         return person;
     }
 
     public Npc buildNpc() {
-        Npc npc = new Npc(this.name, this.animations, this.map, this.npcSchedule);
+        Npc npc = new Npc(this.name, this.animations, this.animationsDelay, this.map, this.npcSchedule);
         npc.setGridPosition(startingPos);
         npc.snapToGrid();
         return npc;
@@ -65,6 +72,7 @@ public class PersonBuilder {
     public void dispose() {
         this.name = null;
         this.animations.clear();
+        this.animationsDelay.clear();
         this.npcSchedule.clear();
     }
 }

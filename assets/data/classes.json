@@ -3,13 +3,14 @@
         {
             "startingTime": {
                 "hour": 7,
-                "minutes": 20
+                "minutes": 0
             },
             "endTime": {
                 "hour": 8,
                 "minutes": 0
             },
-            "location": 101
+            "location": 101,
+            "animation": "Sit"
         },
         {
             "startingTime": {
@@ -20,7 +21,8 @@
                 "hour": 9,
                 "minutes": 0
             },
-            "location": 101
+            "location": 101,
+            "animation": "Sit"
         }
     ]
 }

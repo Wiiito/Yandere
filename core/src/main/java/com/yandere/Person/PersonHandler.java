@@ -23,15 +23,13 @@ public class PersonHandler {
 
     private ArrayList<Person> persons;
 
-    AnimationBuilder animationBuilder;
-    PersonBuilder personBuilder;
+    private AnimationBuilder animationBuilder;
+    private PersonBuilder personBuilder;
 
-    // TODO - Analisar se colocar tudo na memoria direto fica mais pesado, se ficar,
-    // remove essa brincadeira daqui de dentro e começa a ler quando precisar
-    JsonReader jsonReader;
-    JsonValue npcsJson;
-    JsonValue schedulesJson;
-    JsonValue locationsJson;
+    private JsonReader jsonReader;
+    private JsonValue npcsJson;
+    private JsonValue schedulesJson;
+    private JsonValue locationsJson;
 
     private Vector2 currentNpcChairLocation;
 
@@ -86,12 +84,13 @@ public class PersonHandler {
             Vector2 position = new Vector2(scheduleLocation.getInt("x"), scheduleLocation.getInt("y"));
             Direction activityDirection = Direction.valueOf(locationsJson.get(locationClass).getString("direction"));
 
-            // TODO - Load animation
+            String animation = currentClass.getString("animation");
 
             Schedule currentSchedule = new Schedule();
             currentSchedule.startingTime = startingTime;
             currentSchedule.position = position;
             currentSchedule.activityDirection = activityDirection;
+            currentSchedule.animation = animation;
             schedules.add(currentSchedule);
         }
 
@@ -123,7 +122,7 @@ public class PersonHandler {
             // Basicamente usando o erro como if, caso o valor timing não ser um float, cai
             // na exception
             try {
-                Float timingFloat = textureValue.getFloat("timing");
+                float timingFloat = textureValue.getFloat("timing");
                 for (int i = 0; i < directions.size(); i++) {
                     timings.add(timingFloat);
                 }
@@ -132,6 +131,13 @@ public class PersonHandler {
                         .get("timing").child; timingsOnJson != null; timingsOnJson = timingsOnJson.next) {
                     timings.add(timingsOnJson.asFloat());
                 }
+            }
+
+            // Carregando delay entre animações
+            try {
+                float animationDelay = textureValue.getFloat("delay");
+                personBuilder.addAnimationDelay(textureName, animationDelay);
+            } catch (Exception e) { // Simplismente nao adiciona ao array
             }
 
             // Carrega todas as texturas presentes na animação
