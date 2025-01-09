@@ -4,43 +4,48 @@ package com.yandere.handlers;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.yandere.gameInterfaces.Interactible;
 import com.yandere.lib.MapGrid;
 
-public class MapHandler {
-    private TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer mapRenderer;
+public class MapHandler extends OrthogonalTiledMapRenderer {
     private int currentLayer = 0;
-    private int layersCount = 9;
+    private int layersCount = 10;
     private int[] underPLayer = { 1, 2, 3, 4, 5 };
     private int[] walls = { 6, 7 };
     private int[] abovePlayer = { 8 };
+    private int[] objectsLayer = { 9 };
 
     private int[] actualUnderPlayer = underPLayer.clone();
     private int[] actualWalls = walls.clone();
     private int[] actualAbovePlayer = abovePlayer.clone();
+    private int[] actualObjects = objectsLayer.clone();
 
-    // TODO - BETTER MAP GRID
     private ArrayList<MapGrid> mapGrid;
 
     public MapHandler() {
-        tiledMap = new TmxMapLoader().load("map/map.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        super(new TmxMapLoader().load("map/map.tmx"));
         mapGrid = new ArrayList<>();
         mapGrid.add(new MapGrid(getMapTileLayer(0)));
-        mapGrid.add(new MapGrid(getMapTileLayer(9)));
+        mapGrid.add(new MapGrid(getMapTileLayer(this.layersCount)));
     }
 
     // Needs to be passed as gridPosition
     public boolean collides(Vector2 fromPosition, Vector2 toPosition) {
-        TiledMapTileLayer tileLayer = (TiledMapTileLayer) tiledMap.getLayers().get(currentLayer);
+        TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
         Cell cell = tileLayer.getCell((int) toPosition.x, (int) toPosition.y);
         Cell currentCell = tileLayer.getCell((int) fromPosition.x, (int) fromPosition.y);
         TiledMapTile tile = cell.getTile();
@@ -155,8 +160,61 @@ public class MapHandler {
         return false;
     }
 
+    public Interactible interact(Vector2 gridPosition) {
+        int x = 0;
+        int y = 0;
+        int objectWidth = 0;
+        int objectHeight = 0;
+        for (int objectLayer : objectsLayer) {
+            MapLayer layer = super.map.getLayers().get(objectLayer);
+
+            for (MapObject object : layer.getObjects()) {
+                if (object instanceof TiledMapTileMapObject) {
+                    final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
+                    final TiledMapTile tile = tileObject.getTile();
+
+                    x = Math.floorDiv((int) tileObject.getX(), 16);
+                    y = Math.floorDiv((int) tileObject.getY(), 16);
+
+                    objectWidth = Math.floorDiv(tile.getTextureRegion().getRegionWidth(), 16);
+                    objectHeight = Math.floorDiv(tile.getTextureRegion().getRegionHeight(), 16);
+                }
+
+                if (object instanceof RectangleMapObject) {
+                    final RectangleMapObject tileObject = (RectangleMapObject) object;
+                    final Rectangle tile = tileObject.getRectangle();
+
+                    x = Math.floorDiv((int) tile.getX(), 16);
+                    y = Math.floorDiv((int) tile.getY(), 16);
+
+                    objectWidth = Math.floorDiv((int) tile.getWidth(), 16);
+                    objectHeight = Math.floorDiv((int) tile.getHeight(), 16);
+                }
+
+                if (gridPosition.x >= x && gridPosition.x < x + objectWidth && gridPosition.y >= y
+                        && gridPosition.y < y + objectHeight) {
+                    Interactible interactible = new Interactible();
+                    interactible.type = Interactible.Type.valueOf(object.getProperties().get("Type", String.class));
+                    if (object.getProperties().get("Name", String.class) != null) {
+                        interactible.name = object.getProperties().get("Name", String.class);
+                    }
+                    interactible.dialog = object.getProperties().get("Dialog", String.class);
+
+                    if (object instanceof TiledMapTileMapObject) {
+                        // Talves considere mandar esse objeto para o jogador, pra dropar o item caso
+                        // troque
+                        layer.getObjects().remove(object);
+                    }
+
+                    return interactible;
+                }
+            }
+        }
+        return null;
+    }
+
     public Cell getCell(Vector2 position) {
-        TiledMapTileLayer tileLayer = (TiledMapTileLayer) tiledMap.getLayers().get(currentLayer);
+        TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
         Cell cell = tileLayer.getCell((int) position.x, (int) position.y);
 
         return cell;
@@ -170,7 +228,7 @@ public class MapHandler {
     }
 
     public TiledMapTileLayer getMapTileLayer(int layer) {
-        return (TiledMapTileLayer) tiledMap.getLayers().get(layer);
+        return (TiledMapTileLayer) super.map.getLayers().get(layer);
     }
 
     // TODO - Tira isso DAQUI
@@ -179,7 +237,7 @@ public class MapHandler {
     }
 
     public int getHeight() {
-        MapProperties props = tiledMap.getProperties();
+        MapProperties props = super.map.getProperties();
         return props.get("height", Integer.class);
     }
 
@@ -194,16 +252,19 @@ public class MapHandler {
         for (int i = 0; i < abovePlayer.length; i++) {
             this.actualAbovePlayer[i] = abovePlayer[i] + layer;
         }
+        for (int i = 0; i < objectsLayer.length; i++) {
+            this.actualObjects[i] = actualObjects[i] + layer;
+        }
     }
 
     public int getWidth() {
-        MapProperties props = tiledMap.getProperties();
+        MapProperties props = super.map.getProperties();
         return props.get("width", Integer.class);
     }
 
     public void renderUnderPLayer(OrthographicCamera camera) {
-        mapRenderer.setView(camera);
-        mapRenderer.render(actualUnderPlayer);
+        super.setView(camera);
+        super.render(actualUnderPlayer);
     }
 
     public int getLayerCount() {
@@ -307,18 +368,53 @@ public class MapHandler {
         }
 
         // left side render
-        mapRenderer.setView(camera.combined, camera.position.x - w / 2,
+        super.setView(camera.combined, camera.position.x - w / 2,
                 camera.position.y + wallViewRender + 16, w / 2 - leftInsideWalls, h / 2 - wallViewRender);
-        mapRenderer.render(actualWalls);
+        super.render(actualWalls);
 
         // Right side render
-        mapRenderer.setView(camera.combined, camera.position.x + rightInsideWalls,
+        super.setView(camera.combined, camera.position.x + rightInsideWalls,
                 camera.position.y + wallViewRender + 16, w / 2 - rightInsideWalls, h / 2 - wallViewRender);
-        mapRenderer.render(actualWalls);
+        super.render(actualWalls);
+    }
+
+    public void renderObject(MapObject object) {
+        if (object instanceof TiledMapTileMapObject) {
+            final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
+            final TiledMapTile tile = tileObject.getTile();
+
+            final float x = tileObject.getX();
+            final float y = tileObject.getY();
+
+            final TextureRegion region = tile.getTextureRegion();
+            batch.draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
+        }
+    }
+
+    public void renderObject(MapObject object, SpriteBatch batch) {
+        if (object instanceof TiledMapTileMapObject) {
+            final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
+            final TiledMapTile tile = tileObject.getTile();
+
+            final float x = tileObject.getX();
+            final float y = tileObject.getY();
+
+            final TextureRegion region = tile.getTextureRegion();
+            batch.draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
+        }
+    }
+
+    public void renderObjects(SpriteBatch batch) {
+        for (int objectLayer : objectsLayer) {
+            MapLayer layer = super.map.getLayers().get(objectLayer);
+            for (MapObject object : layer.getObjects()) {
+                renderObject(object, batch);
+            }
+        }
     }
 
     public void renderAbovePlayer(OrthographicCamera camera) {
-        mapRenderer.setView(camera);
-        mapRenderer.render(actualAbovePlayer);
+        super.setView(camera);
+        super.render(abovePlayer);
     }
 }

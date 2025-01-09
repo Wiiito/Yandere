@@ -11,6 +11,7 @@ import com.yandere.Person.Npc;
 import com.yandere.Person.Person;
 import com.yandere.Person.PersonHandler;
 import com.yandere.gameInterfaces.GameObject;
+import com.yandere.gameInterfaces.GameUi;
 import com.yandere.gameInterfaces.SceneInterface;
 import com.yandere.gameInterfaces.GameObject.Direction;
 import com.yandere.handlers.MapHandler;
@@ -27,6 +28,7 @@ public class GameInterface extends SceneInterface {
 
     public GameInterface() {
         TimeObserver.getInstance();
+        GameUi.instantiate();
 
         mapHanlder = new MapHandler();
 
@@ -53,6 +55,7 @@ public class GameInterface extends SceneInterface {
         this.beforeWall.clear();
 
         TimeObserver.update(deltaTIme * 25);
+        GameUi.getGameUi().update();
 
         camera.position.set(player.getPosition(), 0);
         super.update(deltaTIme);
@@ -66,16 +69,17 @@ public class GameInterface extends SceneInterface {
 
             if (o instanceof Npc) {
                 Person person = (Person) o;
-                if (person.getDirection() == Direction.Bottom) {
+                if (person.getDirection() == Direction.Top) {
                     yPosition--;
                 }
             }
 
-            Vector2 objectPositionOnGrid = new Vector2(xPosition, yPosition);
-
-            if (mapHanlder.isInsideWall(objectPositionOnGrid)) {
-                beforeWall.add(o);
-                onScreenIterator.remove();
+            if (!mapHanlder.isInsideWall(player.getGridPosition())) {
+                Vector2 objectPositionOnGrid = new Vector2(xPosition, yPosition);
+                if (mapHanlder.isInsideWall(objectPositionOnGrid)) {
+                    beforeWall.add(o);
+                    onScreenIterator.remove();
+                }
             }
         }
 
@@ -91,10 +95,18 @@ public class GameInterface extends SceneInterface {
         batch.end();
         mapHanlder.renderWalls(camera, player.getGridPosition());
         batch.begin();
+        mapHanlder.renderObjects(batch);
 
         super.render(batch);
 
         mapHanlder.renderAbovePlayer(camera);
+
+        GameUi.getGameUi().render(batch, camera.position.x - camera.viewportWidth / 2,
+                camera.position.y - camera.viewportHeight / 2, camera.viewportWidth, camera.viewportHeight);
+
+        font.draw(batch,
+                "TESTE", camera.position.x - camera.viewportWidth / 2,
+                camera.position.y - camera.viewportHeight / 2);
 
         font.draw(batch, TimeObserver.getTime().toString(), camera.position.x - camera.viewportWidth / 2,
                 camera.position.y + camera.viewportHeight / 2 - 16);

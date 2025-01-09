@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Person;
+import com.yandere.gameInterfaces.GameUi;
+import com.yandere.gameInterfaces.Interactible;
 
 public class Player extends Person {
     private boolean canMove = true;
@@ -25,42 +27,50 @@ public class Player extends Person {
     public InputAdapter getInputAdapter() {
         return new InputAdapter() {
             public boolean keyDown(int keyCode) {
-                switch (keyCode) {
-                    case Input.Keys.SHIFT_LEFT:
-                        setSpeed(60);
-                        return true;
-                    case Input.Keys.W:
-                        if (getDirection() == Direction.Top) {
-                            move();
-                        } else {
-                            setDirection(Direction.Top);
-                            timeSinceLastDirection = 0;
-                        }
-                        return true;
-                    case Input.Keys.D:
-                        if (getDirection() == Direction.Right) {
-                            move();
-                        } else {
-                            setDirection(Direction.Right);
-                            timeSinceLastDirection = 0;
-                        }
-                        return true;
-                    case Input.Keys.S:
-                        if (getDirection() == Direction.Bottom) {
-                            move();
-                        } else {
-                            setDirection(Direction.Bottom);
-                            timeSinceLastDirection = 0;
-                        }
-                        return true;
-                    case Input.Keys.A:
-                        if (getDirection() == Direction.Left) {
-                            move();
-                        } else {
-                            setDirection(Direction.Left);
-                            timeSinceLastDirection = 0;
-                        }
-                        return true;
+                if (canMove) {
+                    switch (keyCode) {
+                        case Input.Keys.SHIFT_LEFT:
+                            setSpeed(60);
+                            return true;
+                        case Input.Keys.W:
+                            if (getDirection() == Direction.Top) {
+                                move();
+                            } else {
+                                setDirection(Direction.Top);
+                                timeSinceLastDirection = 0;
+                            }
+                            return true;
+                        case Input.Keys.D:
+                            if (getDirection() == Direction.Right) {
+                                move();
+                            } else {
+                                setDirection(Direction.Right);
+                                timeSinceLastDirection = 0;
+                            }
+                            return true;
+                        case Input.Keys.S:
+                            if (getDirection() == Direction.Bottom) {
+                                move();
+                            } else {
+                                setDirection(Direction.Bottom);
+                                timeSinceLastDirection = 0;
+                            }
+                            return true;
+                        case Input.Keys.A:
+                            if (getDirection() == Direction.Left) {
+                                move();
+                            } else {
+                                setDirection(Direction.Left);
+                                timeSinceLastDirection = 0;
+                            }
+                            return true;
+                        case Input.Keys.E:
+                            Interactible resultInteractible = map.interact(getGridPosition());
+                            if (resultInteractible != null) {
+                                GameUi.getGameUi().showDialog(resultInteractible.name, resultInteractible.dialog);
+                            }
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -80,6 +90,9 @@ public class Player extends Person {
     public void update(float deltaTime) {
         super.update(deltaTime);
         timeSinceLastDirection += Gdx.graphics.getDeltaTime();
+
+        // Se tiver em dialogo, não se move
+        this.canMove = !GameUi.getGameUi().getIsInDialog();
 
         if (canMove) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)
