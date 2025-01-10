@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Npc;
 import com.yandere.Person.Person;
 import com.yandere.Person.PersonHandler;
+import com.yandere.gameInterfaces.BoxUI;
 import com.yandere.gameInterfaces.GameObject;
 import com.yandere.gameInterfaces.GameUi;
 import com.yandere.gameInterfaces.SceneInterface;
@@ -29,6 +30,7 @@ public class GameInterface extends SceneInterface {
     public GameInterface() {
         TimeObserver.getInstance();
         GameUi.instantiate();
+        BoxUI.instantiate();
 
         mapHanlder = new MapHandler();
 
@@ -56,6 +58,7 @@ public class GameInterface extends SceneInterface {
 
         TimeObserver.update(deltaTIme * 25);
         GameUi.getGameUi().update();
+        BoxUI.getBoxUI().update();
 
         camera.position.set(player.getPosition(), 0);
         super.update(deltaTIme);
@@ -92,7 +95,7 @@ public class GameInterface extends SceneInterface {
     @Override
     public void render(SpriteBatch batch) {
         for (GameObject gameObject : beforeWall) {
-            gameObject.render(batch);
+            gameObject.render(batch); 
         }
 
         batch.end();
@@ -106,6 +109,8 @@ public class GameInterface extends SceneInterface {
 
         GameUi.getGameUi().render(batch, camera.position.x - camera.viewportWidth / 2,
                 camera.position.y - camera.viewportHeight / 2, camera.viewportWidth, camera.viewportHeight);
+        
+        BoxUI.getBoxUI().render(batch, player.getPosition().x - 40, player.getPosition().y);
 
         font.draw(batch,
                 "TESTE", camera.position.x - camera.viewportWidth / 2,

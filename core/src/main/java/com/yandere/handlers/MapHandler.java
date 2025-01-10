@@ -22,399 +22,391 @@ import com.yandere.gameInterfaces.Interactible;
 import com.yandere.lib.MapGrid;
 
 public class MapHandler extends OrthogonalTiledMapRenderer {
-    private int currentLayer = 0;
-    private int layersCount = 10;
-    private int[] underPLayer = { 1, 2, 3, 4, 5 };
-    private int[] walls = { 6, 7 };
-    private int[] abovePlayer = { 8 };
-    private int[] objectsLayer = { 9 };
+	private int currentLayer = 0;
+	private int layersCount = 10;
+	private int[] underPLayer = { 1, 2, 3, 4, 5 };
+	private int[] walls = { 6, 7 };
+	private int[] abovePlayer = { 8 };
+	private int[] objectsLayer = { 9 };
 
-    private int[] actualUnderPlayer = underPLayer.clone();
-    private int[] actualWalls = walls.clone();
-    private int[] actualAbovePlayer = abovePlayer.clone();
-    private int[] actualObjects = objectsLayer.clone();
+	private int[] actualUnderPlayer = underPLayer.clone();
+	private int[] actualWalls = walls.clone();
+	private int[] actualAbovePlayer = abovePlayer.clone();
+	private int[] actualObjects = objectsLayer.clone();
 
-    private ArrayList<MapGrid> mapGrid;
+	private ArrayList<MapGrid> mapGrid;
 
-    public MapHandler() {
-        super(new TmxMapLoader().load("map/map.tmx"));
-        mapGrid = new ArrayList<>();
-        mapGrid.add(new MapGrid(getMapTileLayer(0)));
-        mapGrid.add(new MapGrid(getMapTileLayer(this.layersCount)));
-    }
+	public MapHandler() {
+		super(new TmxMapLoader().load("map/map.tmx"));
+		mapGrid = new ArrayList<>();
+		mapGrid.add(new MapGrid(getMapTileLayer(0)));
+		mapGrid.add(new MapGrid(getMapTileLayer(this.layersCount)));
+	}
 
-    // Needs to be passed as gridPosition
-    public boolean collides(Vector2 fromPosition, Vector2 toPosition) {
-        TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
-        Cell cell = tileLayer.getCell((int) toPosition.x, (int) toPosition.y);
-        Cell currentCell = tileLayer.getCell((int) fromPosition.x, (int) fromPosition.y);
-        TiledMapTile tile = cell.getTile();
+	// Needs to be passed as gridPosition
+	public boolean collides(Vector2 fromPosition, Vector2 toPosition) {
+		TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
+		Cell cell = tileLayer.getCell((int) toPosition.x, (int) toPosition.y);
+		Cell currentCell = tileLayer.getCell((int) fromPosition.x, (int) fromPosition.y);
+		TiledMapTile tile = cell.getTile();
 
-        Vector2 desiredDirection = toPosition.cpy().sub(fromPosition);
+		Vector2 desiredDirection = toPosition.cpy().sub(fromPosition);
 
-        // Colisoes dentro pra fora
-        if (currentCell.getTile().getProperties().get("blockDirections") != null) {
-            int rotation = !currentCell.getFlipVertically() ? currentCell.getRotation() : 2;
-            // Dentro da casa com uma parede e tentando andar para o lado da parede
-            if ((int) currentCell.getTile().getProperties().get("blockDirections") == 1) {
-                switch (rotation) {
-                    case 0:
-                        if (desiredDirection.idt(Vector2.Y))
-                            return true;
-                        break;
-                    case 1:
-                        if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-                            return true;
-                        break;
-                    case 2:
-                        if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-                            return true;
-                        break;
-                    case 3:
-                        if (desiredDirection.idt(Vector2.X))
-                            return true;
-                        break;
-                }
-            } else {
-                // Dentro de ma casa com duas paredes tentando andar para o lado de uma
-                switch (rotation) {
-                    case 0:
-                        if (desiredDirection.idt(Vector2.Y) || desiredDirection.idt(Vector2.X))
-                            return true;
-                        break;
-                    case 1:
-                        if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) ||
-                                desiredDirection.idt(Vector2.Y))
-                            return true;
-                        break;
-                    case 2:
-                        if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)) ||
-                                desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-                            return true;
-                        break;
-                    case 3:
-                        if (desiredDirection.idt(Vector2.X) ||
-                                desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-                            return true;
-                        break;
-                }
-            }
-        }
+		// Colisoes dentro pra fora
+		if (currentCell.getTile().getProperties().get("blockDirections") != null) {
+			int rotation = !currentCell.getFlipVertically() ? currentCell.getRotation() : 2;
+			// Dentro da casa com uma parede e tentando andar para o lado da parede
+			if ((int) currentCell.getTile().getProperties().get("blockDirections") == 1) {
+				switch (rotation) {
+				case 0:
+					if (desiredDirection.idt(Vector2.Y))
+						return true;
+					break;
+				case 1:
+					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+						return true;
+					break;
+				case 2:
+					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+						return true;
+					break;
+				case 3:
+					if (desiredDirection.idt(Vector2.X))
+						return true;
+					break;
+				}
+			} else {
+				// Dentro de ma casa com duas paredes tentando andar para o lado de uma
+				switch (rotation) {
+				case 0:
+					if (desiredDirection.idt(Vector2.Y) || desiredDirection.idt(Vector2.X))
+						return true;
+					break;
+				case 1:
+					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) || desiredDirection.idt(Vector2.Y))
+						return true;
+					break;
+				case 2:
+					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)) || desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+						return true;
+					break;
+				case 3:
+					if (desiredDirection.idt(Vector2.X) || desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+						return true;
+					break;
+				}
+			}
+		}
 
-        // Colisoes fora pra dentro
-        if ((boolean) tile.getProperties().get("walkable")) {
-            Object blockDirections = tile.getProperties().get("blockDirections");
-            if (blockDirections == null)
-                return false;
+		// Colisoes fora pra dentro
+		if ((boolean) tile.getProperties().get("walkable")) {
+			Object blockDirections = tile.getProperties().get("blockDirections");
+			if (blockDirections == null)
+				return false;
 
-            int rotation = !cell.getFlipVertically() ? cell.getRotation() : 2;
+			int rotation = !cell.getFlipVertically() ? cell.getRotation() : 2;
 
-            if ((int) blockDirections == 1) {
-                // Uma só parede
-                switch (rotation) {
-                    case 0:
-                        if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-                            return true;
-                        break;
-                    case 1:
-                        if (desiredDirection.idt(Vector2.X))
-                            return true;
-                        break;
-                    case 2:
-                        if (desiredDirection.idt(Vector2.Y))
-                            return true;
-                        break;
-                    case 3:
-                        if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-                            return true;
-                        break;
-                }
-            } else {
-                // Duas paredes
-                switch (rotation) {
-                    case 0:
-                        if (desiredDirection.idt(Vector2.Y.cpy().scl(-1))
-                                || desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-                            return true;
-                        break;
-                    case 1:
-                        if (desiredDirection.idt(Vector2.X) ||
-                                desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-                            return true;
-                        break;
-                    case 2:
-                        if (desiredDirection.idt(Vector2.Y) ||
-                                desiredDirection.idt(Vector2.X))
-                            return true;
-                        break;
-                    case 3:
-                        if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) ||
-                                desiredDirection.idt(Vector2.Y))
-                            return true;
-                        break;
-                }
-            }
-        } else {
-            return true;
-        }
-        return false;
-    }
+			if ((int) blockDirections == 1) {
+				// Uma só parede
+				switch (rotation) {
+				case 0:
+					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+						return true;
+					break;
+				case 1:
+					if (desiredDirection.idt(Vector2.X))
+						return true;
+					break;
+				case 2:
+					if (desiredDirection.idt(Vector2.Y))
+						return true;
+					break;
+				case 3:
+					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+						return true;
+					break;
+				}
+			} else {
+				// Duas paredes
+				switch (rotation) {
+				case 0:
+					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)) || desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+						return true;
+					break;
+				case 1:
+					if (desiredDirection.idt(Vector2.X) || desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+						return true;
+					break;
+				case 2:
+					if (desiredDirection.idt(Vector2.Y) || desiredDirection.idt(Vector2.X))
+						return true;
+					break;
+				case 3:
+					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) || desiredDirection.idt(Vector2.Y))
+						return true;
+					break;
+				}
+			}
+		} else {
+			return true;
+		}
+		return false;
+	}
 
-    public Interactible interact(Vector2 gridPosition) {
-        int x = 0;
-        int y = 0;
-        int objectWidth = 0;
-        int objectHeight = 0;
-        for (int objectLayer : objectsLayer) {
-            MapLayer layer = super.map.getLayers().get(objectLayer);
+	public Interactible interact(Vector2 gridPosition) {
+		int x = 0;
+		int y = 0;
+		int objectWidth = 0;
+		int objectHeight = 0;
+		for (int objectLayer : objectsLayer) {
+			MapLayer layer = super.map.getLayers().get(objectLayer);
 
-            for (MapObject object : layer.getObjects()) {
-                if (object instanceof TiledMapTileMapObject) {
-                    final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
-                    final TiledMapTile tile = tileObject.getTile();
+			for (MapObject object : layer.getObjects()) {
+				if (object instanceof TiledMapTileMapObject) {
+					final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
+					final TiledMapTile tile = tileObject.getTile();
 
-                    x = Math.floorDiv((int) tileObject.getX(), 16);
-                    y = Math.floorDiv((int) tileObject.getY(), 16);
+					x = Math.floorDiv((int) tileObject.getX(), 16);
+					y = Math.floorDiv((int) tileObject.getY(), 16);
 
-                    objectWidth = Math.floorDiv(tile.getTextureRegion().getRegionWidth(), 16);
-                    objectHeight = Math.floorDiv(tile.getTextureRegion().getRegionHeight(), 16);
-                }
+					objectWidth = Math.floorDiv(tile.getTextureRegion().getRegionWidth(), 16);
+					objectHeight = Math.floorDiv(tile.getTextureRegion().getRegionHeight(), 16);
 
-                if (object instanceof RectangleMapObject) {
-                    final RectangleMapObject tileObject = (RectangleMapObject) object;
-                    final Rectangle tile = tileObject.getRectangle();
+				}
 
-                    x = Math.floorDiv((int) tile.getX(), 16);
-                    y = Math.floorDiv((int) tile.getY(), 16);
+				if (object instanceof RectangleMapObject) {
+					final RectangleMapObject tileObject = (RectangleMapObject) object;
+					final Rectangle tile = tileObject.getRectangle();
 
-                    objectWidth = Math.floorDiv((int) tile.getWidth(), 16);
-                    objectHeight = Math.floorDiv((int) tile.getHeight(), 16);
-                }
+					x = Math.floorDiv((int) tile.getX(), 16);
+					y = Math.floorDiv((int) tile.getY(), 16);
 
-                if (gridPosition.x >= x && gridPosition.x < x + objectWidth && gridPosition.y >= y
-                        && gridPosition.y < y + objectHeight) {
-                    Interactible interactible = new Interactible();
-                    interactible.type = Interactible.Type.valueOf(object.getProperties().get("Type", String.class));
-                    if (object.getProperties().get("Name", String.class) != null) {
-                        interactible.name = object.getProperties().get("Name", String.class);
-                    }
-                    interactible.dialog = object.getProperties().get("Dialog", String.class);
+					objectWidth = Math.floorDiv((int) tile.getWidth(), 16);
+					objectHeight = Math.floorDiv((int) tile.getHeight(), 16);
+				}
 
-                    if (object instanceof TiledMapTileMapObject) {
-                        // Talves considere mandar esse objeto para o jogador, pra dropar o item caso
-                        // troque
-                        layer.getObjects().remove(object);
-                    }
+				if (gridPosition.x >= x && gridPosition.x < x + objectWidth && gridPosition.y >= y
+						&& gridPosition.y < y + objectHeight) {
+					Interactible interactible = new Interactible();
+					interactible.type = Interactible.Type.valueOf(object.getProperties().get("Type", String.class));
+					if (object.getProperties().get("Name", String.class) != null) {
+						interactible.name = object.getProperties().get("Name", String.class);
+					}
+					interactible.dialog = object.getProperties().get("Dialog", String.class);
 
-                    return interactible;
-                }
-            }
-        }
-        return null;
-    }
+					if (object instanceof TiledMapTileMapObject) {
+						// Talves considere mandar esse objeto para o jogador, pra dropar o item caso
+						// troque
+						layer.getObjects().remove(object);
+					}
 
-    public Cell getCell(Vector2 position) {
-        TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
-        Cell cell = tileLayer.getCell((int) position.x, (int) position.y);
+					return interactible;
+				}
+			}
+		}
+		return null;
+	}
 
-        return cell;
-    }
+	public Cell getCell(Vector2 position) {
+		TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
+		Cell cell = tileLayer.getCell((int) position.x, (int) position.y);
 
-    public boolean isInsideWall(Vector2 gridPosition) {
-        for (int wallLayer : walls)
-            if (getMapTileLayer(wallLayer).getCell((int) gridPosition.x, (int) gridPosition.y) != null)
-                return true;
-        return false;
-    }
+		return cell;
+	}
 
-    public TiledMapTileLayer getMapTileLayer(int layer) {
-        return (TiledMapTileLayer) super.map.getLayers().get(layer);
-    }
+	public boolean isInsideWall(Vector2 gridPosition) {
+		for (int wallLayer : walls)
+			if (getMapTileLayer(wallLayer).getCell((int) gridPosition.x, (int) gridPosition.y) != null)
+				return true;
+		return false;
+	}
 
-    // TODO - Tira isso DAQUI
-    public ArrayList<Vector2> getSiplifiedPath(Vector2 startPos, Vector2 finalPos, int layer) {
-        return mapGrid.get(layer).getSimplfiedPath(startPos, finalPos);
-    }
+	public TiledMapTileLayer getMapTileLayer(int layer) {
+		return (TiledMapTileLayer) super.map.getLayers().get(layer);
+	}
 
-    public int getHeight() {
-        MapProperties props = super.map.getProperties();
-        return props.get("height", Integer.class);
-    }
+	// TODO - Tira isso DAQUI
+	public ArrayList<Vector2> getSiplifiedPath(Vector2 startPos, Vector2 finalPos, int layer) {
+		return mapGrid.get(layer).getSimplfiedPath(startPos, finalPos);
+	}
 
-    public void changePlayerFloor(int layer) {
-        this.currentLayer = layer;
-        for (int i = 0; i < underPLayer.length; i++) {
-            this.actualUnderPlayer[i] = underPLayer[i] + layer;
-        }
-        for (int i = 0; i < walls.length; i++) {
-            this.actualWalls[i] = walls[i] + layer;
-        }
-        for (int i = 0; i < abovePlayer.length; i++) {
-            this.actualAbovePlayer[i] = abovePlayer[i] + layer;
-        }
-        for (int i = 0; i < objectsLayer.length; i++) {
-            this.actualObjects[i] = actualObjects[i] + layer;
-        }
-    }
+	public int getHeight() {
+		MapProperties props = super.map.getProperties();
+		return props.get("height", Integer.class);
+	}
 
-    public int getWidth() {
-        MapProperties props = super.map.getProperties();
-        return props.get("width", Integer.class);
-    }
+	public void changePlayerFloor(int layer) {
+		this.currentLayer = layer;
+		for (int i = 0; i < underPLayer.length; i++) {
+			this.actualUnderPlayer[i] = underPLayer[i] + layer;
+		}
+		for (int i = 0; i < walls.length; i++) {
+			this.actualWalls[i] = walls[i] + layer;
+		}
+		for (int i = 0; i < abovePlayer.length; i++) {
+			this.actualAbovePlayer[i] = abovePlayer[i] + layer;
+		}
+		for (int i = 0; i < objectsLayer.length; i++) {
+			this.actualObjects[i] = actualObjects[i] + layer;
+		}
+	}
 
-    public void renderUnderPLayer(OrthographicCamera camera) {
-        super.setView(camera);
-        super.render(actualUnderPlayer);
-    }
+	public int getWidth() {
+		MapProperties props = super.map.getProperties();
+		return props.get("width", Integer.class);
+	}
 
-    public int getLayerCount() {
-        return this.layersCount;
-    }
+	public void renderUnderPLayer(OrthographicCamera camera) {
+		super.setView(camera);
+		super.render(actualUnderPlayer);
+	}
 
-    public void renderWalls(OrthographicCamera camera, Vector2 playerGridPosition) {
-        float width = camera.viewportWidth * camera.zoom;
-        float height = camera.viewportHeight * camera.zoom;
-        float w = width * Math.abs(camera.up.y) + height * Math.abs(camera.up.x);
-        float h = height * Math.abs(camera.up.y) + width * Math.abs(camera.up.x);
+	public int getLayerCount() {
+		return this.layersCount;
+	}
 
-        boolean insideWall = false;
-        int wallViewRender = 0;
+	public void renderWalls(OrthographicCamera camera, Vector2 playerGridPosition) {
+		float width = camera.viewportWidth * camera.zoom;
+		float height = camera.viewportHeight * camera.zoom;
+		float w = width * Math.abs(camera.up.y) + height * Math.abs(camera.up.x);
+		float h = height * Math.abs(camera.up.y) + width * Math.abs(camera.up.x);
 
-        // Margens
-        int leftInsideWalls = 0;
-        int rightInsideWalls = 0;
+		boolean insideWall = false;
+		int wallViewRender = 0;
 
-        for (int wallLayer : walls) {
-            if (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x, (int) playerGridPosition.y) != null) {
-                insideWall = true;
-            }
-        }
+		// Margens
+		int leftInsideWalls = 0;
+		int rightInsideWalls = 0;
 
-        if (insideWall) {
-            int counter = 1;
-            int insideLeftWalls = 0;
-            int insideRightWalls = 0;
+		for (int wallLayer : walls) {
+			if (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x, (int) playerGridPosition.y) != null) {
+				insideWall = true;
+			}
+		}
 
-            // Calculando quantas paredes existem na esquerda
-            for (int i = 0; i > -9; i--) {
-                int emptyWallsCounter = 0;
-                for (int wallLayer : walls) {
-                    if (getMapTileLayer(wallLayer).getCell(Math.max((int) playerGridPosition.x +
-                            i, 0),
-                            (int) playerGridPosition.y) != null) {
-                        insideLeftWalls++;
-                        break;
-                    } else {
-                        emptyWallsCounter++;
-                    }
-                }
-                if (emptyWallsCounter >= walls.length) {
-                    break;
-                }
-            }
+		if (insideWall) {
+			int counter = 1;
+			int insideLeftWalls = 0;
+			int insideRightWalls = 0;
 
-            // Calculando quantas paredes existem na direita
-            for (int i = 0; i < 8; i++) {
-                int emptyWallsCounter = 0;
-                for (int wallLayer : walls) {
-                    if (getMapTileLayer(wallLayer).getCell(Math.min((int) playerGridPosition.x +
-                            i, this.getWidth()),
-                            (int) playerGridPosition.y) != null) {
-                        insideRightWalls++;
-                        break;
-                    } else {
-                        emptyWallsCounter++;
-                    }
-                }
-                if (emptyWallsCounter >= walls.length) {
-                    break;
-                }
-            }
+			// Calculando quantas paredes existem na esquerda
+			for (int i = 0; i > -9; i--) {
+				int emptyWallsCounter = 0;
+				for (int wallLayer : walls) {
+					if (getMapTileLayer(wallLayer).getCell(Math.max((int) playerGridPosition.x + i, 0),
+							(int) playerGridPosition.y) != null) {
+						insideLeftWalls++;
+						break;
+					} else {
+						emptyWallsCounter++;
+					}
+				}
+				if (emptyWallsCounter >= walls.length) {
+					break;
+				}
+			}
 
-            // Logica de desenho
-            if (insideRightWalls >= 8 && insideLeftWalls >= 8) { // Dentro de uma parede que completa a tela
-                for (int wallLayer : walls) {
-                    while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
-                            (int) playerGridPosition.y + counter) != null) {
-                        counter++;
-                    }
-                    wallViewRender = 16 * counter;
-                }
-            } else { // Dentro de parede incompleta
-                leftInsideWalls = insideLeftWalls * 16;
-                rightInsideWalls = insideRightWalls * 16 + 16;
-                int lower = 0;
-                for (int wallLayer : walls) {
-                    int insideCounter = 1;
-                    while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
-                            (int) playerGridPosition.y - insideCounter) != null) {
-                        insideCounter++;
-                    }
-                    lower = Math.max(insideCounter, lower);
-                }
-                wallViewRender = -16 * lower;
-            }
-        } else { // Fora de parede
-            int higher = 10;
-            for (int wallLayer : walls) {
-                int counter = 1;
-                while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
-                        (int) playerGridPosition.y - counter) == null && counter < 10) {
-                    counter++;
-                }
-                higher = Math.min(counter, higher);
-            }
-            wallViewRender = -16 * higher + 16;
-        }
+			// Calculando quantas paredes existem na direita
+			for (int i = 0; i < 8; i++) {
+				int emptyWallsCounter = 0;
+				for (int wallLayer : walls) {
+					if (getMapTileLayer(wallLayer).getCell(Math.min((int) playerGridPosition.x + i, this.getWidth()),
+							(int) playerGridPosition.y) != null) {
+						insideRightWalls++;
+						break;
+					} else {
+						emptyWallsCounter++;
+					}
+				}
+				if (emptyWallsCounter >= walls.length) {
+					break;
+				}
+			}
 
-        // left side render
-        super.setView(camera.combined, camera.position.x - w / 2,
-                camera.position.y + wallViewRender + 16, w / 2 - leftInsideWalls, h / 2 - wallViewRender);
-        super.render(actualWalls);
+			// Logica de desenho
+			if (insideRightWalls >= 8 && insideLeftWalls >= 8) { // Dentro de uma parede que completa a tela
+				for (int wallLayer : walls) {
+					while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
+							(int) playerGridPosition.y + counter) != null) {
+						counter++;
+					}
+					wallViewRender = 16 * counter;
+				}
+			} else { // Dentro de parede incompleta
+				leftInsideWalls = insideLeftWalls * 16;
+				rightInsideWalls = insideRightWalls * 16 + 16;
+				int lower = 0;
+				for (int wallLayer : walls) {
+					int insideCounter = 1;
+					while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
+							(int) playerGridPosition.y - insideCounter) != null) {
+						insideCounter++;
+					}
+					lower = Math.max(insideCounter, lower);
+				}
+				wallViewRender = -16 * lower;
+			}
+		} else { // Fora de parede
+			int higher = 10;
+			for (int wallLayer : walls) {
+				int counter = 1;
+				while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
+						(int) playerGridPosition.y - counter) == null && counter < 10) {
+					counter++;
+				}
+				higher = Math.min(counter, higher);
+			}
+			wallViewRender = -16 * higher + 16;
+		}
 
-        // Right side render
-        super.setView(camera.combined, camera.position.x + rightInsideWalls,
-                camera.position.y + wallViewRender + 16, w / 2 - rightInsideWalls, h / 2 - wallViewRender);
-        super.render(actualWalls);
-    }
+		// left side render
+		super.setView(camera.combined, camera.position.x - w / 2, camera.position.y + wallViewRender + 16,
+				w / 2 - leftInsideWalls, h / 2 - wallViewRender);
+		super.render(actualWalls);
 
-    public void renderObject(MapObject object) {
-        if (object instanceof TiledMapTileMapObject) {
-            final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
-            final TiledMapTile tile = tileObject.getTile();
+		// Right side render
+		super.setView(camera.combined, camera.position.x + rightInsideWalls, camera.position.y + wallViewRender + 16,
+				w / 2 - rightInsideWalls, h / 2 - wallViewRender);
+		super.render(actualWalls);
+	}
 
-            final float x = tileObject.getX();
-            final float y = tileObject.getY();
+	public void renderObject(MapObject object) {
+		if (object instanceof TiledMapTileMapObject) {
+			final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
+			final TiledMapTile tile = tileObject.getTile();
 
-            final TextureRegion region = tile.getTextureRegion();
-            batch.draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
-        }
-    }
+			final float x = tileObject.getX();
+			final float y = tileObject.getY();
 
-    public void renderObject(MapObject object, SpriteBatch batch) {
-        if (object instanceof TiledMapTileMapObject) {
-            final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
-            final TiledMapTile tile = tileObject.getTile();
+			final TextureRegion region = tile.getTextureRegion();
+			batch.draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
+		}
+	}
 
-            final float x = tileObject.getX();
-            final float y = tileObject.getY();
+	public void renderObject(MapObject object, SpriteBatch batch) {
+		if (object instanceof TiledMapTileMapObject) {
+			final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
+			final TiledMapTile tile = tileObject.getTile();
 
-            final TextureRegion region = tile.getTextureRegion();
-            batch.draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
-        }
-    }
+			final float x = tileObject.getX();
+			final float y = tileObject.getY();
 
-    public void renderObjects(SpriteBatch batch) {
-        for (int objectLayer : objectsLayer) {
-            MapLayer layer = super.map.getLayers().get(objectLayer);
-            for (MapObject object : layer.getObjects()) {
-                renderObject(object, batch);
-            }
-        }
-    }
+			final TextureRegion region = tile.getTextureRegion();
+			batch.draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
+		}
+	}
 
-    public void renderAbovePlayer(OrthographicCamera camera) {
-        super.setView(camera);
-        super.render(abovePlayer);
-    }
+	public void renderObjects(SpriteBatch batch) {
+		for (int objectLayer : objectsLayer) {
+			MapLayer layer = super.map.getLayers().get(objectLayer);
+			for (MapObject object : layer.getObjects()) {
+				renderObject(object, batch);
+			}
+		}
+	}
+
+	public void renderAbovePlayer(OrthographicCamera camera) {
+		super.setView(camera);
+		super.render(abovePlayer);
+	}
 }
