@@ -20,6 +20,14 @@
         "directions": ["Top", "Right", "Bottom", "Left"],
         "timing": [0.3,0.12,0.12,0.12],
         "delay": 2
+    },{
+        "name": "WeaponWalk",
+        "textureAtlas": ["WeaponWalkCorpo", "WeaponWalkCabeca"],
+        "timing": 0.15
+    },{
+        "name": "WeaponRun",
+        "textureAtlas": ["WeaponRunCorpo", "WeaponRunCabeca"],
+        "timing": 0.09
     }],
     "startPos": {
         "x": 7,

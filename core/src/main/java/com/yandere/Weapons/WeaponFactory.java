@@ -62,11 +62,12 @@ public class WeaponFactory {
     public Weapon getExtintor() {
         Map<String, Animation<TextureRegion>> animations = new HashMap<>();
         for (String animationName : playerAnimationsName) {
+            if (animationName.contains("Weapon")) // Pulando animações de arma, meio obvio o motivo
+                continue;
+
             for (int i = 0; i < Direction.values().length; i++) {
-                // TODO - MUDAR O "Idle" pra variavel animationName quando as animações
-                // estiverem prontas
                 TextureRegion textureRegion = TextureHandler.getInstance().getWeaponsAtlas()
-                        .findRegion("Idle" + "Sword" + Direction.values()[i]);
+                        .findRegion(animationName + "Sword" + Direction.values()[i]);
                 Animation<TextureRegion> currentAnimation = new Animation<>(animationsTimings.get(animationName).get(i),
                         TextureHandler.getInstance().textureRegionFromTexture(
                                 new Texture(TextureHandler.getInstance().pixmapFromTextureRegion(textureRegion)),

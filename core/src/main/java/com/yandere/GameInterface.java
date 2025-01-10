@@ -95,7 +95,7 @@ public class GameInterface extends SceneInterface {
     @Override
     public void render(SpriteBatch batch) {
         for (GameObject gameObject : beforeWall) {
-            gameObject.render(batch); 
+            gameObject.render(batch);
         }
 
         batch.end();
@@ -109,12 +109,6 @@ public class GameInterface extends SceneInterface {
 
         GameUi.getGameUi().render(batch, camera.position.x - camera.viewportWidth / 2,
                 camera.position.y - camera.viewportHeight / 2, camera.viewportWidth, camera.viewportHeight);
-        
-        BoxUI.getBoxUI().render(batch, player.getPosition().x - 40, player.getPosition().y);
-
-        font.draw(batch,
-                "TESTE", camera.position.x - camera.viewportWidth / 2,
-                camera.position.y - camera.viewportHeight / 2);
 
         font.draw(batch, TimeObserver.getTime().toString(), camera.position.x - camera.viewportWidth / 2,
                 camera.position.y + camera.viewportHeight / 2 - 16);

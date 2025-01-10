@@ -46,53 +46,54 @@ public class Player extends Person {
 			public boolean keyDown(int keyCode) {
 				if (canMove) {
 					switch (keyCode) {
-					case Input.Keys.SHIFT_LEFT:
-						setSpeed(60);
-						return true;
-					case Input.Keys.W:
-						if (getDirection() == Direction.Top) {
-							move();
-						} else {
-							setDirection(Direction.Top);
-							timeSinceLastDirection = 0;
-						}
-						return true;
-					case Input.Keys.D:
-						if (getDirection() == Direction.Right) {
-							move();
-						} else {
-							setDirection(Direction.Right);
-							timeSinceLastDirection = 0;
-						}
-						return true;
-					case Input.Keys.S:
-						if (getDirection() == Direction.Bottom) {
-							move();
-						} else {
-							setDirection(Direction.Bottom);
-							timeSinceLastDirection = 0;
-						}
-						return true;
-					case Input.Keys.A:
-						if (getDirection() == Direction.Left) {
-							move();
-						} else {
-							setDirection(Direction.Left);
-							timeSinceLastDirection = 0;
-						}
-						return true;
-					case Input.Keys.E:
-						Interactible resultInteractible = map.interact(getGridPosition());
-						if (resultInteractible != null && resultInteractible.type == Interactible.Type.Dialog) {
-							GameUi.getGameUi().showDialog(resultInteractible.name, resultInteractible.dialog);
-						} else if (resultInteractible != null && resultInteractible.type == Interactible.Type.Weapon) {
-							GameUi.getGameUi().showDialog(resultInteractible.dialog);
-							currentWeapon = weaponFactory.getWeapon(resultInteractible.name);
-						}
-						return true;
-					case Input.Keys.C:
-						isWeaponOut = !isWeaponOut;
-						return true;
+						case Input.Keys.SHIFT_LEFT:
+							setSpeed(60);
+							return true;
+						case Input.Keys.W:
+							if (getDirection() == Direction.Top) {
+								move();
+							} else {
+								setDirection(Direction.Top);
+								timeSinceLastDirection = 0;
+							}
+							return true;
+						case Input.Keys.D:
+							if (getDirection() == Direction.Right) {
+								move();
+							} else {
+								setDirection(Direction.Right);
+								timeSinceLastDirection = 0;
+							}
+							return true;
+						case Input.Keys.S:
+							if (getDirection() == Direction.Bottom) {
+								move();
+							} else {
+								setDirection(Direction.Bottom);
+								timeSinceLastDirection = 0;
+							}
+							return true;
+						case Input.Keys.A:
+							if (getDirection() == Direction.Left) {
+								move();
+							} else {
+								setDirection(Direction.Left);
+								timeSinceLastDirection = 0;
+							}
+							return true;
+						case Input.Keys.E:
+							Interactible resultInteractible = map.interact(getGridPosition());
+							if (resultInteractible != null && resultInteractible.type == Interactible.Type.Dialog) {
+								GameUi.getGameUi().showDialog(resultInteractible.name, resultInteractible.dialog);
+							} else if (resultInteractible != null
+									&& resultInteractible.type == Interactible.Type.Weapon) {
+								GameUi.getGameUi().showDialog(resultInteractible.dialog);
+								currentWeapon = weaponFactory.getWeapon(resultInteractible.name);
+							}
+							return true;
+						case Input.Keys.C:
+							isWeaponOut = !isWeaponOut;
+							return true;
 					}
 				}
 				return false;
@@ -100,9 +101,9 @@ public class Player extends Person {
 
 			public boolean keyUp(int keyCode) {
 				switch (keyCode) {
-				case Input.Keys.SHIFT_LEFT:
-					setSpeed(40);
-					return true;
+					case Input.Keys.SHIFT_LEFT:
+						setSpeed(40);
+						return true;
 				}
 				return false;
 			}

@@ -12,9 +12,7 @@ public class BoxUI {
 	private static BoxUI BoxUI;
 
 	private BoxUI() {
-		this.HelpBox = new Texture(Gdx.files.internal("interface/BoxE.jpg"));
-		
-		
+		this.HelpBox = new Texture(Gdx.files.internal("interface/BoxE.png"));
 	}
 
 	public static void instantiate() {
@@ -32,7 +30,6 @@ public class BoxUI {
 
 	public void showDialog() {
 		this.isInDialog = true;
-
 	}
 
 	public void update() {
@@ -43,8 +40,7 @@ public class BoxUI {
 
 	public void render(SpriteBatch batch, float screenPositionX, float screenPositionY) {
 		if (isInDialog) {
-			batch.draw(HelpBox, screenPositionX, screenPositionY);
-		
+			batch.draw(HelpBox, screenPositionX, screenPositionY, 8, 8);
 		}
 	}
 }

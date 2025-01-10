@@ -85,5 +85,7 @@ public class GameUi {
             font12.draw(batch, this.currentName, screenPositionX + 12, screenPositionY + 92);
             font10.draw(batch, this.currentDialog, screenPositionX + 16, screenPositionY + 74);
         }
+        BoxUI.getBoxUI().render(batch, screenPositionX + screenWidth / 2 + 12,
+                screenPositionY + screenHeight / 2 + 20);
     }
 }
