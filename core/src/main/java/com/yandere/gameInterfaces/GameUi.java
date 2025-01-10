@@ -12,10 +12,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class GameUi {
     private Texture dialogBox;
     private Texture nameBox;
-    private boolean isInDialog = true;
+    private boolean isInDialog = false;
 
-    private String currentDialog = "Não, não vou arredondar seu 15 para\n60!";
-    private String currentName = "Alisson";
+    private String currentDialog = "";
+    private String currentName = "";
 
     private BitmapFont font12;
     private BitmapFont font10;

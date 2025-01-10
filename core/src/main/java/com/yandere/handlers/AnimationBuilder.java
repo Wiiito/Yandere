@@ -28,7 +28,7 @@ public class AnimationBuilder {
                 Pixmap.Format.RGBA8888);
 
         for (TextureRegion textureRegion : loadedTextures) {
-            combinedPixmap.drawPixmap(TextureHandler.pixmapFromTextureRegion(textureRegion), 0, 0);
+            combinedPixmap.drawPixmap(TextureHandler.getInstance().pixmapFromTextureRegion(textureRegion), 0, 0);
         }
 
         return combinedPixmap;

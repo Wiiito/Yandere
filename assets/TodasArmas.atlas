@@ -1,0 +1,11 @@
+TodasArmas.png
+size:578,54
+repeat:none
+IdleSwordBottom
+bounds:0,0,288,26
+IdleSwordLeft
+bounds:0,28,288,26
+IdleSwordRight
+bounds:290,28,288,26
+IdleSwordTop
+bounds:290,0,96,26

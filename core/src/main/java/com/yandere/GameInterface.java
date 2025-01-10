@@ -72,6 +72,9 @@ public class GameInterface extends SceneInterface {
                 if (person.getDirection() == Direction.Top) {
                     yPosition--;
                 }
+                if (person.getCurrentLayer() != player.getCurrentLayer()) {
+                    onScreenIterator.remove();
+                }
             }
 
             if (!mapHanlder.isInsideWall(player.getGridPosition())) {

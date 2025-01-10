@@ -146,13 +146,13 @@ public class PersonHandler {
             for (int i = 0; i < directions.size(); i++) {
                 for (JsonValue textureAtlas = textureValue
                         .get("textureAtlas").child; textureAtlas != null; textureAtlas = textureAtlas.next) {
-                    TextureRegion textureRegion = TextureHandler.getAtlas()
+                    TextureRegion textureRegion = TextureHandler.getInstance().getPersonAtlas()
                             .findRegion(textureAtlas.toString() + directions.get(i));
                     animationBuilder.addTextureRegion(textureRegion);
                 }
                 Pixmap animationPixmap = animationBuilder.getPixmap();
                 Animation<TextureRegion> currentAnimation = new Animation<>(timings.get(i),
-                        TextureHandler.textureRegionFromTexture(new Texture(animationPixmap), 16, 24));
+                        TextureHandler.getInstance().textureRegionFromTexture(new Texture(animationPixmap), 16, 24));
                 personBuilder.addAnimation(textureName + directions.get(i), currentAnimation);
                 animationBuilder.reset();
             }

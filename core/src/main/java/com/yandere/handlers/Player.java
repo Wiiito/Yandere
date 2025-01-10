@@ -3,18 +3,25 @@ package com.yandere.handlers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Person;
+import com.yandere.Weapons.Weapon;
+import com.yandere.Weapons.WeaponFactory;
 import com.yandere.gameInterfaces.GameUi;
 import com.yandere.gameInterfaces.Interactible;
 
 public class Player extends Person {
     private boolean canMove = true;
     private float timeSinceLastDirection = 0.f; // Efeito pokemon, virar ao tocar, andar ao pressionar
+    private boolean isWeaponOut = false;
+    private Weapon currentWeapon;
+    private WeaponFactory weaponFactory;
 
     public Player(PlayerBuilder playerBuilder,
             MapHandler map) {
         super("player", playerBuilder.getPLayerAnimations(), playerBuilder.getPlayerAnimationsDelay(), map);
+        this.weaponFactory = new WeaponFactory();
     }
 
     /*
@@ -66,9 +73,16 @@ public class Player extends Person {
                             return true;
                         case Input.Keys.E:
                             Interactible resultInteractible = map.interact(getGridPosition());
-                            if (resultInteractible != null) {
+                            if (resultInteractible != null && resultInteractible.type == Interactible.Type.Dialog) {
                                 GameUi.getGameUi().showDialog(resultInteractible.name, resultInteractible.dialog);
+                            } else if (resultInteractible != null
+                                    && resultInteractible.type == Interactible.Type.Weapon) {
+                                GameUi.getGameUi().showDialog(resultInteractible.dialog);
+                                currentWeapon = weaponFactory.getWeapon(resultInteractible.name);
                             }
+                            return true;
+                        case Input.Keys.C:
+                            isWeaponOut = !isWeaponOut;
                             return true;
                     }
                 }
@@ -90,6 +104,10 @@ public class Player extends Person {
     public void update(float deltaTime) {
         super.update(deltaTime);
         timeSinceLastDirection += Gdx.graphics.getDeltaTime();
+        if (this.currentWeapon != null && isWeaponOut) {
+            super.currentAnimation = animations.get("Weapon" + this.getState().toString() + this.getDirection());
+            this.currentWeapon.setAnimation(this.getState().toString() + this.getDirection());
+        }
 
         // Se tiver em dialogo, não se move
         this.canMove = !GameUi.getGameUi().getIsInDialog();
@@ -129,5 +147,23 @@ public class Player extends Person {
         if (map.collides(gridPosition, desiredGridPosition))
             this.desiredGridPosition = gridPosition.cpy();
         super.handleMovement(deltaTime);
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        if (currentWeapon != null && isWeaponOut
+                && this.getDirection() == Direction.Left) {
+            batch.draw(currentWeapon.getFrame(super.elapsedTime), getPosition().x - 8, getPosition().y - 2);
+        } else if (currentWeapon != null && isWeaponOut
+                && this.getDirection() == Direction.Top) {
+            batch.draw(currentWeapon.getFrame(super.elapsedTime), getPosition().x, getPosition().y - 2);
+        }
+
+        super.render(batch);
+
+        if (currentWeapon != null && isWeaponOut
+                && (this.getDirection() == Direction.Bottom || this.getDirection() == Direction.Right)) {
+            batch.draw(currentWeapon.getFrame(super.elapsedTime), getPosition().x - 8, getPosition().y - 2);
+        }
     }
 }

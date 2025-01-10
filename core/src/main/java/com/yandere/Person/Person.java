@@ -13,10 +13,10 @@ import com.yandere.handlers.MapHandler;
 
 public class Person extends GameObject {
     private String name;
-    private Map<String, Animation<TextureRegion>> animations;
+    protected Map<String, Animation<TextureRegion>> animations;
     private Map<String, Float> animationsDelay;
-    private Animation<TextureRegion> currentAnimation;
-    private float elapsedTime = (float) Math.random();
+    protected Animation<TextureRegion> currentAnimation;
+    protected float elapsedTime = (float) Math.random();
     private float animationDelayTimer = 0;
     private Direction direction = Direction.Bottom;
     private State currentState;
@@ -28,7 +28,7 @@ public class Person extends GameObject {
 
     protected MapHandler map;
 
-    enum State {
+    public enum State {
         Idle, Walk, Run, Sit
     }
 
@@ -158,6 +158,10 @@ public class Person extends GameObject {
 
     public void setState(State state) {
         this.currentState = state;
+    }
+
+    public State getState() {
+        return this.currentState;
     }
 
     public void setSpeed(float speed) {

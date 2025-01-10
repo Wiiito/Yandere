@@ -956,6 +956,7 @@
   <object id="7" gid="7481" x="2240" y="1136" width="16" height="48">
    <properties>
     <property name="Dialog" value="Você pegou um extintor!"/>
+    <property name="Name" value="Extintor"/>
     <property name="Type" value="Weapon"/>
    </properties>
   </object>

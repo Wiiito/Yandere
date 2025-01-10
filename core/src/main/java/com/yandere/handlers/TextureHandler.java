@@ -10,23 +10,31 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class TextureHandler {
-    private static TextureAtlas atlas;
+    private static TextureHandler thisHandler;
+    private TextureAtlas atlas;
+    private TextureAtlas weaponAtlas;
 
     private TextureHandler() {
+        atlas = new TextureAtlas("Personagem.atlas");
+        weaponAtlas = new TextureAtlas("TodasArmas.atlas");
     }
 
-    public static void instantiate() {
-        if (atlas == null) {
-            atlas = new TextureAtlas("Personagem.atlas");
+    public static TextureHandler getInstance() {
+        if (thisHandler == null) {
+            thisHandler = new TextureHandler();
         }
+        return thisHandler;
     }
 
-    public static TextureAtlas getAtlas() {
-        instantiate();
-        return atlas;
+    public TextureAtlas getPersonAtlas() {
+        return this.atlas;
     }
 
-    public static Pixmap pixmapFromTextureRegion(TextureRegion textureRegion) {
+    public TextureAtlas getWeaponsAtlas() {
+        return this.weaponAtlas;
+    }
+
+    public Pixmap pixmapFromTextureRegion(TextureRegion textureRegion) {
         TextureData textureData = textureRegion.getTexture().getTextureData();
         if (!textureData.isPrepared()) {
             textureData.prepare();
@@ -44,7 +52,7 @@ public class TextureHandler {
         return pixmap;
     }
 
-    public static Array<Sprite> spritesFromTexture(Texture texture, int frameHeight, int frameWidth) {
+    public Array<Sprite> spritesFromTexture(Texture texture, int frameHeight, int frameWidth) {
         Array<Sprite> sprites = new Array<>();
 
         for (int y = 0; y < texture.getHeight(); y = y + frameHeight) {
@@ -56,7 +64,7 @@ public class TextureHandler {
         return sprites;
     }
 
-    public static Array<TextureRegion> textureRegionFromTexture(Texture texture, int frameWidth, int frameHeight) {
+    public Array<TextureRegion> textureRegionFromTexture(Texture texture, int frameWidth, int frameHeight) {
         Array<TextureRegion> textures = new Array<>();
 
         for (int y = 0; y < texture.getHeight(); y = y + frameHeight) {
