@@ -11,6 +11,7 @@ import com.yandere.Weapons.WeaponFactory;
 import com.yandere.gameInterfaces.BoxUI;
 import com.yandere.gameInterfaces.GameUi;
 import com.yandere.gameInterfaces.Interactible;
+import com.yandere.gameInterfaces.ScareNpc;
 
 public class Player extends Person {
 	private boolean canMove = true;
@@ -18,10 +19,12 @@ public class Player extends Person {
 	private boolean isWeaponOut = false;
 	private Weapon currentWeapon;
 	private WeaponFactory weaponFactory;
+	private ScareNpc weaponOutScareNpc;
 
 	public Player(PlayerBuilder playerBuilder, MapHandler map) {
 		super("player", playerBuilder.getPLayerAnimations(), playerBuilder.getPlayerAnimationsDelay(), map);
 		this.weaponFactory = new WeaponFactory();
+		weaponOutScareNpc = new ScareNpc(this.getGridPosition(), map, getCurrentLayer());
 	}
 
 	public boolean isCloseToObject() {
@@ -83,12 +86,12 @@ public class Player extends Person {
 							return true;
 						case Input.Keys.E:
 							Interactible resultInteractible = map.interact(getGridPosition());
-							if (resultInteractible != null && resultInteractible.type == Interactible.Type.Dialog) {
-								GameUi.getGameUi().showDialog(resultInteractible.name, resultInteractible.dialog);
-							} else if (resultInteractible != null
+							if (resultInteractible != null
 									&& resultInteractible.type == Interactible.Type.Weapon) {
 								GameUi.getGameUi().showDialog(resultInteractible.dialog);
 								currentWeapon = weaponFactory.getWeapon(resultInteractible.name);
+							} else if (resultInteractible != null) {
+								GameUi.getGameUi().showDialog(resultInteractible.name, resultInteractible.dialog);
 							}
 							return true;
 						case Input.Keys.C:
@@ -114,14 +117,18 @@ public class Player extends Person {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		timeSinceLastDirection += Gdx.graphics.getDeltaTime();
+
 		if (this.currentWeapon != null && isWeaponOut) {
 			super.currentAnimation = animations.get("Weapon" + this.getState().toString() + this.getDirection());
 			this.currentWeapon.setAnimation(this.getState().toString() + this.getDirection());
+
+			weaponOutScareNpc.setGridPosition(this.getGridPosition());
+			weaponOutScareNpc.update(deltaTime);
 		}
 
-		if (isCloseToObject()) {
-			BoxUI.getBoxUI().showDialog();
-		}
+		// if (isCloseToObject()) {
+		// BoxUI.getBoxUI().showDialog();
+		// }
 
 		// Se tiver em dialogo, não se move
 		this.canMove = !GameUi.getGameUi().getIsInDialog();
@@ -149,7 +156,8 @@ public class Player extends Person {
 	@Override
 	protected void handleFloorChange(Vector2 positionOnGrid) {
 		super.handleFloorChange(positionOnGrid);
-		map.changePlayerFloor(super.getCurrentLayer());
+		map.setCurrentFloor(super.getCurrentLayer());
+		this.weaponOutScareNpc.setFloor(super.getCurrentLayer());
 	}
 
 	@Override

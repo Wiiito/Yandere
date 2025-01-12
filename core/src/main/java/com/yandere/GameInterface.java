@@ -13,6 +13,7 @@ import com.yandere.Person.PersonHandler;
 import com.yandere.gameInterfaces.BoxUI;
 import com.yandere.gameInterfaces.GameObject;
 import com.yandere.gameInterfaces.GameUi;
+import com.yandere.gameInterfaces.ScareNpc;
 import com.yandere.gameInterfaces.SceneInterface;
 import com.yandere.gameInterfaces.GameObject.Direction;
 import com.yandere.handlers.MapHandler;
@@ -25,6 +26,7 @@ public class GameInterface extends SceneInterface {
     private MapHandler mapHanlder;
     private PriorityQueue<GameObject> beforeWall;
 
+    // TODO - TIRAR
     private BitmapFont font = new BitmapFont();
 
     public GameInterface() {
@@ -46,6 +48,8 @@ public class GameInterface extends SceneInterface {
         for (Person person : personHandler.getPersons()) {
             addObject(person);
         }
+
+        ScareNpc.setPersonsList(personHandler.getPersons());
 
         inputs.addProcessor(player.getInputAdapter());
 
@@ -110,6 +114,7 @@ public class GameInterface extends SceneInterface {
         GameUi.getGameUi().render(batch, camera.position.x - camera.viewportWidth / 2,
                 camera.position.y - camera.viewportHeight / 2, camera.viewportWidth, camera.viewportHeight);
 
+        // TODO, TIRAR DAQ E COLOCAR NA GAME UI, DEIXAR BONITO
         font.draw(batch, TimeObserver.getTime().toString(), camera.position.x - camera.viewportWidth / 2,
                 camera.position.y + camera.viewportHeight / 2 - 16);
     }

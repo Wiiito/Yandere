@@ -12,19 +12,19 @@ import com.yandere.gameInterfaces.GameObject;
 import com.yandere.handlers.MapHandler;
 
 public class Person extends GameObject {
-    private String name;
     protected Map<String, Animation<TextureRegion>> animations;
-    private Map<String, Float> animationsDelay;
-    protected Animation<TextureRegion> currentAnimation;
     protected float elapsedTime = (float) Math.random();
-    private float animationDelayTimer = 0;
+    protected Animation<TextureRegion> currentAnimation;
     private Direction direction = Direction.Bottom;
+    private Map<String, Float> animationsDelay;
+    private float animationDelayTimer = 0;
     private State currentState;
+    private String name;
 
-    protected Vector2 gridPosition;
     protected Vector2 desiredGridPosition;
-    private float speed = 40;
+    protected Vector2 gridPosition;
     private int currentLayer = 0;
+    private float speed = 40;
 
     protected MapHandler map;
 
@@ -193,6 +193,7 @@ public class Person extends GameObject {
         handleMovement(deltaTime);
     }
 
+    @Override
     public void render(SpriteBatch batch) {
         batch.draw(currentAnimation.getKeyFrame(elapsedTime, true), sprite.getX(), sprite.getY());
     }

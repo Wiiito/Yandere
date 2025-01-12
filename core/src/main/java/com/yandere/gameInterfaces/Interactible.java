@@ -2,7 +2,7 @@ package com.yandere.gameInterfaces;
 
 public class Interactible {
     public enum Type {
-        Weapon, Dialog, Hide
+        Weapon, Dialog, Hide, Alarm
     }
 
     public Type type;

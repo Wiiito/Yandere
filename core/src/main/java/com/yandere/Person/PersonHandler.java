@@ -20,7 +20,6 @@ import com.yandere.handlers.MapHandler;
 import com.yandere.handlers.TextureHandler;
 
 public class PersonHandler {
-
 	private ArrayList<Person> persons;
 
 	private AnimationBuilder animationBuilder;

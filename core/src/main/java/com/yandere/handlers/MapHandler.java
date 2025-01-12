@@ -19,6 +19,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.gameInterfaces.Interactible;
+import com.yandere.lib.DDACollision;
 import com.yandere.lib.MapGrid;
 
 public class MapHandler extends OrthogonalTiledMapRenderer {
@@ -35,15 +36,18 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 	private int[] actualObjects = objectsLayer.clone();
 
 	private ArrayList<MapGrid> mapGrid;
+	private DDACollision rayTracingCollision;
 
 	public MapHandler() {
 		super(new TmxMapLoader().load("map/map.tmx"));
 		mapGrid = new ArrayList<>();
 		mapGrid.add(new MapGrid(getMapTileLayer(0)));
 		mapGrid.add(new MapGrid(getMapTileLayer(this.layersCount)));
+		rayTracingCollision = new DDACollision();
 	}
 
-	// Needs to be passed as gridPosition
+	// Precisa passar como gridPosition (100 linhas de colisão pro jogador... kk,
+	// sisteminha de andar dentro de parede pra fazer realista ficou chein de if...)
 	public boolean collides(Vector2 fromPosition, Vector2 toPosition) {
 		TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
 		Cell cell = tileLayer.getCell((int) toPosition.x, (int) toPosition.y);
@@ -58,42 +62,43 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 			// Dentro da casa com uma parede e tentando andar para o lado da parede
 			if ((int) currentCell.getTile().getProperties().get("blockDirections") == 1) {
 				switch (rotation) {
-				case 0:
-					if (desiredDirection.idt(Vector2.Y))
-						return true;
-					break;
-				case 1:
-					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-						return true;
-					break;
-				case 2:
-					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-						return true;
-					break;
-				case 3:
-					if (desiredDirection.idt(Vector2.X))
-						return true;
-					break;
+					case 0:
+						if (desiredDirection.idt(Vector2.Y))
+							return true;
+						break;
+					case 1:
+						if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+							return true;
+						break;
+					case 2:
+						if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+							return true;
+						break;
+					case 3:
+						if (desiredDirection.idt(Vector2.X))
+							return true;
+						break;
 				}
 			} else {
 				// Dentro de ma casa com duas paredes tentando andar para o lado de uma
 				switch (rotation) {
-				case 0:
-					if (desiredDirection.idt(Vector2.Y) || desiredDirection.idt(Vector2.X))
-						return true;
-					break;
-				case 1:
-					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) || desiredDirection.idt(Vector2.Y))
-						return true;
-					break;
-				case 2:
-					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)) || desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-						return true;
-					break;
-				case 3:
-					if (desiredDirection.idt(Vector2.X) || desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-						return true;
-					break;
+					case 0:
+						if (desiredDirection.idt(Vector2.Y) || desiredDirection.idt(Vector2.X))
+							return true;
+						break;
+					case 1:
+						if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) || desiredDirection.idt(Vector2.Y))
+							return true;
+						break;
+					case 2:
+						if (desiredDirection.idt(Vector2.Y.cpy().scl(-1))
+								|| desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+							return true;
+						break;
+					case 3:
+						if (desiredDirection.idt(Vector2.X) || desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+							return true;
+						break;
 				}
 			}
 		}
@@ -109,42 +114,43 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 			if ((int) blockDirections == 1) {
 				// Uma só parede
 				switch (rotation) {
-				case 0:
-					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-						return true;
-					break;
-				case 1:
-					if (desiredDirection.idt(Vector2.X))
-						return true;
-					break;
-				case 2:
-					if (desiredDirection.idt(Vector2.Y))
-						return true;
-					break;
-				case 3:
-					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-						return true;
-					break;
+					case 0:
+						if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+							return true;
+						break;
+					case 1:
+						if (desiredDirection.idt(Vector2.X))
+							return true;
+						break;
+					case 2:
+						if (desiredDirection.idt(Vector2.Y))
+							return true;
+						break;
+					case 3:
+						if (desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+							return true;
+						break;
 				}
 			} else {
 				// Duas paredes
 				switch (rotation) {
-				case 0:
-					if (desiredDirection.idt(Vector2.Y.cpy().scl(-1)) || desiredDirection.idt(Vector2.X.cpy().scl(-1)))
-						return true;
-					break;
-				case 1:
-					if (desiredDirection.idt(Vector2.X) || desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
-						return true;
-					break;
-				case 2:
-					if (desiredDirection.idt(Vector2.Y) || desiredDirection.idt(Vector2.X))
-						return true;
-					break;
-				case 3:
-					if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) || desiredDirection.idt(Vector2.Y))
-						return true;
-					break;
+					case 0:
+						if (desiredDirection.idt(Vector2.Y.cpy().scl(-1))
+								|| desiredDirection.idt(Vector2.X.cpy().scl(-1)))
+							return true;
+						break;
+					case 1:
+						if (desiredDirection.idt(Vector2.X) || desiredDirection.idt(Vector2.Y.cpy().scl(-1)))
+							return true;
+						break;
+					case 2:
+						if (desiredDirection.idt(Vector2.Y) || desiredDirection.idt(Vector2.X))
+							return true;
+						break;
+					case 3:
+						if (desiredDirection.idt(Vector2.X.cpy().scl(-1)) || desiredDirection.idt(Vector2.Y))
+							return true;
+						break;
 				}
 			}
 		} else {
@@ -207,13 +213,6 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		return null;
 	}
 
-	public Cell getCell(Vector2 position) {
-		TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
-		Cell cell = tileLayer.getCell((int) position.x, (int) position.y);
-
-		return cell;
-	}
-
 	public boolean isInsideWall(Vector2 gridPosition) {
 		for (int wallLayer : walls)
 			if (getMapTileLayer(wallLayer).getCell((int) gridPosition.x, (int) gridPosition.y) != null)
@@ -221,13 +220,24 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		return false;
 	}
 
+	// Gets
+	public Cell getCell(Vector2 position) {
+		TiledMapTileLayer tileLayer = (TiledMapTileLayer) super.map.getLayers().get(currentLayer);
+		Cell cell = tileLayer.getCell((int) position.x, (int) position.y);
+
+		return cell;
+	}
+
 	public TiledMapTileLayer getMapTileLayer(int layer) {
 		return (TiledMapTileLayer) super.map.getLayers().get(layer);
 	}
 
-	// TODO - Tira isso DAQUI
-	public ArrayList<Vector2> getSiplifiedPath(Vector2 startPos, Vector2 finalPos, int layer) {
-		return mapGrid.get(layer).getSimplfiedPath(startPos, finalPos);
+	public MapGrid getMapGrid(int layer) {
+		return this.mapGrid.get(layer);
+	}
+
+	public DDACollision getRayTracingTest() {
+		return this.rayTracingCollision;
 	}
 
 	public int getHeight() {
@@ -235,7 +245,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		return props.get("height", Integer.class);
 	}
 
-	public void changePlayerFloor(int layer) {
+	public void setCurrentFloor(int layer) {
 		this.currentLayer = layer;
 		for (int i = 0; i < underPLayer.length; i++) {
 			this.actualUnderPlayer[i] = underPLayer[i] + layer;
@@ -256,13 +266,42 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		return props.get("width", Integer.class);
 	}
 
+	public int getLayerCount() {
+		return this.layersCount;
+	}
+
+	public Vector2 getClosestAlarm(Vector2 fromPosition, int layer) {
+		MapLayer mapLayer = super.map.getLayers().get(layer + this.layersCount - 1);
+
+		Vector2 alarmGridPosition = null;
+		float closestDistance = Float.MAX_VALUE;
+
+		for (MapObject object : mapLayer.getObjects()) {
+			if (object.getProperties().get("Type", String.class).equals(new String("Alarm"))) {
+				RectangleMapObject alarm = (RectangleMapObject) object;
+				Rectangle rectangle = alarm.getRectangle();
+
+				int alarmGridPosX = (int) rectangle.getX() / 16;
+				int alarmGridPosY = (int) rectangle.getY() / 16;
+
+				Vector2 currentAlarmGridPosition = new Vector2(alarmGridPosX, alarmGridPosY);
+				Vector2 vectorDistance = fromPosition.cpy().sub(currentAlarmGridPosition);
+
+				float distance = (float) Math.sqrt(Math.pow(vectorDistance.x, 2) + Math.pow(vectorDistance.y, 2));
+
+				if (closestDistance > distance) {
+					closestDistance = distance;
+					alarmGridPosition = currentAlarmGridPosition;
+				}
+			}
+		}
+		return alarmGridPosition;
+	}
+
+	// Rendering map
 	public void renderUnderPLayer(OrthographicCamera camera) {
 		super.setView(camera);
 		super.render(actualUnderPlayer);
-	}
-
-	public int getLayerCount() {
-		return this.layersCount;
 	}
 
 	public void renderWalls(OrthographicCamera camera, Vector2 playerGridPosition) {
@@ -368,19 +407,6 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		super.setView(camera.combined, camera.position.x + rightInsideWalls, camera.position.y + wallViewRender + 16,
 				w / 2 - rightInsideWalls, h / 2 - wallViewRender);
 		super.render(actualWalls);
-	}
-
-	public void renderObject(MapObject object) {
-		if (object instanceof TiledMapTileMapObject) {
-			final TiledMapTileMapObject tileObject = (TiledMapTileMapObject) object;
-			final TiledMapTile tile = tileObject.getTile();
-
-			final float x = tileObject.getX();
-			final float y = tileObject.getY();
-
-			final TextureRegion region = tile.getTextureRegion();
-			batch.draw(region, x, y, region.getRegionWidth(), region.getRegionHeight());
-		}
 	}
 
 	public void renderObject(MapObject object, SpriteBatch batch) {
