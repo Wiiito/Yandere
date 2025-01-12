@@ -13,7 +13,6 @@ import com.yandere.Person.PersonHandler;
 import com.yandere.gameInterfaces.BoxUI;
 import com.yandere.gameInterfaces.GameObject;
 import com.yandere.gameInterfaces.GameUi;
-import com.yandere.gameInterfaces.ScareNpc;
 import com.yandere.gameInterfaces.SceneInterface;
 import com.yandere.gameInterfaces.GameObject.Direction;
 import com.yandere.handlers.MapHandler;
@@ -43,13 +42,10 @@ public class GameInterface extends SceneInterface {
         player.snapToGrid();
         addObject(player);
 
-        PersonHandler personHandler;
-        personHandler = new PersonHandler(mapHanlder);
-        for (Person person : personHandler.getPersons()) {
+        new PersonHandler(mapHanlder);
+        for (Person person : PersonHandler.getPersons()) {
             addObject(person);
         }
-
-        ScareNpc.setPersonsList(personHandler.getPersons());
 
         inputs.addProcessor(player.getInputAdapter());
 

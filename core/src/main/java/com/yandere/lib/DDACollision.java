@@ -20,6 +20,9 @@ public class DDACollision {
         if (rayDirection.x < 0) {
             step.x = -1;
             rayLength.x = (gridStartingPos.x - mapCheck.x) * raySizeInDirection.x;
+        } else if (rayDirection.x == 0) {
+            step.x = 0;
+            rayLength.x = 0;
         } else {
             step.x = 1;
             rayLength.x = (mapCheck.x - gridStartingPos.x) * raySizeInDirection.x;
@@ -28,6 +31,9 @@ public class DDACollision {
         if (rayDirection.y < 0) {
             step.y = -1;
             rayLength.y = (gridStartingPos.y - mapCheck.y) * raySizeInDirection.y;
+        } else if (rayDirection.y == 0) {
+            step.y = 0;
+            rayLength.y = 0;
         } else {
             step.y = 1;
             rayLength.y = (mapCheck.y - gridStartingPos.y) * raySizeInDirection.y;

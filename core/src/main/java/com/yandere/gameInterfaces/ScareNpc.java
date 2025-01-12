@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Npc;
 import com.yandere.Person.Person;
+import com.yandere.Person.PersonHandler;
 import com.yandere.handlers.MapHandler;
 
 // Muda pra abstract depois
 public class ScareNpc extends GameObject {
-    private static ArrayList<Person> persons;
     private Vector2 gridPosition;
     private int currentFloor;
     private MapHandler map;
@@ -20,10 +20,6 @@ public class ScareNpc extends GameObject {
         this.map = map;
         this.gridPosition = startingGridPosition;
         this.currentFloor = deathFloor;
-    }
-
-    public static void setPersonsList(ArrayList<Person> _persons) {
-        persons = _persons;
     }
 
     public void setFloor(int floor) {
@@ -38,7 +34,7 @@ public class ScareNpc extends GameObject {
     public void update(float DeltaTime) {
         this.possibleTargets.clear();
 
-        for (Person person : persons) {
+        for (Person person : PersonHandler.getPersons()) {
             if (person.getCurrentLayer() != this.currentFloor)
                 continue;
 

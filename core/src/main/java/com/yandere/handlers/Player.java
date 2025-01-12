@@ -3,9 +3,12 @@ package com.yandere.handlers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.yandere.Person.Npc;
 import com.yandere.Person.Person;
+import com.yandere.Person.PersonHandler;
 import com.yandere.Weapons.Weapon;
 import com.yandere.Weapons.WeaponFactory;
 import com.yandere.gameInterfaces.BoxUI;
@@ -20,6 +23,9 @@ public class Player extends Person {
 	private Weapon currentWeapon;
 	private WeaponFactory weaponFactory;
 	private ScareNpc weaponOutScareNpc;
+
+	// TODO - REMOVE
+	Sprite teste = new Sprite();
 
 	public Player(PlayerBuilder playerBuilder, MapHandler map) {
 		super("player", playerBuilder.getPLayerAnimations(), playerBuilder.getPlayerAnimationsDelay(), map);
@@ -97,6 +103,10 @@ public class Player extends Person {
 						case Input.Keys.C:
 							isWeaponOut = !isWeaponOut;
 							return true;
+						case Input.Keys.SPACE:
+							if (currentWeapon != null && isWeaponOut)
+								hit(getDirection());
+							return true;
 					}
 				}
 				return false;
@@ -111,7 +121,35 @@ public class Player extends Person {
 				return false;
 			}
 		};
+	}
 
+	public void hit(Direction direction) {
+		// Faz animação de bater (seta booleana pra true, no update se for true altera
+		// animação)
+		Vector2 trueHitSquare = Vector2.Zero;
+		switch (direction) {
+			case Bottom:
+				trueHitSquare = new Vector2(0, -1);
+				break;
+			case Right:
+				trueHitSquare = new Vector2(1, 0);
+				break;
+			case Top:
+				trueHitSquare = new Vector2(0, 1);
+				break;
+			case Left:
+				trueHitSquare = new Vector2(-1, 0);
+				break;
+		}
+		trueHitSquare.add(this.getGridPosition());
+
+		for (Person personFromArray : PersonHandler.getPersons()) {
+			Npc person = (Npc) personFromArray;
+			if (person.getGridPosition().idt(this.getGridPosition())
+					|| person.getGridPosition().idt(trueHitSquare)) {
+				person.kill();
+			}
+		}
 	}
 
 	public void update(float deltaTime) {

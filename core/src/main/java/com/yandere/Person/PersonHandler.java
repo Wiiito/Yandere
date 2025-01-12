@@ -20,7 +20,7 @@ import com.yandere.handlers.MapHandler;
 import com.yandere.handlers.TextureHandler;
 
 public class PersonHandler {
-	private ArrayList<Person> persons;
+	private static ArrayList<Person> persons;
 
 	private AnimationBuilder animationBuilder;
 	private PersonBuilder personBuilder;
@@ -183,7 +183,7 @@ public class PersonHandler {
 		}
 	}
 
-	public ArrayList<Person> getPersons() {
-		return this.persons;
+	public static ArrayList<Person> getPersons() {
+		return persons;
 	}
 }

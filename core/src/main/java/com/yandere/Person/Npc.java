@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Schedule.Schedule;
 import com.yandere.Schedule.Time;
+import com.yandere.gameInterfaces.ScareNpc;
 import com.yandere.handlers.MapHandler;
 import com.yandere.lib.TimeListener;
 import com.yandere.lib.TimeObserver;
@@ -20,6 +21,7 @@ public class Npc extends Person implements TimeListener {
 
     private boolean isScared = false;
     private float scaredTimer = 1.5f; // Responsavel pela pausa dramatica e choque pelo corpo
+    private ScareNpc deadBody;
 
     public Npc(String name, Map<String, Animation<TextureRegion>> animations, Map<String, Float> animatiosDelay,
             MapHandler map,
@@ -44,6 +46,10 @@ public class Npc extends Person implements TimeListener {
         return this.isScared;
     }
 
+    public void kill() {
+        this.deadBody = new ScareNpc(this.getGridPosition(), map, this.getCurrentLayer());
+    }
+
     @Override
     public void timeChange(Time currentTime) {
         if (!schedule.isEmpty() && schedule.peek().startingTime.compareTo(currentTime) == 0) {
@@ -57,6 +63,11 @@ public class Npc extends Person implements TimeListener {
 
     @Override
     public void update(float deltaTime) {
+        if (deadBody != null) { // Coloca a animação de morte aq
+            deadBody.update(deltaTime);
+            return;
+        }
+
         super.update(deltaTime);
 
         if (isScared) {
