@@ -72,6 +72,7 @@ public class PersonHandler {
 		JsonValue classes = schedulesJson.get(schedule);
 		PriorityQueue<Schedule> schedules = new PriorityQueue<>();
 
+		// Schedule da classe
 		for (JsonValue currentClass = classes.child; currentClass != null; currentClass = currentClass.next) {
 			Time startingTime = new Time();
 			startingTime.hour = currentClass.get("startingTime").getInt("hour");
@@ -92,6 +93,29 @@ public class PersonHandler {
 			currentSchedule.activityDirection = activityDirection;
 			currentSchedule.animation = animation;
 			schedules.add(currentSchedule);
+		}
+
+		// OverSchedule
+		JsonValue extraSchedule = npc.get("extraschedule");
+		for (JsonValue currentSchedule = extraSchedule.child; currentSchedule != null; currentSchedule = currentSchedule.next) {
+			Time startingTime = new Time();
+			startingTime.hour = currentSchedule.get("startingTime").getInt("hour");
+			startingTime.minutes = currentSchedule.get("startingTime").getInt("minutes");
+
+			JsonValue location = currentSchedule.get("location");
+
+			Vector2 position = new Vector2(location.getInt("x"),
+					location.getInt("y"));
+			Direction activityDirection = Direction.valueOf(currentSchedule.getString("direction"));
+
+			String animation = currentSchedule.getString("animation");
+
+			Schedule addSchedule = new Schedule();
+			addSchedule.startingTime = startingTime;
+			addSchedule.position = position;
+			addSchedule.activityDirection = activityDirection;
+			addSchedule.animation = animation;
+			schedules.add(addSchedule);
 		}
 
 		personBuilder.setSchedule(schedules);

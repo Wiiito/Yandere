@@ -170,7 +170,6 @@ public class Person extends GameObject {
 
     @Override
     public void update(float deltaTime) {
-        this.currentAnimation = animations.get(currentState.toString() + direction);
         elapsedTime += deltaTime;
 
         float animationDuration = currentAnimation.getAnimationDuration();
@@ -191,6 +190,8 @@ public class Person extends GameObject {
         }
 
         handleMovement(deltaTime);
+
+        this.currentAnimation = animations.get(currentState.toString() + direction);
     }
 
     @Override

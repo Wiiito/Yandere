@@ -58,8 +58,8 @@
             "delay": 7
         }],
         "startPos": {
-            "x": 129,
-            "y": 23
+            "x": 130,
+            "y": 24
         },
         "schedule": "class01",
         "defaultChair": {
@@ -75,7 +75,8 @@
                 "x": 129,
                 "y": 23
             },
-            "animation": "Sit"
+            "animation": "Sit",
+            "direction": "Bottom"
         }]
     },{
         "name": "Pedro",
@@ -115,10 +116,11 @@
                 "minutes": 0
             },
             "location": {
-                "x": 129,
+                "x": 130,
                 "y": 23
             },
-            "animation": "Sit"
+            "animation": "Sit",
+            "direction": "Bottom"
         }]
     }]
 }

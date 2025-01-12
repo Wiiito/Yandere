@@ -126,9 +126,9 @@ public class Player extends Person {
 			weaponOutScareNpc.update(deltaTime);
 		}
 
-		// if (isCloseToObject()) {
-		// BoxUI.getBoxUI().showDialog();
-		// }
+		if (isCloseToObject()) {
+			BoxUI.getBoxUI().showDialog();
+		}
 
 		// Se tiver em dialogo, não se move
 		this.canMove = !GameUi.getGameUi().getIsInDialog();
