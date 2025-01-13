@@ -30,12 +30,12 @@
         "timing": 0.09
     }],
     "startPos": {
-        "x": 7,
-        "y": 20
+        "x": 57,
+        "y": 5
     }},
 
     "npcs": [{
-        "name": "Maria",
+        "name": "Rival",
         "textures": [{
             "name": "Idle",
             "textureAtlas": ["IdleCorpo", "IdleCabeca"],
@@ -58,7 +58,7 @@
             "delay": 7
         }],
         "startPos": {
-            "x": 130,
+            "x": 60,
             "y": 24
         },
         "schedule": "class01",
@@ -69,17 +69,17 @@
         "extraschedule": [{
             "startingTime": {
                 "hour": 7,
-                "minutes": 0
+                "minutes": 40
             },
             "location": {
-                "x": 129,
+                "x": 62,
                 "y": 23
             },
             "animation": "Sit",
             "direction": "Bottom"
         }]
     },{
-        "name": "Pedro",
+        "name": "Crush",
         "textures": [{
             "name": "Idle",
             "textureAtlas": ["IdleCorpo", "IdleCabeca"],
@@ -102,8 +102,8 @@
             "delay": 4
         }],
         "startPos": {
-            "x": 110,
-            "y": 12
+            "x": 39,
+            "y": 1
         },
         "schedule": "class01",
         "defaultChair": {
@@ -113,14 +113,907 @@
         "extraschedule": [{
             "startingTime": {
                 "hour": 7,
-                "minutes": 0
+                "minutes": 30
             },
             "location": {
-                "x": 130,
+                "x": 63,
                 "y": 23
             },
             "animation": "Sit",
             "direction": "Bottom"
         }]
+    },{
+        "name": "Npc1",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 2
+        },
+        "schedule": "class01",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc2",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 2
+        },
+        "schedule": "class01",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc3",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 74,
+            "y": 20
+        },
+        "schedule": "class01",
+        "defaultChair": {
+            "x": 2,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc4",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 12
+        },
+        "schedule": "class01",
+        "defaultChair": {
+            "x": 2,
+            "y": 1
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc5",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 12
+        },
+        "schedule": "class01",
+        "defaultChair": {
+            "x": 2,
+            "y": 2
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc6",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 101,
+            "y": 38
+        },
+        "schedule": "class01",
+        "defaultChair": {
+            "x": 0,
+            "y": 2
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc7",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 85,
+            "y": 38
+        },
+        "schedule": "class01",
+        "defaultChair": {
+            "x": 1,
+            "y": 2
+        },
+        "extraschedule": []
+    },
+    {
+        "name": "Npc11",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 5
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 7
+        }],
+        "startPos": {
+            "x": 60,
+            "y": 24
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 1,
+            "y": 1
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc12",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 39,
+            "y": 1
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 0,
+            "y": 1
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc13",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 2
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc14",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 2
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc15",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 74,
+            "y": 20
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 2,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc16",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 12
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 2,
+            "y": 1
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc17",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 12
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 2,
+            "y": 2
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc18",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 101,
+            "y": 38
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 0,
+            "y": 2
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc19",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 85,
+            "y": 38
+        },
+        "schedule": "class02",
+        "defaultChair": {
+            "x": 1,
+            "y": 2
+        },
+        "extraschedule": []
+    },
+    {
+        "name": "Npc21",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 5
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 7
+        }],
+        "startPos": {
+            "x": 60,
+            "y": 24
+        },
+        "schedule": "camb01",
+        "defaultChair": {
+            "x": 0,
+            "y": 1
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc22",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 39,
+            "y": 1
+        },
+        "schedule": "camb01",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc23",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 2
+        },
+        "schedule": "camb01",
+        "defaultChair": {
+            "x": 0,
+            "y": 2
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc24",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 2
+        },
+        "schedule": "camb01",
+        "defaultChair": {
+            "x": 0,
+            "y": 3
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc25",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 74,
+            "y": 20
+        },
+        "schedule": "camb02",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc26",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 12
+        },
+        "schedule": "camb02",
+        "defaultChair": {
+            "x": 0,
+            "y": 1
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc27",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 12
+        },
+        "schedule": "camb02",
+        "defaultChair": {
+            "x": 0,
+            "y": 2
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc28",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 101,
+            "y": 38
+        },
+        "schedule": "camb03",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc29",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 85,
+            "y": 38
+        },
+        "schedule": "camb03",
+        "defaultChair": {
+            "x": 0,
+            "y": 1
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc30",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 101,
+            "y": 38
+        },
+        "schedule": "camb03",
+        "defaultChair": {
+            "x": 0,
+            "y": 2
+        },
+        "extraschedule": []
+    },{
+        "name": "Npc31",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 85,
+            "y": 38
+        },
+        "schedule": "camb03",
+        "defaultChair": {
+            "x": 0,
+            "y": 3
+        },
+        "extraschedule": []
     }]
 }

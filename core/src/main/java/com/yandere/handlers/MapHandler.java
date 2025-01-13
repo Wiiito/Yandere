@@ -165,7 +165,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		int y = 0;
 		int objectWidth = 0;
 		int objectHeight = 0;
-		for (int objectLayer : objectsLayer) {
+		for (int objectLayer : actualObjects) {
 			MapLayer layer = super.map.getLayers().get(objectLayer);
 
 			for (MapObject object : layer.getObjects()) {
@@ -216,7 +216,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 	}
 
 	public boolean isInsideWall(Vector2 gridPosition) {
-		for (int wallLayer : walls)
+		for (int wallLayer : actualWalls)
 			if (getMapTileLayer(wallLayer).getCell((int) gridPosition.x, (int) gridPosition.y) != null)
 				return true;
 		return false;
@@ -259,7 +259,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 			this.actualAbovePlayer[i] = abovePlayer[i] + layer;
 		}
 		for (int i = 0; i < objectsLayer.length; i++) {
-			this.actualObjects[i] = actualObjects[i] + layer;
+			this.actualObjects[i] = objectsLayer[i] + layer;
 		}
 	}
 
@@ -319,7 +319,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		int leftInsideWalls = 0;
 		int rightInsideWalls = 0;
 
-		for (int wallLayer : walls) {
+		for (int wallLayer : actualWalls) {
 			if (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x, (int) playerGridPosition.y) != null) {
 				insideWall = true;
 			}
@@ -333,7 +333,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 			// Calculando quantas paredes existem na esquerda
 			for (int i = 0; i > -9; i--) {
 				int emptyWallsCounter = 0;
-				for (int wallLayer : walls) {
+				for (int wallLayer : actualWalls) {
 					if (getMapTileLayer(wallLayer).getCell(Math.max((int) playerGridPosition.x + i, 0),
 							(int) playerGridPosition.y) != null) {
 						insideLeftWalls++;
@@ -350,7 +350,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 			// Calculando quantas paredes existem na direita
 			for (int i = 0; i < 8; i++) {
 				int emptyWallsCounter = 0;
-				for (int wallLayer : walls) {
+				for (int wallLayer : actualWalls) {
 					if (getMapTileLayer(wallLayer).getCell(Math.min((int) playerGridPosition.x + i, this.getWidth()),
 							(int) playerGridPosition.y) != null) {
 						insideRightWalls++;
@@ -366,7 +366,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 
 			// Logica de desenho
 			if (insideRightWalls >= 8 && insideLeftWalls >= 8) { // Dentro de uma parede que completa a tela
-				for (int wallLayer : walls) {
+				for (int wallLayer : actualWalls) {
 					while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
 							(int) playerGridPosition.y + counter) != null) {
 						counter++;
@@ -377,7 +377,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 				leftInsideWalls = insideLeftWalls * 16;
 				rightInsideWalls = insideRightWalls * 16 + 16;
 				int lower = 0;
-				for (int wallLayer : walls) {
+				for (int wallLayer : actualWalls) {
 					int insideCounter = 1;
 					while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
 							(int) playerGridPosition.y - insideCounter) != null) {
@@ -389,7 +389,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 			}
 		} else { // Fora de parede
 			int higher = 10;
-			for (int wallLayer : walls) {
+			for (int wallLayer : actualWalls) {
 				int counter = 1;
 				while (getMapTileLayer(wallLayer).getCell((int) playerGridPosition.x,
 						(int) playerGridPosition.y - counter) == null && counter < 10) {
@@ -425,7 +425,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 	}
 
 	public void renderObjects(SpriteBatch batch) {
-		for (int objectLayer : objectsLayer) {
+		for (int objectLayer : actualObjects) {
 			MapLayer layer = super.map.getLayers().get(objectLayer);
 			for (MapObject object : layer.getObjects()) {
 				renderObject(object, batch);
@@ -435,6 +435,6 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 
 	public void renderAbovePlayer(OrthographicCamera camera) {
 		super.setView(camera);
-		super.render(abovePlayer);
+		super.render(actualAbovePlayer);
 	}
 }

@@ -58,9 +58,10 @@ public class SceneInterface {
 
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
-
-        for (GameObject gameObject : onScreenObjects) {
+        GameObject gameObject = onScreenObjects.poll();
+        while (gameObject != null) {
             gameObject.render(batch);
+            gameObject = onScreenObjects.poll();
         }
 
         // TODO - REMOVE

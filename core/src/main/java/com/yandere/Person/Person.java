@@ -190,7 +190,6 @@ public class Person extends GameObject {
         }
 
         handleMovement(deltaTime);
-
         this.currentAnimation = animations.get(currentState.toString() + direction);
     }
 

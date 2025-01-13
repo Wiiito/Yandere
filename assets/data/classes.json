@@ -3,13 +3,51 @@
         {
             "startingTime": {
                 "hour": 7,
-                "minutes": 20
-            },
-            "endTime": {
-                "hour": 8,
                 "minutes": 0
             },
-            "location": 101,
+            "location": "shoes1",
+            "animation": "Idle"
+        },
+        {
+            "startingTime": {
+                "hour": 8,
+                "minutes": 20
+            },
+            "location": "info1",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 9,
+                "minutes": 20
+            },
+            "location": "elelt2",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 10,
+                "minutes": 20
+            },
+            "location": "info1",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 11,
+                "minutes": 20
+            },
+            "location": "info0",
+            "animation": "Sit"
+        }
+    ],
+    "class02": [
+        {
+            "startingTime": {
+                "hour": 7,
+                "minutes": 10
+            },
+            "location": "info0",
             "animation": "Sit"
         },
         {
@@ -17,11 +55,157 @@
                 "hour": 8,
                 "minutes": 20
             },
-            "endTime": {
+            "location": "shoes2",
+            "animation": "Idle"
+        },
+        {
+            "startingTime": {
                 "hour": 9,
-                "minutes": 0
+                "minutes": 20
             },
-            "location": 101,
+            "location": "info1",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 10,
+                "minutes": 20
+            },
+            "location": "info0",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 11,
+                "minutes": 20
+            },
+            "location": "elelt2",
+            "animation": "Sit"
+        }
+    ],
+    "camb01": [
+        {
+            "startingTime": {
+                "hour": 7,
+                "minutes": 20
+            },
+            "location": "camb1",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 8,
+                "minutes": 20
+            },
+            "location": "camb2",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 9,
+                "minutes": 20
+            },
+            "location": "camb3",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 10,
+                "minutes": 20
+            },
+            "location": "shoes1",
+            "animation": "Idle"
+        },
+        {
+            "startingTime": {
+                "hour": 11,
+                "minutes": 20
+            },
+            "location": "camb1",
+            "animation": "Sit"
+        }
+    ],
+    "camb02": [
+        {
+            "startingTime": {
+                "hour": 7,
+                "minutes": 20
+            },
+            "location": "camb2",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 8,
+                "minutes": 20
+            },
+            "location": "camb1",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 9,
+                "minutes": 20
+            },
+            "location": "shoes2",
+            "animation": "Idle"
+        },
+        {
+            "startingTime": {
+                "hour": 10,
+                "minutes": 20
+            },
+            "location": "camb1",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 11,
+                "minutes": 20
+            },
+            "location": "camb2",
+            "animation": "Sit"
+        }
+    ],
+    "camb03": [
+        {
+            "startingTime": {
+                "hour": 7,
+                "minutes": 20
+            },
+            "location": "camb3",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 8,
+                "minutes": 20
+            },
+            "location": "camb3",
+            "animation": "Sit"
+        },
+        {
+            "startingTime": {
+                "hour": 9,
+                "minutes": 20
+            },
+            "location": "shoes2",
+            "animation": "Idle"
+        },
+        {
+            "startingTime": {
+                "hour": 10,
+                "minutes": 20
+            },
+            "location": "shoes2",
+            "animation": "Idle"
+        },
+        {
+            "startingTime": {
+                "hour": 11,
+                "minutes": 20
+            },
+            "location": "camb3",
             "animation": "Sit"
         }
     ]

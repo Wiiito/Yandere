@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.yandere.gameInterfaces.GameObject.Direction;
@@ -17,6 +18,11 @@ import com.yandere.gameInterfaces.GameObject.Direction;
 public class PlayerBuilder {
     Map<String, Animation<TextureRegion>> animationsMap = new HashMap<>();
     Map<String, Float> animationsDelay = new HashMap<>();
+    Vector2 initialPos;
+
+    public PlayerBuilder() {
+        this.loadPlayerData();
+    }
 
     public void loadPlayerData() {
         AnimationBuilder animationBuilder = new AnimationBuilder();
@@ -80,6 +86,12 @@ public class PlayerBuilder {
                 animationBuilder.reset();
             }
         }
+
+        this.initialPos = new Vector2(playerData.get("startPos").getInt("x"), playerData.get("startPos").getInt("y"));
+    }
+
+    public Vector2 getInitialPosition() {
+        return this.initialPos;
     }
 
     public Map<String, Animation<TextureRegion>> getPLayerAnimations() {

@@ -14,7 +14,7 @@ import com.yandere.gameInterfaces.BoxUI;
 import com.yandere.gameInterfaces.GameObject;
 import com.yandere.gameInterfaces.GameUi;
 import com.yandere.gameInterfaces.SceneInterface;
-import com.yandere.gameInterfaces.GameObject.Direction;
+// import com.yandere.gameInterfaces.GameObject.Direction;
 import com.yandere.handlers.MapHandler;
 import com.yandere.handlers.Player;
 import com.yandere.handlers.PlayerBuilder;
@@ -35,10 +35,8 @@ public class GameInterface extends SceneInterface {
 
         mapHanlder = new MapHandler();
 
-        PlayerBuilder pb = new PlayerBuilder();
-        pb.loadPlayerData();
-        player = new Player(pb, mapHanlder);
-        player.setGridPosition(new Vector2(124, 27));
+        player = new Player(new PlayerBuilder(), mapHanlder);
+        // player.setGridPosition(new Vector2(124, 27));
         player.snapToGrid();
         addObject(player);
 
@@ -69,23 +67,18 @@ public class GameInterface extends SceneInterface {
 
             int xPosition = -Math.floorDiv((int) -o.getPosition().x, 16);
             int yPosition = -Math.floorDiv((int) -o.getPosition().y, 16);
+            Vector2 objectPositionOnGrid = new Vector2(xPosition, yPosition);
 
             if (o instanceof Npc) {
                 Person person = (Person) o;
-                if (person.getDirection() == Direction.Top) {
-                    yPosition--;
-                }
                 if (person.getCurrentLayer() != player.getCurrentLayer()) {
                     onScreenIterator.remove();
                 }
             }
 
-            if (!mapHanlder.isInsideWall(player.getGridPosition())) {
-                Vector2 objectPositionOnGrid = new Vector2(xPosition, yPosition);
-                if (mapHanlder.isInsideWall(objectPositionOnGrid)) {
-                    beforeWall.add(o);
-                    onScreenIterator.remove();
-                }
+            if (mapHanlder.isInsideWall(objectPositionOnGrid)) {
+                beforeWall.add(o);
+                onScreenIterator.remove();
             }
         }
 
@@ -94,8 +87,10 @@ public class GameInterface extends SceneInterface {
 
     @Override
     public void render(SpriteBatch batch) {
-        for (GameObject gameObject : beforeWall) {
+        GameObject gameObject = beforeWall.poll();
+        while (gameObject != null) {
             gameObject.render(batch);
+            gameObject = beforeWall.poll();
         }
 
         batch.end();

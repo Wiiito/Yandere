@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.gameInterfaces.AStarCallback;
 

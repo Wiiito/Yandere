@@ -3,7 +3,6 @@ package com.yandere.handlers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Npc;
@@ -24,11 +23,10 @@ public class Player extends Person {
 	private WeaponFactory weaponFactory;
 	private ScareNpc weaponOutScareNpc;
 
-	// TODO - REMOVE
-	Sprite teste = new Sprite();
-
 	public Player(PlayerBuilder playerBuilder, MapHandler map) {
 		super("player", playerBuilder.getPLayerAnimations(), playerBuilder.getPlayerAnimationsDelay(), map);
+		this.setGridPosition(playerBuilder.getInitialPosition());
+		this.snapToGrid();
 		this.weaponFactory = new WeaponFactory();
 		weaponOutScareNpc = new ScareNpc(this.getGridPosition(), map, getCurrentLayer());
 	}
