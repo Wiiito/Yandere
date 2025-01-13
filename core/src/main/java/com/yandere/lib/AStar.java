@@ -4,52 +4,23 @@ package com.yandere.lib;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.PriorityQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import com.badlogic.gdx.math.Vector2;
+import com.yandere.gameInterfaces.AStarCallback;
 
 public class AStar {
     MapGrid mapGrid;
+    ExecutorService threadPool;
 
     public AStar(MapGrid mapGrid) {
         this.mapGrid = mapGrid;
+        threadPool = Executors.newFixedThreadPool(1);
     }
 
-    public ArrayList<Vector2> findPath(Vector2 startPos, Vector2 endPos) {
-        PriorityQueue<MapGrid.Chamber> openSet;
-        ArrayList<MapGrid.Chamber> closedSet;
-        openSet = new PriorityQueue<>();
-        closedSet = new ArrayList<>();
-        MapGrid.Chamber startChamber = mapGrid.getChamber(startPos);
-        MapGrid.Chamber endChamber = mapGrid.getChamber(endPos);
-
-        openSet.add(startChamber);
-
-        while (!openSet.isEmpty()) {
-            MapGrid.Chamber currentChamber = openSet.poll();
-            closedSet.add(currentChamber);
-
-            if (currentChamber == endChamber) {
-                return retracePath(startChamber, endChamber);
-            }
-
-            for (MapGrid.Chamber neighbour : mapGrid.getNeighbours(currentChamber)) {
-                if (!neighbour.getWalkable() || closedSet.contains(neighbour)) {
-                    continue;
-                }
-
-                int newMovementCostToNeighbour = currentChamber.getGCost() + 1;
-                if (newMovementCostToNeighbour < neighbour.getGCost() || !openSet.contains(neighbour)) {
-                    neighbour.setGCost(newMovementCostToNeighbour);
-                    neighbour.setHCost(mapGrid.getDistance(neighbour, endChamber));
-                    neighbour.setParent(currentChamber);
-
-                    if (!openSet.contains(neighbour)) {
-                        openSet.add(neighbour);
-                    }
-                }
-            }
-        }
-        return new ArrayList<>();
+    public void findPath(Vector2 startPos, Vector2 endPos, AStarCallback callback) {
+        threadPool.execute(new Algorithm(startPos, endPos, callback));
     }
 
     private ArrayList<Vector2> retracePath(MapGrid.Chamber startNode, MapGrid.Chamber lastChamber) {
@@ -64,7 +35,7 @@ public class AStar {
         return path;
     }
 
-    public ArrayList<Vector2> simplifyPath(ArrayList<Vector2> completeList) {
+    public static ArrayList<Vector2> simplifyPath(ArrayList<Vector2> completeList) {
         ArrayList<Vector2> simpleList = new ArrayList<>();
         Vector2 oldDirection = Vector2.Zero;
 
@@ -85,5 +56,55 @@ public class AStar {
         }
 
         return simpleList;
+    }
+
+    class Algorithm implements Runnable {
+        AStarCallback callback;
+        Vector2 startPos;
+        Vector2 endPos;
+
+        public Algorithm(Vector2 startPos, Vector2 endPos, AStarCallback callback) {
+            this.startPos = startPos;
+            this.endPos = endPos;
+            this.callback = callback;
+        }
+
+        @Override
+        public void run() {
+            PriorityQueue<MapGrid.Chamber> openSet;
+            ArrayList<MapGrid.Chamber> closedSet;
+            openSet = new PriorityQueue<>();
+            closedSet = new ArrayList<>();
+            MapGrid.Chamber startChamber = mapGrid.getChamber(startPos);
+            MapGrid.Chamber endChamber = mapGrid.getChamber(endPos);
+
+            openSet.add(startChamber);
+
+            while (!openSet.isEmpty()) {
+                MapGrid.Chamber currentChamber = openSet.poll();
+                closedSet.add(currentChamber);
+
+                if (currentChamber == endChamber) {
+                    callback.pathFind(retracePath(startChamber, endChamber));
+                }
+
+                for (MapGrid.Chamber neighbour : mapGrid.getNeighbours(currentChamber)) {
+                    if (!neighbour.getWalkable() || closedSet.contains(neighbour)) {
+                        continue;
+                    }
+
+                    int newMovementCostToNeighbour = currentChamber.getGCost() + 1;
+                    if (newMovementCostToNeighbour < neighbour.getGCost() || !openSet.contains(neighbour)) {
+                        neighbour.setGCost(newMovementCostToNeighbour);
+                        neighbour.setHCost(mapGrid.getDistance(neighbour, endChamber));
+                        neighbour.setParent(currentChamber);
+
+                        if (!openSet.contains(neighbour)) {
+                            openSet.add(neighbour);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Schedule.Schedule;
 import com.yandere.Schedule.Time;
+import com.yandere.gameInterfaces.AStarCallback;
 import com.yandere.gameInterfaces.ScareNpc;
 import com.yandere.handlers.MapHandler;
+import com.yandere.lib.AStar;
 import com.yandere.lib.TimeListener;
 import com.yandere.lib.TimeObserver;
 
-public class Npc extends Person implements TimeListener {
+public class Npc extends Person implements TimeListener, AStarCallback {
     private PriorityQueue<Schedule> schedule;
     private ArrayList<Vector2> currentPath;
     private Schedule currentSchedule;
@@ -35,8 +37,8 @@ public class Npc extends Person implements TimeListener {
     public void scare() {
         Vector2 closestAlarm = this.map.getClosestAlarm(this.gridPosition, super.getCurrentLayer());
         this.setSpeed(50);
-        this.currentPath = this.map.getMapGrid(getCurrentLayer() * (map.getLayerCount() - 1))
-                .getSimplfiedPath(this.getGridPosition(), closestAlarm);
+        this.map.getMapGrid(getCurrentLayer() * (map.getLayerCount() - 1))
+                .getSimplfiedPath(this.getGridPosition(), closestAlarm, this);
 
         this.scaredTimer = 0.f;
         this.isScared = true;
@@ -50,15 +52,19 @@ public class Npc extends Person implements TimeListener {
         this.deadBody = new ScareNpc(this.getGridPosition(), map, this.getCurrentLayer());
     }
 
+    public void pathFind(ArrayList<Vector2> path) {
+        this.currentPath = AStar.simplifyPath(path);
+    }
+
     @Override
     public void timeChange(Time currentTime) {
         if (!schedule.isEmpty() && schedule.peek().startingTime.compareTo(currentTime) == 0) {
             currentSchedule = schedule.poll();
         }
         if (currentSchedule != null && !isScared)
-            currentPath = map.getMapGrid(getCurrentLayer() * (map.getLayerCount() - 1)).getSimplfiedPath(
+            map.getMapGrid(getCurrentLayer() * (map.getLayerCount() - 1)).getSimplfiedPath(
                     getGridPosition(),
-                    currentSchedule.position);
+                    currentSchedule.position, this);
     }
 
     @Override

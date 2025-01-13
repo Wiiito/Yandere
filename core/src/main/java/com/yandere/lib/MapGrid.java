@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.math.Vector2;
+import com.yandere.gameInterfaces.AStarCallback;
 
 public class MapGrid {
     TiledMapTileLayer map;
@@ -43,13 +44,8 @@ public class MapGrid {
         return this.collisions.get(x).get(y);
     }
 
-    public ArrayList<Vector2> getPath(Vector2 startPosition, Vector2 endPosition) {
-        return this.pathFiding.findPath(startPosition, endPosition);
-    }
-
-    public ArrayList<Vector2> getSimplfiedPath(Vector2 startPosition, Vector2 endPosition) {
-        ArrayList<Vector2> compltePath = this.pathFiding.findPath(startPosition, endPosition);
-        return this.pathFiding.simplifyPath(compltePath);
+    public void getSimplfiedPath(Vector2 startPosition, Vector2 endPosition, AStarCallback callback) {
+        this.pathFiding.findPath(startPosition, endPosition, callback);
     }
 
     public ArrayList<Chamber> getNeighbours(Chamber chamber) {
