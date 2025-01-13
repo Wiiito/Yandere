@@ -35,7 +35,7 @@ public class Player extends Person {
 
 	public boolean isCloseToObject() {
 
-		Interactible resultInteractible = map.interact(getGridPosition());
+		Interactible resultInteractible = map.interact(getGridPosition(), false);
 
 		if (resultInteractible != null && resultInteractible.type == Interactible.Type.Weapon) {
 			return true;
@@ -91,17 +91,19 @@ public class Player extends Person {
 							}
 							return true;
 						case Input.Keys.E:
-							Interactible resultInteractible = map.interact(getGridPosition());
+							Interactible resultInteractible = map.interact(getGridPosition(), true);
 							if (resultInteractible != null
 									&& resultInteractible.type == Interactible.Type.Weapon) {
 								GameUi.getGameUi().showDialog(resultInteractible.dialog);
 								currentWeapon = weaponFactory.getWeapon(resultInteractible.name);
+								GameUi.getGameUi().changeSwordState();
 							} else if (resultInteractible != null) {
 								GameUi.getGameUi().showDialog(resultInteractible.name, resultInteractible.dialog);
 							}
 							return true;
 						case Input.Keys.C:
 							isWeaponOut = !isWeaponOut;
+							GameUi.getGameUi().IsEquiped();
 							return true;
 						case Input.Keys.SPACE:
 							if (currentWeapon != null && isWeaponOut)

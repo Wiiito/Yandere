@@ -12,7 +12,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class GameUi {
     private Texture dialogBox;
     private Texture nameBox;
+    private Texture HudBox;
+    private Texture WeaponHud;
+    private Texture EquipedHud;
     private boolean isInDialog = false;
+    private boolean getSword = false;
+    private boolean isEquiped = false;
 
     private String currentDialog = "";
     private String currentName = "";
@@ -25,6 +30,9 @@ public class GameUi {
     private GameUi() {
         this.dialogBox = new Texture(Gdx.files.internal("interface/DialogBox.png"));
         this.nameBox = new Texture(Gdx.files.internal("interface/NameBox.png"));
+        this.HudBox = new Texture(Gdx.files.internal("interface/HudBox.png"));
+        this.WeaponHud = new Texture(Gdx.files.internal("weaponHud/sword.png"));
+        this.EquipedHud = new Texture(Gdx.files.internal("weaponHud/outline.jpg"));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Pixel Digivolve.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -75,6 +83,14 @@ public class GameUi {
         }
     }
 
+    public void changeSwordState() {
+        this.getSword = true;
+    }
+
+    public void IsEquiped() {
+        this.isEquiped = !isEquiped;
+    }
+
     public void render(SpriteBatch batch, float screenPositionX, float screenPositionY, float screenWidth,
             float screenHeight) {
         if (isInDialog) {
@@ -87,5 +103,13 @@ public class GameUi {
         }
         BoxUI.getBoxUI().render(batch, screenPositionX + screenWidth / 2 + 12,
                 screenPositionY + screenHeight / 2 + 20);
+        if (getSword) {
+            batch.draw(HudBox, screenPositionX - 10, screenPositionY - 5, 203 / 2, 76 / 2);
+            batch.draw(WeaponHud, screenPositionX + 10, screenPositionY + 7, 500 / 30, 500 / 30);
+            if (isEquiped) {
+                batch.draw(EquipedHud, screenPositionX + 7.9f, screenPositionY + 6, 500 / 26, 500 / 26);
+            }
+        }
     }
+
 }

@@ -3,6 +3,7 @@ package com.yandere.handlers;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -159,7 +160,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 		return false;
 	}
 
-	public Interactible interact(Vector2 gridPosition) {
+	public Interactible interact(Vector2 gridPosition, boolean ispressed) {
 		int x = 0;
 		int y = 0;
 		int objectWidth = 0;
@@ -195,17 +196,18 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 						&& gridPosition.y < y + objectHeight) {
 					Interactible interactible = new Interactible();
 					interactible.type = Interactible.Type.valueOf(object.getProperties().get("Type", String.class));
-					if (object.getProperties().get("Name", String.class) != null) {
-						interactible.name = object.getProperties().get("Name", String.class);
-					}
-					interactible.dialog = object.getProperties().get("Dialog", String.class);
+					if(ispressed){
+						if (object.getProperties().get("Name", String.class) != null) {
+							interactible.name = object.getProperties().get("Name", String.class);
+						}
+						interactible.dialog = object.getProperties().get("Dialog", String.class);
 
-					if (object instanceof TiledMapTileMapObject) {
-						// Talves considere mandar esse objeto para o jogador, pra dropar o item caso
-						// troque
-						layer.getObjects().remove(object);
+						if (object instanceof TiledMapTileMapObject) {
+							// Talves considere mandar esse objeto para o jogador, pra dropar o item caso
+							// troque
+							layer.getObjects().remove(object);
+						}
 					}
-
 					return interactible;
 				}
 			}
