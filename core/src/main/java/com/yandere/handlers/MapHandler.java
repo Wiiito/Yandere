@@ -3,7 +3,6 @@ package com.yandere.handlers;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -196,7 +195,7 @@ public class MapHandler extends OrthogonalTiledMapRenderer {
 						&& gridPosition.y < y + objectHeight) {
 					Interactible interactible = new Interactible();
 					interactible.type = Interactible.Type.valueOf(object.getProperties().get("Type", String.class));
-					if(ispressed){
+					if (ispressed) {
 						if (object.getProperties().get("Name", String.class) != null) {
 							interactible.name = object.getProperties().get("Name", String.class);
 						}

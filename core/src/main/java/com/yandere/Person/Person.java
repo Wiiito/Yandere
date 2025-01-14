@@ -70,6 +70,10 @@ public class Person extends GameObject {
         this.desiredGridPosition = new Vector2(position);
     }
 
+    public void setDesiredGrid(Vector2 position) {
+        this.desiredGridPosition = position;
+    }
+
     public Vector2 getGridPosition() {
         return this.gridPosition;
     }
@@ -118,7 +122,7 @@ public class Person extends GameObject {
         }
     }
 
-    protected void handleMovement(float deltaTime) {
+    public void handleMovement(float deltaTime) {
         if (!gridPosition.idt(desiredGridPosition)) {
             Vector2 movement = desiredGridPosition.cpy().sub(gridPosition).scl(speed)
                     .scl(deltaTime);
@@ -147,9 +151,7 @@ public class Person extends GameObject {
 
             if (desiredGridPosition.x == thisFrameGridX && desiredGridPosition.y == thisFrameGridY) { // Ultimo quadrado
                 this.setGridPosition(new Vector2(thisFrameGridX, thisFrameGridY));
-                snapToGrid();
-                handleFloorChange(this.getGridPosition());
-                setState(State.Idle);
+                tileChanged();
             } else {
                 this.setPosition(thisFrameMovement);
             }
@@ -166,6 +168,12 @@ public class Person extends GameObject {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public void tileChanged() {
+        snapToGrid();
+        handleFloorChange(this.getGridPosition());
+        setState(State.Idle);
     }
 
     @Override

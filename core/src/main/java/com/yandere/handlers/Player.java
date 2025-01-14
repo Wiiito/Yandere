@@ -22,6 +22,8 @@ public class Player extends Person {
 	private Weapon currentWeapon;
 	private WeaponFactory weaponFactory;
 	private ScareNpc weaponOutScareNpc;
+	private Vector2 lastPosition;
+	private Npc pullNpc;
 
 	public Player(PlayerBuilder playerBuilder, MapHandler map) {
 		super("player", playerBuilder.getPLayerAnimations(), playerBuilder.getPlayerAnimationsDelay(), map);
@@ -54,7 +56,8 @@ public class Player extends Person {
 				if (canMove) {
 					switch (keyCode) {
 						case Input.Keys.SHIFT_LEFT:
-							setSpeed(60);
+							if (pullNpc == null)
+								setSpeed(60);
 							return true;
 						case Input.Keys.W:
 							if (getDirection() == Direction.Top) {
@@ -101,7 +104,11 @@ public class Player extends Person {
 							return true;
 						case Input.Keys.C:
 							isWeaponOut = !isWeaponOut;
+							weaponOutScareNpc.setGridPosition(getGridPosition());
 							GameUi.getGameUi().IsEquiped();
+							return true;
+						case Input.Keys.X:
+							pullBody(getDirection());
 							return true;
 						case Input.Keys.SPACE:
 							if (currentWeapon != null && isWeaponOut)
@@ -121,6 +128,44 @@ public class Player extends Person {
 				return false;
 			}
 		};
+	}
+
+	public void pullBody(Direction direction) {
+		if (this.pullNpc != null) {
+			Interactible caixao = map.interact(this.getGridPosition(), false);
+			if (caixao != null && caixao.type == Interactible.Type.Hide) {
+				pullNpc.hide();
+			}
+
+			this.pullNpc = null;
+			return;
+		}
+
+		Vector2 trueHitSquare = Vector2.Zero;
+		switch (direction) {
+			case Bottom:
+				trueHitSquare = new Vector2(0, -1);
+				break;
+			case Right:
+				trueHitSquare = new Vector2(1, 0);
+				break;
+			case Top:
+				trueHitSquare = new Vector2(0, 1);
+				break;
+			case Left:
+				trueHitSquare = new Vector2(-1, 0);
+				break;
+		}
+		trueHitSquare.add(this.getGridPosition());
+
+		for (Person personFromArray : PersonHandler.getPersons()) {
+			Npc person = (Npc) personFromArray;
+			if ((person.getGridPosition().idt(this.getGridPosition())
+					|| person.getGridPosition().idt(trueHitSquare)) && person.isDead()) {
+				this.pullNpc = person;
+				break;
+			}
+		}
 	}
 
 	public void hit(Direction direction) {
@@ -152,9 +197,15 @@ public class Player extends Person {
 		}
 	}
 
+	@Override
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		timeSinceLastDirection += Gdx.graphics.getDeltaTime();
+
+		if (pullNpc != null) {
+			pullNpc.update(deltaTime);
+			pullNpc.handleMovement(deltaTime);
+		}
 
 		if (this.currentWeapon != null && isWeaponOut) {
 			super.currentAnimation = animations.get("Weapon" + this.getState().toString() + this.getDirection());
@@ -192,6 +243,20 @@ public class Player extends Person {
 	}
 
 	@Override
+	public void move() {
+		if (pullNpc != null) {
+			pullNpc.setDesiredGrid(lastPosition);
+		}
+		super.move();
+	}
+
+	@Override
+	public void tileChanged() {
+		this.lastPosition = getGridPosition();
+		super.tileChanged();
+	}
+
+	@Override
 	protected void handleFloorChange(Vector2 positionOnGrid) {
 		super.handleFloorChange(positionOnGrid);
 		map.setCurrentFloor(super.getCurrentLayer());
@@ -200,8 +265,9 @@ public class Player extends Person {
 
 	@Override
 	public void handleMovement(float deltaTime) {
-		if (map.collides(gridPosition, desiredGridPosition))
+		if (map.collides(gridPosition, desiredGridPosition)) {
 			this.desiredGridPosition = gridPosition.cpy();
+		}
 		super.handleMovement(deltaTime);
 	}
 
@@ -220,5 +286,4 @@ public class Player extends Person {
 			batch.draw(currentWeapon.getFrame(super.elapsedTime), getPosition().x - 8, getPosition().y - 2);
 		}
 	}
-
 }

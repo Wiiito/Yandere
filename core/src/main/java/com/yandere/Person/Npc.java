@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Schedule.Schedule;
@@ -25,6 +26,7 @@ public class Npc extends Person implements TimeListener, AStarCallback {
     private boolean isScared = false;
     private float scaredTimer = 1.5f; // Responsavel pela pausa dramatica e choque pelo corpo
     private ScareNpc deadBody;
+    private boolean isHid = false;
 
     public Npc(String name, Map<String, Animation<TextureRegion>> animations, Map<String, Float> animatiosDelay,
             MapHandler map,
@@ -51,10 +53,23 @@ public class Npc extends Person implements TimeListener, AStarCallback {
 
     public void kill() {
         this.deadBody = new ScareNpc(this.getGridPosition(), map, this.getCurrentLayer());
+        this.setSpeed(40);
+        this.snapToGrid();
+    }
+
+    public void hide() {
+        this.isHid = true;
     }
 
     public void pathFind(ArrayList<Vector2> path) {
         this.currentPath = AStar.simplifyPath(path);
+    }
+
+    public boolean isDead() {
+        if (deadBody != null) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -71,7 +86,11 @@ public class Npc extends Person implements TimeListener, AStarCallback {
     @Override
     public void update(float deltaTime) {
         if (deadBody != null) { // Coloca a animação de morte aq
+            if (isHid)
+                return;
+            deadBody.setGridPosition(this.getGridPosition());
             deadBody.update(deltaTime);
+            this.handleMovement(deltaTime);
             return;
         }
 
@@ -108,5 +127,11 @@ public class Npc extends Person implements TimeListener, AStarCallback {
                 }
             }
         }
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        if (!isHid)
+            super.render(batch);
     }
 }
