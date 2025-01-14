@@ -37,9 +37,10 @@ public class Player extends Person {
 
 		Interactible resultInteractible = map.interact(getGridPosition(), false);
 
-		if (resultInteractible != null && resultInteractible.type == Interactible.Type.Weapon) {
+		if (resultInteractible != null) {
 			return true;
 		} else {
+			BoxUI.getBoxUI().disableDialog();
 			return false;
 		}
 	}

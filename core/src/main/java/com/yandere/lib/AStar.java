@@ -11,7 +11,7 @@ import com.yandere.gameInterfaces.AStarCallback;
 
 public class AStar {
     MapGrid mapGrid;
-    ExecutorService threadPool;
+    public static ExecutorService threadPool;
 
     public AStar(MapGrid mapGrid) {
         this.mapGrid = mapGrid;

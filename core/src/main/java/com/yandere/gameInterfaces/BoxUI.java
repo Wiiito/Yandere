@@ -32,6 +32,10 @@ public class BoxUI {
 		this.isInDialog = true;
 	}
 
+	public void disableDialog() {
+		this.isInDialog = false;
+	}
+
 	public void update() {
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
 			this.isInDialog = false;
