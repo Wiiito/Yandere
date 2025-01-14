@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.yandere.Schedule.Schedule;
 import com.yandere.Schedule.Time;
 import com.yandere.gameInterfaces.AStarCallback;
+import com.yandere.gameInterfaces.GameUi;
 import com.yandere.gameInterfaces.ScareNpc;
 import com.yandere.handlers.MapHandler;
 import com.yandere.lib.AStar;
@@ -80,7 +81,7 @@ public class Npc extends Person implements TimeListener, AStarCallback {
             scaredTimer += deltaTime;
 
             if (currentPath.isEmpty()) // TODO - IMPLEMENTAR DERROTA
-                System.out.println("PERDEU");
+                GameUi.getGameUi().setIsEndBad();
         }
 
         if (currentPath != null && !currentPath.isEmpty()) {

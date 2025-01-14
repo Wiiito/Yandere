@@ -2,12 +2,17 @@ package com.yandere.gameInterfaces;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameUi {
     private Texture dialogBox;
@@ -15,9 +20,19 @@ public class GameUi {
     private Texture HudBox;
     private Texture WeaponHud;
     private Texture EquipedHud;
+    private Texture[] badEndFrames;
+
+    private Animation<Texture> badEndAnimation;
+
+    private Music endSound;
+    private Music gameSoundtrack;
+
+    private float timer = 0;
+
     private boolean isInDialog = false;
     private boolean getSword = false;
     private boolean isEquiped = false;
+    private boolean isEndBad = false;
 
     private String currentDialog = "";
     private String currentName = "";
@@ -33,6 +48,11 @@ public class GameUi {
         this.HudBox = new Texture(Gdx.files.internal("interface/HudBox.png"));
         this.WeaponHud = new Texture(Gdx.files.internal("weaponHud/sword.png"));
         this.EquipedHud = new Texture(Gdx.files.internal("weaponHud/outline.jpg"));
+
+        this.endSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/endAudio.ogg"));
+        this.gameSoundtrack = Gdx.audio.newMusic(Gdx.files.internal("sounds/OstYandere.ogg"));
+
+        loadEndTextures();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Pixel Digivolve.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -87,8 +107,24 @@ public class GameUi {
         this.getSword = true;
     }
 
+    public void setIsEndBad() {
+        if (!this.isEndBad)
+            this.isEndBad = !isEndBad;
+    }
+
     public void IsEquiped() {
         this.isEquiped = !isEquiped;
+    }
+
+    private void loadEndTextures() {
+
+        this.badEndFrames = new Texture[55];
+
+        for (int i = 0; i < 55; i++) {
+            this.badEndFrames[i] = new Texture(Gdx.files.internal("framesAtumalaca/frame" + i + ".gif"));
+        }
+
+        this.badEndAnimation = new Animation<Texture>(0.08f, badEndFrames);
     }
 
     public void render(SpriteBatch batch, float screenPositionX, float screenPositionY, float screenWidth,
@@ -110,6 +146,26 @@ public class GameUi {
                 batch.draw(EquipedHud, screenPositionX + 7.9f, screenPositionY + 6, 500 / 26, 500 / 26);
             }
         }
+
+        if (isEndBad) {
+
+            gameSoundtrack.pause();
+
+            timer += Gdx.graphics.getDeltaTime();
+
+            Texture currentFrame = badEndAnimation.getKeyFrame(timer, true);
+
+            batch.draw(currentFrame, screenPositionX, screenPositionY, screenWidth, screenHeight);
+
+            if (currentFrame.equals(badEndFrames[0])) {
+                endSound.play();
+            }
+
+            font12.draw(batch, "KKKKKKKKKKKKKKKKKKKKKKKKKKKKK", screenPositionX + 12, screenPositionY + 92);
+        } else {
+            gameSoundtrack.play();
+        }
+
     }
 
 }
