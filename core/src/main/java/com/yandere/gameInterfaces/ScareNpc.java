@@ -48,7 +48,7 @@ public class ScareNpc extends GameObject {
 
         for (Person person : this.possibleTargets) {
             // Pula se ja foi assustado
-            if (((Npc) person).getIsScared())
+            if (((Npc) person).isScared())
                 continue;
 
             // Pessoa viu corpo

@@ -24,6 +24,7 @@ public class Player extends Person {
 	private ScareNpc weaponOutScareNpc;
 	private Vector2 lastPosition;
 	private Npc pullNpc;
+	private float hitTiming = Float.MAX_VALUE;
 
 	public Player(PlayerBuilder playerBuilder, MapHandler map) {
 		super("player", playerBuilder.getPLayerAnimations(), playerBuilder.getPlayerAnimationsDelay(), map);
@@ -112,8 +113,10 @@ public class Player extends Person {
 							pullBody(getDirection());
 							return true;
 						case Input.Keys.SPACE:
-							if (currentWeapon != null && isWeaponOut)
+							if (currentWeapon != null && isWeaponOut) {
 								hit(getDirection());
+								hitTiming = 0;
+							}
 							return true;
 					}
 				}
@@ -214,6 +217,13 @@ public class Player extends Person {
 
 			weaponOutScareNpc.setGridPosition(this.getGridPosition());
 			weaponOutScareNpc.update(deltaTime);
+		}
+
+		if (hitTiming <= 0.36) {
+			hitTiming += deltaTime;
+			super.elapsedTime = hitTiming;
+			super.currentAnimation = animations.get("Hit" + this.getDirection());
+			this.currentWeapon.setAnimation("Hit" + this.getDirection());
 		}
 
 		if (isCloseToObject()) {

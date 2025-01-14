@@ -27,6 +27,7 @@ public class Npc extends Person implements TimeListener, AStarCallback {
     private float scaredTimer = 1.5f; // Responsavel pela pausa dramatica e choque pelo corpo
     private ScareNpc deadBody;
     private boolean isHid = false;
+    private Vector2 closestAlarm;
 
     public Npc(String name, Map<String, Animation<TextureRegion>> animations, Map<String, Float> animatiosDelay,
             MapHandler map,
@@ -38,7 +39,7 @@ public class Npc extends Person implements TimeListener, AStarCallback {
     }
 
     public void scare() {
-        Vector2 closestAlarm = this.map.getClosestAlarm(this.gridPosition, super.getCurrentLayer());
+        closestAlarm = this.map.getClosestAlarm(this.gridPosition, super.getCurrentLayer());
         this.setSpeed(50);
         this.map.getMapGrid(getCurrentLayer() * (map.getLayerCount() - 1))
                 .getSimplfiedPath(this.getGridPosition(), closestAlarm, this);
@@ -47,7 +48,7 @@ public class Npc extends Person implements TimeListener, AStarCallback {
         this.isScared = true;
     }
 
-    public boolean getIsScared() {
+    public boolean isScared() {
         return this.isScared;
     }
 
@@ -84,6 +85,13 @@ public class Npc extends Person implements TimeListener, AStarCallback {
     }
 
     @Override
+    public void tileChanged() {
+        super.tileChanged();
+        if (this.isScared() && this.getGridPosition().idt(closestAlarm))
+            GameUi.getGameUi().setIsEndBad();
+    }
+
+    @Override
     public void update(float deltaTime) {
         if (deadBody != null) { // Coloca a animação de morte aq
             if (isHid)
@@ -98,9 +106,6 @@ public class Npc extends Person implements TimeListener, AStarCallback {
 
         if (isScared) {
             scaredTimer += deltaTime;
-
-            if (currentPath.isEmpty()) // TODO - IMPLEMENTAR DERROTA
-                GameUi.getGameUi().setIsEndBad();
         }
 
         if (currentPath != null && !currentPath.isEmpty()) {

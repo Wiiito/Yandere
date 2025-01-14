@@ -1,6 +1,14 @@
 TodasArmas.png
 size:290,288
 repeat:none
+HitSwordBottom
+bounds:194,178,96,26
+HitSwordLeft
+bounds:194,150,96,26
+HitSwordRight
+bounds:194,94,96,26
+HitSwordTop
+bounds:146,38,96,26
 IdleSwordBottom
 bounds:0,234,288,26
 IdleSwordLeft
@@ -8,7 +16,7 @@ bounds:0,262,288,26
 IdleSwordRight
 bounds:0,206,288,26
 IdleSwordTop
-bounds:194,178,96,26
+bounds:194,122,96,26
 RunSwordBottom
 bounds:0,122,192,26
 RunSwordLeft

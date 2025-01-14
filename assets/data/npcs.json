@@ -28,6 +28,10 @@
         "name": "WeaponRun",
         "textureAtlas": ["WeaponRunCorpo", "WeaponRunCabeca"],
         "timing": 0.09
+    },{
+        "name": "Hit",
+        "textureAtlas": ["HitWeaponIdleCorpo", "HitWeaponIdleCabeca"],
+        "timing": 0.09
     }],
     "startPos": {
         "x": 57,
