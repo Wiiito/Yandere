@@ -42,21 +42,21 @@
         "name": "Rival",
         "textures": [{
             "name": "Idle",
-            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "textureAtlas": ["IdleCorpo", "IdleCabeca", "Devil"],
             "directions": ["Top", "Right", "Bottom", "Left"],
             "timing": [0.12,0.12,0.12,0.3],
             "delay": 5
         },{
             "name": "Walk",
-            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "textureAtlas": ["WalkCorpo", "WalkCabeca", "Devil"],
             "timing": 0.15
         },{
             "name": "Run",
-            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "textureAtlas": ["RunCorpo", "RunCabeca", "Devil"],
             "timing": 0.09
         },{
             "name": "Sit",
-            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "textureAtlas": ["SittedCorpo", "SittedCabeca", "Devil"],
             "directions": ["Right", "Left", "Bottom"],
             "timing": 0.12,
             "delay": 7
@@ -81,26 +81,37 @@
             },
             "animation": "Sit",
             "direction": "Bottom"
+        },{
+            "startingTime": {
+                "hour": 9,
+                "minutes": 30
+            },
+            "location": {
+                "x": 81,
+                "y": 8
+            },
+            "animation": "Idle",
+            "direction": "Right"
         }]
     },{
         "name": "Crush",
         "textures": [{
             "name": "Idle",
-            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "textureAtlas": ["IdleCorpo", "IdleCabeca", "Crush"],
             "directions": ["Top", "Right", "Bottom", "Left"],
             "timing": [0.12,0.12,0.12,0.3],
             "delay": 3
         },{
             "name": "Walk",
-            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "textureAtlas": ["WalkCorpo", "WalkCabeca", "Crush"],
             "timing": 0.15
         },{
             "name": "Run",
-            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "textureAtlas": ["RunCorpo", "RunCabeca", "Crush"],
             "timing": 0.09
         },{
             "name": "Sit",
-            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "textureAtlas": ["SittedCorpo", "SittedCabeca", "Crush"],
             "directions": ["Right", "Left", "Bottom"],
             "timing": 0.12,
             "delay": 4
@@ -125,7 +136,19 @@
             },
             "animation": "Sit",
             "direction": "Bottom"
-        }]
+        },{
+            "startingTime": {
+                "hour": 9,
+                "minutes": 50
+            },
+            "location": {
+                "x": 82,
+                "y": 8
+            },
+            "animation": "Idle",
+            "direction": "Left"
+        }
+    ]
     },{
         "name": "Npc1",
         "textures": [{
@@ -188,7 +211,7 @@
         },
         "schedule": "class01",
         "defaultChair": {
-            "x": 0,
+            "x": 1,
             "y": 0
         },
         "extraschedule": []
@@ -486,7 +509,7 @@
         },
         "schedule": "class02",
         "defaultChair": {
-            "x": 0,
+            "x": 1,
             "y": 0
         },
         "extraschedule": []
@@ -1019,5 +1042,225 @@
             "y": 3
         },
         "extraschedule": []
+    },{
+        "name": "Remix",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 5
+        },
+        "schedule": "none",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": [{
+            "startingTime": {
+                "hour": 7,
+                "minutes": 0
+            },
+            "location": {
+                "x": 40,
+                "y": 2
+            },
+            "animation": "Idle",
+            "direction": "Top"
+        }]
+    },{
+        "name": "Caique",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 5
+        },
+        "schedule": "none",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": [{
+            "startingTime": {
+                "hour": 7,
+                "minutes": 0
+            },
+            "location": {
+                "x": 40,
+                "y": 4
+            },
+            "animation": "Sit",
+            "direction": "Bottom"
+        }]
+    },{
+        "name": "Pauterson",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 5
+        },
+        "schedule": "none",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": [{
+            "startingTime": {
+                "hour": 7,
+                "minutes": 0
+            },
+            "location": {
+                "x": 39,
+                "y": 3
+            },
+            "animation": "Sit",
+            "direction": "Right"
+        }]
+    },{
+        "name": "Marquin",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 45,
+            "y": 5
+        },
+        "schedule": "none",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": [{
+            "startingTime": {
+                "hour": 7,
+                "minutes": 0
+            },
+            "location": {
+                "x": 41,
+                "y": 3
+            },
+            "animation": "Sit",
+            "direction": "Left"
+        }]
+    },{
+        "name": "Gu",
+        "textures": [{
+            "name": "Idle",
+            "textureAtlas": ["IdleCorpo", "IdleCabeca"],
+            "directions": ["Top", "Right", "Bottom", "Left"],
+            "timing": [0.12,0.12,0.12,0.3],
+            "delay": 3
+        },{
+            "name": "Walk",
+            "textureAtlas": ["WalkCorpo", "WalkCabeca"],
+            "timing": 0.15
+        },{
+            "name": "Run",
+            "textureAtlas": ["RunCorpo", "RunCabeca"],
+            "timing": 0.09
+        },{
+            "name": "Sit",
+            "textureAtlas": ["SittedCorpo", "SittedCabeca"],
+            "directions": ["Right", "Left", "Bottom"],
+            "timing": 0.12,
+            "delay": 4
+        }],
+        "startPos": {
+            "x": 39,
+            "y": 39
+        },
+        "schedule": "none",
+        "defaultChair": {
+            "x": 0,
+            "y": 0
+        },
+        "extraschedule": [{
+            "startingTime": {
+                "hour": 7,
+                "minutes": 0
+            },
+            "location": {
+                "x": 40,
+                "y": 38
+            },
+            "animation": "Sit",
+            "direction": "Bottom"
+        }]
     }]
 }

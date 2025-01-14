@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.yandere.lib.TimeObserver;
 
 public class GameUi {
     private Texture dialogBox;
@@ -143,6 +144,9 @@ public class GameUi {
                 batch.draw(EquipedHud, screenPositionX + 7.9f, screenPositionY + 6, 500 / 26, 500 / 26);
             }
         }
+
+        font12.draw(batch, TimeObserver.getTime().toString(), screenPositionX + 2,
+                screenPositionY + screenHeight - 4);
 
         if (isEndBad) {
 

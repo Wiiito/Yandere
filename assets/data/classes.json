@@ -208,5 +208,6 @@
             "location": "camb3",
             "animation": "Sit"
         }
-    ]
+    ],
+    "none": []
 }

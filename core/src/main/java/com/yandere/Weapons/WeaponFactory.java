@@ -55,11 +55,37 @@ public class WeaponFactory {
             case "Extintor":
                 weapon = getExtintor();
                 break;
+            case "Espada":
+                weapon = getEspada();
+                break;
         }
         return weapon;
     }
 
     public Weapon getExtintor() {
+        Map<String, Animation<TextureRegion>> animations = new HashMap<>();
+        for (String animationName : playerAnimationsName) {
+            if (animationName.contains("Weapon")) // Pulando animações de arma, meio obvio o motivo
+                continue;
+
+            for (int i = 0; i < Direction.values().length; i++) {
+                TextureRegion textureRegion = TextureHandler.getInstance().getWeaponsAtlas()
+                        .findRegion(animationName + "Sword" + Direction.values()[i]); // TODO - MUDAR PARA EXTINTOR
+                                                                                      // QUANDO A ANIMAÇÃO ESTIVER
+                                                                                      // PRONTA
+                Animation<TextureRegion> currentAnimation = new Animation<>(animationsTimings.get(animationName).get(i),
+                        TextureHandler.getInstance().textureRegionFromTexture(
+                                new Texture(TextureHandler.getInstance().pixmapFromTextureRegion(textureRegion)),
+                                24,
+                                26));
+                animations.put(animationName + Direction.values()[i], currentAnimation);
+            }
+        }
+        Weapon extintor = new Weapon(animations);
+        return extintor;
+    }
+
+    public Weapon getEspada() {
         Map<String, Animation<TextureRegion>> animations = new HashMap<>();
         for (String animationName : playerAnimationsName) {
             if (animationName.contains("Weapon")) // Pulando animações de arma, meio obvio o motivo

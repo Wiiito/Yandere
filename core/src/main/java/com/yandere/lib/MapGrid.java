@@ -1,4 +1,4 @@
-// Bridge
+// Adapter
 package com.yandere.lib;
 
 import java.util.ArrayList;

@@ -8,7 +8,6 @@ import com.yandere.Person.Person;
 import com.yandere.Person.PersonHandler;
 import com.yandere.handlers.MapHandler;
 
-// Muda pra abstract depois
 public class ScareNpc extends GameObject {
     private Vector2 gridPosition;
     private int currentFloor;

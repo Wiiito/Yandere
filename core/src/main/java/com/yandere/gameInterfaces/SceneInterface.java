@@ -17,7 +17,7 @@ public class SceneInterface {
 
     protected PriorityQueue<GameObject> onScreenObjects;
 
-    // TODO - REMOVE
+    // POR DEUS QUE ISSO É NECESSARIO... JURO...EXPLICO MAIS PRA BAIXO
     private BitmapFont removeFpsCounter = new BitmapFont();
 
     public SceneInterface() {
@@ -64,10 +64,14 @@ public class SceneInterface {
             gameObject = onScreenObjects.poll();
         }
 
-        // TODO - REMOVE
-        removeFpsCounter.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(),
-                camera.position.x - camera.viewportWidth / 2,
-                camera.position.y + camera.viewportHeight / 2);
+        /*
+         * SIMPLISMENTE O BUG MAIS SEM SENTIDO DO *MUNDO*
+         * SE NÃO EXISTE ESSE DRAW, A ORDEM DE DESENHO MUDA, AS ARVORES
+         * PASSAM A SER DESENHADAS ATRAS DO PERSONAGEM, 0 MOTIVOS
+         * SÓ DEUS SABE O PQ, NAO TEM NEM SENTIDO, SIMPLISMENTE
+         * UM DRAW DE UM TEXTO MUDA A ORDEM DE DESENHO????
+         */
+        removeFpsCounter.draw(batch, " ", 0, 0);
     }
 
     public void dispose() {

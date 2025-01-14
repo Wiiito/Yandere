@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.PriorityQueue;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.yandere.Person.Npc;
@@ -14,7 +13,6 @@ import com.yandere.gameInterfaces.BoxUI;
 import com.yandere.gameInterfaces.GameObject;
 import com.yandere.gameInterfaces.GameUi;
 import com.yandere.gameInterfaces.SceneInterface;
-// import com.yandere.gameInterfaces.GameObject.Direction;
 import com.yandere.handlers.MapHandler;
 import com.yandere.handlers.Player;
 import com.yandere.handlers.PlayerBuilder;
@@ -24,9 +22,6 @@ public class GameInterface extends SceneInterface {
     private Player player;
     private MapHandler mapHanlder;
     private PriorityQueue<GameObject> beforeWall;
-
-    // TODO - TIRAR
-    private BitmapFont font = new BitmapFont();
 
     public GameInterface() {
         TimeObserver.getInstance();
@@ -54,7 +49,7 @@ public class GameInterface extends SceneInterface {
         float deltaTIme = Gdx.graphics.getDeltaTime();
         this.beforeWall.clear();
 
-        TimeObserver.update(deltaTIme * 25);
+        TimeObserver.update(deltaTIme * 12);
         GameUi.getGameUi().update();
         BoxUI.getBoxUI().update();
 
@@ -104,9 +99,5 @@ public class GameInterface extends SceneInterface {
 
         GameUi.getGameUi().render(batch, camera.position.x - camera.viewportWidth / 2,
                 camera.position.y - camera.viewportHeight / 2, camera.viewportWidth, camera.viewportHeight);
-
-        // TODO, TIRAR DAQ E COLOCAR NA GAME UI, DEIXAR BONITO
-        font.draw(batch, TimeObserver.getTime().toString(), camera.position.x - camera.viewportWidth / 2,
-                camera.position.y + camera.viewportHeight / 2 - 16);
     }
 }

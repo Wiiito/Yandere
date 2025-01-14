@@ -1,4 +1,3 @@
-// Decorator
 package com.yandere.handlers;
 
 import com.badlogic.gdx.graphics.Pixmap;
