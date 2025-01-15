@@ -3,7 +3,11 @@ package com.yandere.lib;
 
 import java.util.ArrayList;
 
+import com.yandere.Person.Npc;
+import com.yandere.Person.Person;
+import com.yandere.Person.PersonHandler;
 import com.yandere.Schedule.Time;
+import com.yandere.gameInterfaces.GameUi;
 
 // Infelizmente o observer ja implementado do java, tem como metodo de atualização
 //nome "update", o mesmo utilizado para atualizar os gameObjects...
@@ -55,6 +59,22 @@ public class TimeObserver {
 
         if (time.minutes % 10 != 0 && updated)
             updated = false;
+
+        if (time.minutes == 50 && time.hour == 12) {
+            for (Person aux : PersonHandler.getPersons()) {
+
+                String name = aux.getName();
+
+                if (name.equalsIgnoreCase("Rival")) {
+
+                    Npc rival = (Npc) aux;
+                    if (rival.isDead()) {
+                        GameUi.getGameUi().setIsEndGood();
+                    }
+                }
+
+            }
+        }
     }
 
     public static Time getTime() {

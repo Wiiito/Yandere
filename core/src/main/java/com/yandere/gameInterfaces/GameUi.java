@@ -1,15 +1,18 @@
 package com.yandere.gameInterfaces;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.yandere.lib.AStar;
 import com.yandere.lib.TimeObserver;
 
 public class GameUi {
@@ -31,6 +34,7 @@ public class GameUi {
     private boolean getSword = false;
     private boolean isEquiped = false;
     private boolean isEndBad = false;
+    private boolean isGoodEnd = false;
 
     private String currentDialog = "";
     private String currentName = "";
@@ -39,6 +43,8 @@ public class GameUi {
     private BitmapFont font10;
 
     private static GameUi gameUi;
+
+    private static int counter = 0;
 
     private GameUi() {
         this.dialogBox = new Texture(Gdx.files.internal("interface/DialogBox.png"));
@@ -110,6 +116,11 @@ public class GameUi {
             this.isEndBad = !isEndBad;
     }
 
+    public void setIsEndGood() {
+        if (!this.isGoodEnd)
+            this.isGoodEnd = !isGoodEnd;
+    }
+
     public void IsEquiped() {
         this.isEquiped = !isEquiped;
     }
@@ -148,7 +159,7 @@ public class GameUi {
         font12.draw(batch, TimeObserver.getTime().toString(), screenPositionX + 2,
                 screenPositionY + screenHeight - 4);
 
-        if (isEndBad) {
+        if (isEndBad || isGoodEnd) {
 
             gameSoundtrack.pause();
 
@@ -160,11 +171,26 @@ public class GameUi {
 
             if (currentFrame.equals(badEndFrames[0])) {
                 endSound.play();
+
+            }
+            if (isEndBad) {
+
+                font12.draw(batch, "KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK\nVocê perdeu\nAperte Z para fechar o jogo",
+                        screenPositionX + 10,
+                        screenPositionY + 92);
+            } else if (isGoodEnd) {
+                font12.draw(batch, "Você ganhou Parabens\nAperte Z para fechar o jogo",
+                        screenPositionX + 10,
+                        screenPositionY + 92);
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.Z)) {
+                AStar.threadPool.shutdown();
+                Gdx.app.exit();
             }
 
-            font12.draw(batch, "KKKKKKKKKKKKKKKKKKKKKKKKKKKKK", screenPositionX + 12, screenPositionY + 92);
         } else {
             gameSoundtrack.play();
+
         }
 
     }
