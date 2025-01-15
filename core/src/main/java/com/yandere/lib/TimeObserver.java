@@ -70,6 +70,8 @@ public class TimeObserver {
                     Npc rival = (Npc) aux;
                     if (rival.isDead()) {
                         GameUi.getGameUi().setIsEndGood();
+                    } else {
+                        GameUi.getGameUi().setIsEndBad();
                     }
                 }
 
