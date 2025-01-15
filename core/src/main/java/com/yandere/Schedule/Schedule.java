@@ -7,7 +7,7 @@ public class Schedule implements Comparable<Schedule> {
     public Time startingTime;
     public Vector2 position;
     public String animation;
-    public Direction activityDirection;
+    public Direction activityDirection = Direction.Bottom;
 
     @Override
     public int compareTo(Schedule anotherSchedule) {
